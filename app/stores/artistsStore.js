@@ -35,6 +35,7 @@ var ArtistsStore = Marty.createStore({
   },
 
   returnedArtists(artists) {
+    console.log(true);
     this.setState(artists);
   }
 });

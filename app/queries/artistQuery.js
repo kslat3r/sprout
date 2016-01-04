@@ -1,5 +1,5 @@
 var Marty = require('marty');
-var ArtistConstants = require('../constants/artistsConstants');
+var ArtistConstants = require('../constants/artistConstants');
 var ArtistAPI = require('../sources/artistAPI');
 
 var ArtistQuery = Marty.createActionCreators({
