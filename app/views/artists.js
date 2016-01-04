@@ -1,14 +1,23 @@
 var React = require('react');
 var Marty = require('marty');
+var NavigationActionCreators = require('../actions/navigationActionCreators');
 var ArtistsStore = require('../stores/artistsStore');
 var _ = require('lodash');
 
 var Artists = React.createClass({
+  goToArtist(id) {
+    return NavigationActionCreators.navigateToArtist(id);
+  },
+
   render() {
     var artists = this.props.artists;
 
     var items = _.map(artists, (artist) => {
-      return <li><a href={'/artists/' + artist.id}>{artist.id}</a></li>;
+      return (
+        <li>
+          <a href="" onClick={_.partial(this.goToArtist, artist.id)}>{artist.id}</a>
+        </li>
+      );
     });
 
     return (
