@@ -9,7 +9,7 @@ var Artist = React.createClass({
     return (
       <div>
         <h1>Artist</h1>
-        <div className='artist'>{artist}</div>
+        <div className='artist'>{artist.id}</div>
       </div>
     );
   }

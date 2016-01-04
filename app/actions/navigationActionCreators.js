@@ -8,14 +8,17 @@ function navigateTo(route, params) {
 var NavigationActionCreators = Marty.createActionCreators({
   id: 'NavigationActionCreators',
   displayName: 'Navigation',
+
   navigateHome() {
     navigateTo('home');
   },
+
   navigateToArtists() {
     navigateTo('artists');
   },
-  navigateToArtist: function (id) {
-    navigateTo('artists', { id: id });
+
+  navigateToArtist(id) {
+    navigateTo('artist', {id: id});
   }
 });
 

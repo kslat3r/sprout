@@ -7,8 +7,8 @@ var ArtistQuery = Marty.createActionCreators({
 
   getById(id) {
     return ArtistAPI.for(this).getById(id)
-      .then((res) => this.dispatch(ArtistConstants.RECEIVE_ARTIST, id, res.body))
-      .catch((err) => this.dispatch(ArtistConstants.RECEIVE_ARTIST_FAILED, id, err));
+      .then((res) => this.dispatch(ArtistConstants.RECEIVE_ARTIST, res.body))
+      .catch((err) => this.dispatch(ArtistConstants.RECEIVE_ARTIST_FAILED, err));
   }
 });
 
