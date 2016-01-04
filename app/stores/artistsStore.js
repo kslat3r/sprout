@@ -5,29 +5,37 @@ var ArtistsConstants = require('../constants/artistsConstants');
 
 var ArtistsStore = Marty.createStore({
   id: 'ArtistsStore',
+
   handlers: {
-    addArtists: ArtistsConstants.RECEIVE_ARTISTS
+    returnedArtists: ArtistsConstants.RECEIVE_ARTISTS
   },
+
   getInitialState() {
     return {};
   },
+
   getAll() {
-    return _.values(this.state);
-  },
-  addArtists(artists) {
-    this.state[artists.id] = artists;
-    this.hasChanged();
-  },
-  getById(id) {
     return this.fetch({
-      id: id,
+      id: 'artists',
+
       locally() {
-        return this.state[id];
+        var vals = _.values(this.state);
+
+        if (vals.length) {
+          return vals;
+        }
+
+        return undefined;
       },
+
       remotely() {
-        return ArtistsQuery.for(this).getById(id);
+        return ArtistsQuery.for(this).getAll();
       }
     });
+  },
+
+  returnedArtists(artists) {
+    this.setState(artists);
   }
 });
 

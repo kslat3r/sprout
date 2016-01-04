@@ -1,25 +1,33 @@
 var React = require('react');
 var Marty = require('marty');
-var ArtistsStore = require('../stores/artistsStore');
+var ArtistStore = require('../stores/artistStore');
 
-var Artists = React.createClass({
+var Artist = React.createClass({
   render() {
-    var artists = this.props.artists;
+    var artist = this.props.artist;
 
-    return <div className='artists'>{artists}</div>;
+    return (
+      <div>
+        <h1>Artist</h1>
+        <div className='artist'>{artist}</div>
+      </div>
+    );
   }
 });
 
-module.exports = Marty.createContainer(Artists, {
-  listenTo: [ArtistsStore],
+module.exports = Marty.createContainer(Artist, {
+  listenTo: [ArtistStore],
+
   fetch: {
-    artists() {
-      return ArtistsStore.for(this).getById(this.props.id);
+    artist() {
+      return ArtistStore.for(this).getById(this.props.id);
     }
   },
+
   pending() {
     return <div className='loading'>Loading</div>;
   },
+
   failed(error) {
     return <div className='error'>{error}</div>;
   }

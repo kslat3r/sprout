@@ -20,7 +20,7 @@ app.use(require('marty-express')({
   routes: require('../router/routes')
 }));
 
-app.get('/api/artists', require('./routes/getArtists'));
 app.get('/api/artists/:id', require('./routes/getArtist'));
+app.get('/api/artists', require('./routes/getArtists'));
 
 module.exports = app;

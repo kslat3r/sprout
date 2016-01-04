@@ -1,3 +1,8 @@
 module.exports = function (req, res) {
-  res.json([]]).end();
+  res.json([{
+    id: 1
+  },
+  {
+    id: 2
+  }]).end();
 };
