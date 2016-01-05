@@ -5,7 +5,7 @@ var ArtistsStore = require('../stores/artistsStore');
 var _ = require('lodash');
 
 var Artists = React.createClass({
-  goToArtist(id) {
+  navigateToArtist(id) {
     return NavigationActionCreators.navigateToArtist(id);
   },
 
@@ -15,7 +15,7 @@ var Artists = React.createClass({
     var items = _.map(artists, (artist) => {
       return (
         <li>
-          <a href="" onClick={_.partial(this.goToArtist, artist.id)}>{artist.id}</a>
+          <a href="" onClick={_.partial(this.navigateToArtist, artist.id)}>{artist.id}</a>
         </li>
       );
     });
