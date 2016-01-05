@@ -11,6 +11,10 @@ var Artists = React.createClass({
     return NavigationActionCreators.navigateToArtist(id);
   },
 
+  componentDidMount() {
+    ArtistsStore.clear();
+  },
+
   render() {
     var artists = this.props.artists;
 
