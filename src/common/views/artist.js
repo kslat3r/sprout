@@ -2,6 +2,10 @@ var React = require('react');
 var Marty = require('marty');
 var ArtistsStore = require('../stores/artistsStore');
 var NavigationActionCreators = require('../actions/navigationActionCreators');
+var LoadingComponent = require('../components/loading');
+var PageNotFoundComponent = require('../components/errors/pageNotFound');
+var InternalServerErrorComponent = require('../components/errors/internalServerError');
+var GenericErrorComponent = require('../components/errors/genericError');
 
 var Artist = React.createClass({
   back(e) {
@@ -33,10 +37,20 @@ module.exports = Marty.createContainer(Artist, {
   },
 
   pending() {
-    return <div className='loading'>Loading</div>;
+    return <LoadingComponent />;
   },
 
   failed(error) {
-    return <div className='error'>{error}</div>;
+    switch (error.artists.status) {
+      case 404:
+        return <PageNotFoundComponent />
+      break;
+      case 500:
+        return <InternalServerErrorComponent />
+      break;
+      default:
+        return <GenericErrorComponent />
+      break;
+    }
   }
 });
