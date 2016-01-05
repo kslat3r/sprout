@@ -13,7 +13,7 @@ module.exports = function(opts) {
     return browserify(browserifyOpts)
       .transform(babelify)
       .bundle()
-      .pipe(source(opts.scripts.destFile))
-      .pipe(gulp.dest(opts.scripts.destDir));
+      .pipe(source(opts.scripts.buildFile))
+      .pipe(gulp.dest(opts.scripts.buildDir));
   });
 }

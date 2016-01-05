@@ -6,7 +6,7 @@ module.exports = function(opts) {
   gulp.task('serve', function() {
     opts.browserSync.init({
       server: {
-        baseDir: opts.server.dir,
+        baseDir: opts.server.buildDir,
         middleware: [historyApiFallback()]
       }
     });

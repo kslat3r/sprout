@@ -1,0 +1,11 @@
+{
+  "name": "sprout",
+  "authors": [
+    "Ed Kelly <ed@newlinelabs.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "~3.3.6"
+  }
+}

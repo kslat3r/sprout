@@ -26,6 +26,7 @@
     "connect-history-api-fallback": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.6",
+    "gulp-sass": "^2.1.1",
     "gulp-watch": "^4.3.5",
     "vinyl-source-stream": "^1.1.0",
     "wrench": "^1.5.8"
