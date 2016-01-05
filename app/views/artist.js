@@ -1,6 +1,6 @@
 var React = require('react');
 var Marty = require('marty');
-var ArtistStore = require('../stores/artistStore');
+var ArtistsStore = require('../stores/artistsStore');
 
 var Artist = React.createClass({
   render() {
@@ -9,18 +9,18 @@ var Artist = React.createClass({
     return (
       <div>
         <h1>Artist</h1>
-        <div className='artist'>{artist.id}</div>
+        <div className='artist'>{artist.name}</div>
       </div>
     );
   }
 });
 
 module.exports = Marty.createContainer(Artist, {
-  listenTo: [ArtistStore],
+  listenTo: [ArtistsStore],
 
   fetch: {
     artist() {
-      return ArtistStore.for(this).getById(this.props.id);
+      return ArtistsStore.for(this).getById(this.props.id);
     }
   },
 

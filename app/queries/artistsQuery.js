@@ -9,6 +9,12 @@ var ArtistsQuery = Marty.createActionCreators({
     return ArtistsAPI.for(this).getAll()
       .then((res) => this.dispatch(ArtistsConstants.RECEIVE_ARTISTS, res.body))
       .catch((err) => this.dispatch(ArtistsConstants.RECEIVE_ARTISTS_FAILED, err));
+  },
+
+  getById(id) {
+    return ArtistsAPI.for(this).getById(id)
+      .then((res) => this.dispatch(ArtistsConstants.RECEIVE_ARTIST, res.body))
+      .catch((err) => this.dispatch(ArtistsConstants.RECEIVE_ARTIST_FAILED, err));
   }
 });
 

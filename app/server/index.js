@@ -5,6 +5,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
+var artistsRoutes = require('./routes/artists');
+
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +22,7 @@ app.use(require('marty-express')({
   routes: require('../router/routes')
 }));
 
-app.get('/api/artists/:id', require('./routes/getArtist'));
-app.get('/api/artists', require('./routes/getArtists'));
+app.get('/api/artists/:id', artistsRoutes.getById.bind(artistsRoutes));
+app.get('/api/artists', artistsRoutes.getAll.bind(artistsRoutes));
 
 module.exports = app;

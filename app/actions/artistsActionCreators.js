@@ -6,6 +6,10 @@ var ArtistsActionCreators = Marty.createActionCreators({
 
   getArtists() {
     this.dispatch(ArtistsConstants.RECEIVE_ARTISTS);
+  },
+
+  getArtist(id) {
+    this.dispatch(ArtistsConstants.RECEIVE_ARTIST, id);
   }
 });
 

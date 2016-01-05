@@ -7,7 +7,8 @@ var ArtistsStore = Marty.createStore({
   id: 'ArtistsStore',
 
   handlers: {
-    returnedArtists: ArtistsConstants.RECEIVE_ARTISTS
+    returnedArtists: ArtistsConstants.RECEIVE_ARTISTS,
+    returnedArtist: ArtistsConstants.RECEIVE_ARTIST
   },
 
   getInitialState() {
@@ -19,10 +20,10 @@ var ArtistsStore = Marty.createStore({
       id: 'artists',
 
       locally() {
-        var vals = _.values(this.state);
+        var artists = _.values(this.state);
 
-        if (vals.length) {
-          return vals;
+        if (artists.length) {
+          return artists;
         }
 
         return undefined;
@@ -34,8 +35,32 @@ var ArtistsStore = Marty.createStore({
     });
   },
 
+  getById(id) {
+    return this.fetch({
+      id: id,
+
+      locally() {
+        return this.state[id];
+      },
+
+      remotely() {
+        return ArtistsQuery.for(this).getById(id);
+      }
+    });
+  },
+
   returnedArtists(artists) {
-    this.setState(artists);
+    _.each(artists, function(artist) {
+      this.state[artist.id] = artist;
+    }.bind(this));
+
+    this.hasChanged();
+  },
+
+  returnedArtist(artist) {
+    this.state[artist.id] = artist;
+
+    this.hasChanged();
   }
 });
 

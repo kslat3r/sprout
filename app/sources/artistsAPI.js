@@ -6,6 +6,10 @@ var ArtistsAPI = Marty.createStateSource({
 
   getAll(id) {
     return this.get('/api/artists');
+  },
+
+  getById(id) {
+    return this.get('/api/artists/' + id);
   }
 });
 
