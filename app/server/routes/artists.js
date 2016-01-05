@@ -15,7 +15,7 @@ module.exports = {
   },
 
   getById: function(req, res) {
-    var artist = _.find(this.artists, {id: req.params.id});
+    var artist = _.find(this.artists, {id: parseInt(req.params.id)});
 
     if (artist) {
       return res.json(artist).end();
