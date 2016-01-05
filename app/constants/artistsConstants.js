@@ -1,8 +1,9 @@
 var Marty = require('marty');
 
 var ArtistsConstants = Marty.createConstants([
-  'RECEIVE_ARTISTS',
-  'RECEIVE_ARTIST'
+  'GET_ARTISTS',
+  'GET_ARTIST',
+  'RESET_ARTISTS'
 ]);
 
 module.exports = ArtistsConstants;

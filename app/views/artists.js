@@ -1,5 +1,6 @@
 var React = require('react');
 var Marty = require('marty');
+var ArtistsActionCreators = require('../actions/artistsActionCreators');
 var NavigationActionCreators = require('../actions/navigationActionCreators');
 var ArtistsStore = require('../stores/artistsStore');
 var _ = require('lodash');
@@ -9,10 +10,6 @@ var Artists = React.createClass({
     e.preventDefault();
 
     return NavigationActionCreators.navigateToArtist(id);
-  },
-
-  componentDidMount() {
-    ArtistsStore.clear();
   },
 
   render() {
@@ -39,6 +36,10 @@ var Artists = React.createClass({
 
 module.exports = Marty.createContainer(Artists, {
   listenTo: [ArtistsStore],
+
+  componentDidMount() {
+    ArtistsActionCreators.resetArtists();
+  },
 
   fetch: {
     artists() {

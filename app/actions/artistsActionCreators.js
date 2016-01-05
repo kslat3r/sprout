@@ -5,11 +5,15 @@ var ArtistsActionCreators = Marty.createActionCreators({
   id: 'ArtistsActionCreators',
 
   getArtists() {
-    this.dispatch(ArtistsConstants.RECEIVE_ARTISTS);
+    this.dispatch(ArtistsConstants.GET_ARTISTS);
   },
 
   getArtist(id) {
-    this.dispatch(ArtistsConstants.RECEIVE_ARTIST, id);
+    this.dispatch(ArtistsConstants.GET_ARTIST, id);
+  },
+
+  resetArtists() {
+    this.dispatch(ArtistsConstants.RESET_ARTISTS);
   }
 });
 
