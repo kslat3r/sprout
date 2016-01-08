@@ -11,6 +11,10 @@ var NavigationActionCreators = Marty.createActionCreators({
     navigateTo('home');
   },
 
+  navigateToLogin() {
+    navigateTo('login');
+  },
+
   navigateToArtists() {
     navigateTo('artists');
   },

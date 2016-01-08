@@ -2,10 +2,10 @@ var React = require('react');
 var NavigationActionCreators = require('../actions/navigationActionCreators');
 
 var Home = React.createClass({
-  navigateToArtists(e) {
+  navigateToLogin(e) {
     e.preventDefault();
 
-    return NavigationActionCreators.navigateToArtists();
+    return NavigationActionCreators.navigateToLogin();
   },
 
   render: function() {
@@ -13,7 +13,7 @@ var Home = React.createClass({
       <div className="home">
         <h1 ref="title">Sprout</h1>
         <ul>
-          <li><a href="#" onClick={this.navigateToArtists}>Artists</a></li>
+          <li><a href="#" onClick={this.navigateToLogin}>Log in</a></li>
         </ul>
       </div>
     );
