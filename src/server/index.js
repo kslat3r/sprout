@@ -10,7 +10,7 @@ nconf.argv()
   .env()
   .file({
     file: __dirname + '/config/' + (process.env.NODE_ENV || 'development') + '.json'
-  })
+  });
 
 //lets go
 

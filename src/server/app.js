@@ -32,7 +32,7 @@ var connect = function() {
     }
   };
 
-  mongoose.connect(nconf.get('db'), opts);
+  mongoose.connect(nconf.get('dbUrl'), opts);
 };
 
 connect();

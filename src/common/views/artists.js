@@ -1,7 +1,7 @@
-var React = require('react');
 var Marty = require('marty');
 
 var ArtistsActionCreators = require('../actions/artistsActionCreators');
+var ConfigStore = require('../stores/configStore');
 var ArtistsStore = require('../stores/artistsStore');
 
 var ArtistsComponent = require('../components/artists/artists');
@@ -11,7 +11,7 @@ var InternalServerErrorComponent = require('../components/errors/internalServerE
 var GenericErrorComponent = require('../components/errors/genericError');
 
 module.exports = Marty.createContainer(ArtistsComponent, {
-  listenTo: [ArtistsStore],
+  listenTo: [ConfigStore, ArtistsStore],
 
   componentDidMount() {
     ArtistsActionCreators.resetArtists();

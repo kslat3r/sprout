@@ -1,16 +1,16 @@
 var Marty = require('marty');
+var ConfigStore = require('../stores/configStore');
 
 var ArtistsAPI = Marty.createStateSource({
   id: 'ArtistsAPI',
   type: 'http',
-  baseUrl: 'http://localhost:5000/api',
 
   getAll(id) {
-    return this.get('/artists');
+    return this.get(ConfigStore.get().apiUrl + '/artists');
   },
 
   getById(id) {
-    return this.get('/artists/' + id);
+    return this.get(ConfigStore.get().apiUrl + '/artists/' + id);
   }
 });
 

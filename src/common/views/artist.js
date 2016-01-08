@@ -1,6 +1,6 @@
-var React = require('react');
 var Marty = require('marty');
 
+var ConfigStore = require('../stores/configStore');
 var ArtistsStore = require('../stores/artistsStore');
 
 var ArtistComponent = require('../components/artists/artist');
@@ -10,7 +10,7 @@ var InternalServerErrorComponent = require('../components/errors/internalServerE
 var GenericErrorComponent = require('../components/errors/genericError');
 
 module.exports = Marty.createContainer(ArtistComponent, {
-  listenTo: [ArtistsStore],
+  listenTo: [ConfigStore, ArtistsStore],
 
   fetch: {
     artist() {

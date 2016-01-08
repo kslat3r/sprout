@@ -7,20 +7,12 @@ function navigateTo(route, params) {
 var NavigationActionCreators = Marty.createActionCreators({
   id: 'NavigationActionCreators',
 
-  navigateHome() {
+  goToHome() {
     navigateTo('home');
   },
 
-  navigateToLogin() {
-    navigateTo('login');
-  },
-
-  navigateToArtists() {
-    navigateTo('artists');
-  },
-
-  navigateToArtist(id) {
-    navigateTo('artist', {id: id});
+  goToDashboard() {
+    navigateTo('dashboard')
   }
 });
 

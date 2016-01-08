@@ -6,7 +6,7 @@ module.exports = React.createClass({
   back(e) {
     e.preventDefault();
 
-    return NavigationActionCreators.navigateHome();
+    return NavigationActionCreators.navigateToArtists();
   },
 
   render() {

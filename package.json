@@ -19,7 +19,8 @@
     "passport": "^0.3.2",
     "passport-spotify": "^0.3.0",
     "react": "^0.13.0",
-    "react-router": "^0.13.0"
+    "react-router": "^0.13.0",
+    "run-sequence": "^1.1.5"
   },
   "scripts": {
     "start": "gulp",
@@ -32,6 +33,7 @@
     "connect-history-api-fallback": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.6",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.1.1",
     "gulp-watch": "^4.3.5",
     "vinyl-source-stream": "^1.1.0",

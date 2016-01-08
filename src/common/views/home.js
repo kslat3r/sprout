@@ -1,23 +1,10 @@
-var React = require('react');
-var NavigationActionCreators = require('../actions/navigationActionCreators');
+var Marty = require('marty');
 
-var Home = React.createClass({
-  navigateToLogin(e) {
-    e.preventDefault();
+var HasConfigComponent = require('../components/hasConfig');
+var IsUnauthenticatedComponent = require('../components/auth/isUnauthenticated');
+var HomeComponent = require('../components/home');
 
-    return NavigationActionCreators.navigateToLogin();
-  },
+HomeComponent = HasConfigComponent(HomeComponent);
+HomeComponent = IsUnauthenticatedComponent(HomeComponent);
 
-  render: function() {
-    return (
-      <div className="home">
-        <h1 ref="title">Sprout</h1>
-        <ul>
-          <li><a href="#" onClick={this.navigateToLogin}>Log in</a></li>
-        </ul>
-      </div>
-    );
-  }
-});
-
-module.exports = Home;
+module.exports = Marty.createContainer(HomeComponent);

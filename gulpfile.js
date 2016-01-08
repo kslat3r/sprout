@@ -1,8 +1,24 @@
+var nconf = require('nconf');
 var gulp = require('gulp');
 var wrench = require('wrench');
 var browserSync = require('browser-sync');
+var runSequence = require('run-sequence');
+
+//config
+
+var setupConfig = function(env) {
+  nconf.argv()
+    .env()
+    .file({
+      file: __dirname + '/tasks/config/' + env + '.json'
+    });
+}
+
+//options
 
 var opts = {
+  nconf: nconf,
+
   browserSync: browserSync.create(),
   vendorDir: __dirname + '/src/client/vendor',
 
@@ -48,6 +64,14 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
   require('./tasks/' + file)(opts);
 });
 
-gulp.task('default', ['scripts', 'styles', 'html', 'serve'], function() {
-  gulp.start('watch');
+//tasks
+
+gulp.task('default', function(callback) {
+  setupConfig('development');
+
+  runSequence(['scripts', 'styles', 'html', 'serve'], function() {
+    gulp.start('watch');
+
+    callback();
+  });
 });
