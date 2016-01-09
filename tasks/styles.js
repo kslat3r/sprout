@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var plumber = require('gulp-plumber');
 var sass = require('gulp-sass');
 
 module.exports = function(opts) {
@@ -10,6 +11,7 @@ module.exports = function(opts) {
     };
 
     gulp.src(opts.styles.srcFile)
+      .pipe(plumber())
       .pipe(sass(sassOpts))
       .pipe(gulp.dest(opts.styles.buildDir));
   });

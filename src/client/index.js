@@ -1,12 +1,12 @@
 var React = require('react');
 var Marty = require('marty');
-var Router = require('../common/router');
 
+var Router = require('../common/router');
 var ConfigStore = require('../common/stores/configStore');
 var AuthStore = require('../common/stores/authStore');
 
-window.React = React; // For React Developer Tools
-window.Marty = Marty; // For Marty Developer Tools
+window.React = React;
+window.Marty = Marty;
 
 Marty.rehydrate();
 

@@ -4,7 +4,7 @@ function navigateTo(route, params) {
   require('../router').transitionTo(route, params || {});
 }
 
-var NavigationActionCreators = Marty.createActionCreators({
+module.exports = Marty.createActionCreators({
   id: 'NavigationActionCreators',
 
   goToHome() {
@@ -15,5 +15,3 @@ var NavigationActionCreators = Marty.createActionCreators({
     navigateTo('dashboard')
   }
 });
-
-module.exports = NavigationActionCreators;

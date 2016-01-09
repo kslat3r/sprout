@@ -68,10 +68,5 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-
-  runSequence(['scripts', 'styles', 'html', 'serve'], function() {
-    gulp.start('watch');
-
-    callback();
-  });
+  runSequence('serve:server', ['scripts', 'styles', 'html'], 'watch', 'serve:client');
 });

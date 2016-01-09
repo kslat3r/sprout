@@ -1,4 +1,5 @@
 var React = require('react');
+var SearchComponent = require('./search/search');
 
 module.exports = React.createClass({
   render() {
@@ -6,8 +7,16 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <h1>Dashboard</h1>
-        <h2>Welcome, {userId}</h2>
+        <div className="row">
+          <div className="col-xs-12">
+            <h1>{userId}'s Dashboard</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <SearchComponent />
+          </div>
+        </div>
       </div>
     );
   }
