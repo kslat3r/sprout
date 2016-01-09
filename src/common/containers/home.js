@@ -1,10 +1,14 @@
-var Marty = require('marty');
+import React, { Component } from 'react';
 
-var HasConfigComponent = require('../components/hasConfig');
-var IsUnauthenticatedComponent = require('../components/auth/isUnauthenticated');
-var HomeComponent = require('../components/home');
+export default class Home extends Component {
+  render() {
+    //var loginUrl = this.props.config.apiUrl + '/auth/login';
+    var loginUrl = '';
 
-HomeComponent = HasConfigComponent(HomeComponent);
-HomeComponent = IsUnauthenticatedComponent(HomeComponent);
-
-module.exports = Marty.createContainer(HomeComponent);
+    return (
+      <div className="home">
+        <a href={loginUrl} className="btn btn-success" role="button">Log In</a>
+      </div>
+    );
+  }
+};

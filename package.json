@@ -10,6 +10,7 @@
     "cors": "^2.7.1",
     "express": "^4.12.2",
     "express-session": "^1.12.1",
+    "history": "^1.17.0",
     "lodash": "3.5.0",
     "mongoose": "^4.3.4",
     "mongoose-findorcreate": "^0.1.2",
@@ -17,11 +18,13 @@
     "nconf": "^0.8.2",
     "passport": "^0.3.2",
     "passport-spotify": "^0.3.0",
-    "react": "^0.13.3",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
-    "react-router": "^0.13.0",
+    "react-router": "^1.0.3",
     "redux": "^3.0.5",
-    "run-sequence": "^1.1.5"
+    "redux-router": "^1.0.0-beta3",
+    "redux-thunk": "^1.0.3"
   },
   "scripts": {
     "start": "gulp",
@@ -39,6 +42,7 @@
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.1.1",
     "gulp-watch": "^4.3.5",
+    "run-sequence": "^1.1.5",
     "vinyl-source-stream": "^1.1.0",
     "wrench": "^1.5.8"
   }

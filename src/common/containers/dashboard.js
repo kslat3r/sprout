@@ -1,10 +1,23 @@
-var Marty = require('marty');
+import React, { Component } from 'react';
+import Search from '../components/search/search';
 
-var HasConfigComponent = require('../components/hasConfig');
-var IsAuthenticatedComponent = require('../components/auth/isAuthenticated');
-var DashboardComponent = require('../components/dashboard');
+export default class Dashboard extends Component {
+  render() {
+    var userId = this.props.user ? this.props.user.id : '';
 
-DashboardComponent = HasConfigComponent(DashboardComponent);
-DashboardComponent = IsAuthenticatedComponent(DashboardComponent);
-
-module.exports = Marty.createContainer(DashboardComponent);
+    return (
+      <div>
+        <div className="row">
+          <div className="col-xs-12">
+            <h1>{userId}'s Dashboard</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <Search />
+          </div>
+        </div>
+      </div>
+    );
+  }
+};

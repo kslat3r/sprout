@@ -1,12 +1,9 @@
-var React = require('react');
-var Marty = require('Marty');
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import SearchResults from './searchResults';
+import SearchActions from '../../actions/search';
 
-var SearchResultsComponent = require('./searchResults')
-
-var SearchActionCreators = require('../../actions/searchActionCreators');
-var SearchStore = require('../../stores/searchStore');
-
-module.exports = Marty.createContainer(React.createClass({
+class Search extends Component {
   getInitialState() {
     return {
       searchTerm: '',
@@ -17,23 +14,23 @@ module.exports = Marty.createContainer(React.createClass({
         numResults: 0
       }
     };
-  },
+  }
 
   handleChange(key, e) {
     var nextState = {};
 
     nextState[key] = e.target.value;
     this.setState(nextState);
-  },
+  }
 
   submit(e) {
     e.preventDefault();
 
     if (this.state.searchTerm !== '') {
-      SearchActionCreators.reset();
-      SearchActionCreators.search(this.state);
+      dispatch(SearchActions.reset());
+      dispatch(SearchActions.search(this.state));
     }
-  },
+  }
 
   render() {
     return (
@@ -46,22 +43,26 @@ module.exports = Marty.createContainer(React.createClass({
         </form>
         <div className="row">
           <div className="col-xs-12">
-            <SearchResultsComponent type="albums" searchResults={this.state.searchResults.albums} />
+            <SearchResults type="albums" searchResults={this.state.searchResults.albums} />
           </div>
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <SearchResultsComponent type="artists" searchResults={this.state.searchResults.artists} />
+            <SearchResults type="artists" searchResults={this.state.searchResults.artists} />
           </div>
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <SearchResultsComponent type="tracks" searchResults={this.state.searchResults.tracks} />
+            <SearchResults type="tracks" searchResults={this.state.searchResults.tracks} />
           </div>
         </div>
       </div>
     );
   }
-}), {
-  listenTo: [SearchStore]
-});
+};
+
+export default connect(
+  state => ({
+    searchResults: state.searchResults
+  })
+)(Search);

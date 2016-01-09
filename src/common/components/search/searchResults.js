@@ -1,16 +1,16 @@
-var React = require('react');
+import React, { Component, PropTypes } from 'react';
 
-module.exports = React.createClass({
+export default class SearchResults extends Component {
   propTypes: {
-    type: React.PropTypes.string.isRequired
-  },
+    type: PropTypes.string.isRequired
+  }
 
   getInitialState() {
     var defaultState = {};
     defaultState[this.props.type] = [];
 
     return defaultState;
-  },
+  }
 
   render() {
     var title = this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1);
@@ -23,4 +23,4 @@ module.exports = React.createClass({
 
     return false;
   }
-});
+};
