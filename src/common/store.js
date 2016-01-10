@@ -1,13 +1,28 @@
+//redux
+
 import { compose, applyMiddleware, createStore } from 'redux'
-import { reduxReactRouter } from 'redux-router';
+
+//middleware
+
+import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import createHistory from 'history/lib/createBrowserHistory';
+
+//router
+
+import { reduxReactRouter } from 'redux-router';
 import routes from './routes';
+import createHistory from 'history/lib/createBrowserHistory';
+
+//reducers
+
 import reducers from './reducers';
 
-const compositedCreateStore = compose(
+//create store
+
+const createStoreWithMiddleware = compose(
+  applyMiddleware(createLogger()),
   applyMiddleware(thunk),
   reduxReactRouter({routes, createHistory})
 )(createStore);
 
-export default compositedCreateStore(reducers, window.initialData);
+export default createStoreWithMiddleware(reducers, window.initialData);

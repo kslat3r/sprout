@@ -9,8 +9,8 @@ export const initialState = {
     length: 0
   },
 
-  isRequesting: false,
-  hasErrored: false,
+  requesting: false,
+  errored: false,
   exception: null
 };
 
@@ -23,22 +23,22 @@ export default function(state = initialState, action) {
 
     case SearchActionCreators.SEARCH_REQUEST:
       return Object.assign({}, state, {
-        isRequesting: true,
-        hasErrored: false,
+        requesting: true,
+        errored: false,
         exception: null
       });
 
     case SearchActionCreators.SEARCH_FAILURE:
       return Object.assign({}, state, {
-        isRequesting: false,
-        hasErrored: true,
+        requesting: false,
+        errored: true,
         exception: action.exception
       });
 
     case SearchActionCreators.SEARCH_SUCCESS:
       return Object.assign({}, state, {results: action.response}, {
-        isRequesting: false,
-        hasErrored: false,
+        requesting: false,
+        errored: false,
         exception: null
       });
 

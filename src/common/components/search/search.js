@@ -18,11 +18,9 @@ class Search extends Component {
     }
   }
 
-  render() {
-    let loading, error;
-
-    if (this.props.search.isRequesting) {
-      loading = (
+  requesting() {
+    if (this.props.search.requesting) {
+      return (
         <div className="row">
           <div className="col-xs-12">
             <i className="fa fa-spinner fa-spin"></i>
@@ -31,8 +29,12 @@ class Search extends Component {
       );
     }
 
-    if (this.props.search.hasErrored) {
-      error = (
+    return false;
+  }
+
+  errored() {
+    if (this.props.search.errored) {
+      return (
         <div className="row">
           <div className="col-xs-12">
             {this.props.search.exception.message}
@@ -41,6 +43,10 @@ class Search extends Component {
       );
     }
 
+    return false;
+  }
+
+  render() {
     return (
       <div>
         <form className="form-inline" onSubmit={this.submit.bind(this)}>
@@ -49,8 +55,8 @@ class Search extends Component {
           </div>
           <button type="submit" className="btn btn-success">Search</button>
         </form>
-        {loading}
-        {error}
+        {this.requesting()}
+        {this.errored()}
         <div className="row">
           <div className="col-xs-12">
             <SearchResults type="albums" results={this.props.search.results.albums} />

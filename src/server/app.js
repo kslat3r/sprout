@@ -15,6 +15,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
+var spotifyApi = require('./middleware/spotifyApi');
 
 //user lib
 
@@ -46,17 +47,22 @@ require('./lib/passport');
 //express
 
 var app = express();
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 app.set('port', nconf.get('PORT') || 5000);
 
 //middleware
 
-app.use(cors());
+app.use(cors({
+  origin: nconf.get('clientUrl'),
+  credentials: true
+}));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
 app.use(cookieParser('secretString'));
 
 app.use(session({
@@ -70,6 +76,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(spotifyApi());
 
 //routes
 

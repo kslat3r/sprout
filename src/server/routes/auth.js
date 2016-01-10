@@ -1,5 +1,5 @@
-var nconf = require('nconf');
 var passport = require('passport');
+var nconf = require('nconf');
 
 module.exports = function(app) {
   app.get('/api/auth/login', passport.authenticate('spotify'));

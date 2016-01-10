@@ -1,4 +1,3 @@
-var passport = require('passport');
 var controller = require('../controllers/search');
 
 module.exports = function(app) {

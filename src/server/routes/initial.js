@@ -1,4 +1,3 @@
-var passport = require('passport');
 var controller = require('../controllers/initial');
 
 module.exports = function(app) {
