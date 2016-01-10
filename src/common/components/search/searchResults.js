@@ -1,17 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class SearchResults extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-    this.state[this.props.type] = [];
-  }
-
   render() {
     var title = this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1);
 
-    if (this.state[this.props.type].length) {
+    if (this.props.results.length) {
       return (
         <h1>{title} search results</h1>
       );
@@ -22,5 +15,6 @@ export default class SearchResults extends Component {
 };
 
 SearchResults.propTypes = {
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  results: PropTypes.array.isRequired
 };

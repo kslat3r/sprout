@@ -34,6 +34,11 @@ var opts = {
     buildFile: 'screen.css'
   },
 
+  fonts: {
+    srcDir: __dirname + '/src/client/vendor/font-awesome/fonts/**/*',
+    buildDir: __dirname + '/build/fonts'
+  },
+
   html: {
     srcFile: __dirname + '/src/client/index.html',
     buildDir: __dirname + '/build'
@@ -68,5 +73,5 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', ['scripts', 'styles', 'html'], 'watch', 'serve:client');
+  runSequence('serve:server', ['scripts', 'styles', 'fonts', 'html'], 'watch', 'serve:client');
 });

@@ -10,7 +10,7 @@ module.exports = {
       tracks: [{
         id: 1
       }],
-      numResults: 3
+      length: 3
     })
   }
 };

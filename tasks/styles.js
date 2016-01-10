@@ -6,7 +6,8 @@ module.exports = function(opts) {
   gulp.task('styles', function() {
     var sassOpts = {
       includePaths: [
-        opts.vendorDir + '/bootstrap-sass/assets/stylesheets'
+        opts.vendorDir + '/bootstrap-sass/assets/stylesheets',
+        opts.vendorDir + '/font-awesome/scss'
       ]
     };
 

@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "bootstrap-sass": "~3.3.6"
+    "bootstrap-sass": "~3.3.6",
+    "font-awesome": "~4.5.0"
   }
 }
