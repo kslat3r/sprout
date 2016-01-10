@@ -6,7 +6,14 @@ export default class SearchResults extends Component {
 
     if (this.props.results.length) {
       return (
-        <h1>{title} search results</h1>
+        <div>
+          <h1>{title}</h1>
+          <ul>
+            {this.props.results.map(function(item, i) {
+              return <li key={i}>{item.name}</li>
+            })}
+          </ul>
+        </div>
       );
     }
 
