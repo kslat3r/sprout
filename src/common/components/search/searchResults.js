@@ -1,15 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class SearchResults extends Component {
-  propTypes: {
-    type: PropTypes.string.isRequired
-  }
+  constructor(props) {
+    super(props);
 
-  getInitialState() {
-    var defaultState = {};
-    defaultState[this.props.type] = [];
-
-    return defaultState;
+    this.state = {};
+    this.state[this.props.type] = [];
   }
 
   render() {
@@ -23,4 +19,8 @@ export default class SearchResults extends Component {
 
     return false;
   }
+};
+
+SearchResults.propTypes = {
+  type: PropTypes.string.isRequired
 };

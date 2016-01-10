@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import RedirectIfAuthorised from '../components/auth/redirectIfAuthorised';
 
-export default class Home extends Component {
+class Home extends Component {
   render() {
-    //var loginUrl = this.props.config.apiUrl + '/auth/login';
-    var loginUrl = '';
+    var loginUrl = this.props.config.apiUrl + '/auth/login';
 
     return (
       <div className="home">
@@ -12,3 +13,11 @@ export default class Home extends Component {
     );
   }
 };
+
+Home = RedirectIfAuthorised(Home);
+
+export default connect(function(state) {
+  return {
+    config: state.config
+  };
+})(Home);

@@ -4,8 +4,10 @@ import SearchResults from './searchResults';
 import SearchActions from '../../actions/search';
 
 class Search extends Component {
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       searchTerm: '',
       searchResults: {
         albums: [],
@@ -35,7 +37,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <form className="form-inline" onSubmit={this.submit}>
+        <form className="form-inline" onSubmit={this.submit.bind(this)}>
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Search for an album/artist/track" onChange={this.handleChange.bind(this, 'searchTerm')} />
           </div>
@@ -61,8 +63,8 @@ class Search extends Component {
   }
 };
 
-export default connect(
-  state => ({
+export default connect(function(state) {
+  return {
     searchResults: state.searchResults
-  })
-)(Search);
+  };
+})(Search);

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Search from '../components/search/search';
+import AuthorisationRequired from '../components/auth/authorisationRequired';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   render() {
-    var userId = this.props.user ? this.props.user.id : '';
-
     return (
       <div>
         <div className="row">
           <div className="col-xs-12">
-            <h1>{userId}'s Dashboard</h1>
+            <h1>Dashboard</h1>
           </div>
         </div>
         <div className="row">
@@ -21,3 +21,7 @@ export default class Dashboard extends Component {
     );
   }
 };
+
+Dashboard = AuthorisationRequired(Dashboard);
+
+export default Dashboard;
