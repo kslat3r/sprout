@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PictureList from './pictureList';
+import ThumbnailList from './thumbnailList';
 import TableList from './tableList';
 import * as SearchActions from '../actions/search';
 
@@ -57,10 +57,10 @@ class Search extends Component {
         {this.requesting()}
         {this.errored()}
         <div className="row">
-          <PictureList title="Artists" type="artist" items={this.props.search.results.artists} masonry />
+          <ThumbnailList title="Artists" type="artist" items={this.props.search.results.artists} masonry />
         </div>
         <div className="row">
-          <PictureList title="Albums" type="album" items={this.props.search.results.albums} masonry />
+          <ThumbnailList title="Albums" type="album" items={this.props.search.results.albums} masonry />
         </div>
         <div className="row">
           <TableList title="Tracks" type="track" items={this.props.search.results.tracks} />

@@ -15,12 +15,14 @@ export function request(params) {
   return function(dispatch, getState) {
     let state = getState();
 
-    dispatch(reset());
     dispatch({type: SEARCH_REQUEST});
 
     return fetch(state.config.apiUrl + '/search?term=' + params.term, state.config.fetch)
       .then(response => response.json())
-      .then(json => dispatch(success(json)))
+      .then(json => {
+        dispatch(reset());
+        dispatch(success(json))
+      })
       .catch(exception => dispatch(failure(exception)));
   };
 };
@@ -36,5 +38,5 @@ export function success(response) {
   return {
     type: SEARCH_SUCCESS,
     response
-  }
+  };
 };
