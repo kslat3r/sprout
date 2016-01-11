@@ -7,8 +7,13 @@ var nconf = require('nconf');
 var express = require('express');
 var session = require('express-session');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(session)
+var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
+
+//user lib
+
+var routeBinder = require('./routes');
+var models = require('./models');
 
 //middleware lib
 
@@ -16,11 +21,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var spotifyApi = require('./middleware/spotifyApi');
-
-//user lib
-
-var routeBinder = require('./routes');
-var models = require('./models');
 
 //connect to mongo
 
