@@ -58,17 +58,13 @@ class Search extends Component {
         {this.requesting()}
         {this.errored()}
         <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-12 col-sm-4">
             <SearchResults type="albums" results={this.props.search.results.albums} />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-12 col-sm-4">
             <SearchResults type="artists" results={this.props.search.results.artists} />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-12 col-sm-4">
             <SearchResults type="tracks" results={this.props.search.results.tracks} />
           </div>
         </div>

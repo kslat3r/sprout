@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Preview from '../player/preview';
 
 export default class SearchResults extends Component {
   render() {
@@ -10,8 +11,17 @@ export default class SearchResults extends Component {
           <h1>{title}</h1>
           <ul>
             {this.props.results.map(function(item, i) {
-              return <li key={i}>{item.name}</li>
-            })}
+              return (
+                <li key={i}>
+                  {item.name}
+                  {function() {
+                    if (this.props.type === 'tracks') {
+                      return <Preview item={item} />
+                    }
+                  }.call(this)}
+                </li>
+              );
+            }.bind(this))}
           </ul>
         </div>
       );
