@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import SearchResults from './searchResults';
 import * as SearchActions from '../../actions/search';
 
