@@ -23,7 +23,7 @@ var opts = {
   vendorDir: __dirname + '/src/client/vendor',
 
   scripts: {
-    srcFile: __dirname + '/src/client/index.js',
+    srcFile: __dirname + '/src/client/app/index.js',
     buildDir: __dirname + '/build/js',
     buildFile: 'app.js',
   },
@@ -54,8 +54,7 @@ var opts = {
 
   watch: {
     js: [
-      __dirname + '/src/common/**/*.js',
-      __dirname + '/src/client/**/*.js'
+      __dirname + '/src/client'
     ],
     scss: [
       __dirname + '/src/client/assets/scss/**/*.scss'

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Root from '../common/containers/root'
-import Store from '../common/store';
+import Root from './containers/root'
+import Store from './store';
 
 render(
   <Root store={Store} />,
