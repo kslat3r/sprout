@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SearchResults from './searchResults';
-import * as SearchActions from '../../actions/search';
+import PictureList from './pictureList';
+import TableList from './tableList';
+import * as SearchActions from '../actions/search';
 
 class Search extends Component {
   handleChange(key, e) {
@@ -21,10 +22,8 @@ class Search extends Component {
   requesting() {
     if (this.props.search.requesting) {
       return (
-        <div className="row">
-          <div className="col-xs-12">
-            <i className="fa fa-spinner fa-spin"></i>
-          </div>
+        <div className="loading">
+          <i className="fa fa-spinner fa-spin"></i>
         </div>
       );
     }
@@ -58,15 +57,13 @@ class Search extends Component {
         {this.requesting()}
         {this.errored()}
         <div className="row">
-          <div className="col-xs-12 col-sm-4">
-            <SearchResults type="albums" results={this.props.search.results.albums} />
-          </div>
-          <div className="col-xs-12 col-sm-4">
-            <SearchResults type="artists" results={this.props.search.results.artists} />
-          </div>
-          <div className="col-xs-12 col-sm-4">
-            <SearchResults type="tracks" results={this.props.search.results.tracks} />
-          </div>
+          <PictureList title="Artists" type="artist" items={this.props.search.results.artists} masonry />
+        </div>
+        <div className="row">
+          <PictureList title="Albums" type="album" items={this.props.search.results.albums} masonry />
+        </div>
+        <div className="row">
+          <TableList title="Tracks" type="track" items={this.props.search.results.tracks} />
         </div>
       </div>
     );

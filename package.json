@@ -23,6 +23,7 @@
     "passport-spotify": "^0.3.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
+    "react-masonry-component": "^3.0.0",
     "react-redux": "^4.0.6",
     "react-router": "^1.0.3",
     "react-sound": "^0.3.0",

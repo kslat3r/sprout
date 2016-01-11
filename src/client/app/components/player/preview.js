@@ -12,7 +12,7 @@ class Preview extends Component {
   play(e) {
     e.preventDefault();
 
-    this.props.dispatch(PlayerActions.play(this.props.item));
+    this.props.dispatch(PlayerActions.play(this.props.track));
   }
 
   stop(e) {
@@ -24,7 +24,7 @@ class Preview extends Component {
   }
 
   render() {
-    if (this.props.player.track.id === this.props.item.id) {
+    if (this.props.player.track.id === this.props.track.id) {
       return (
         <span>
           <a href="#" onClick={this.stop}>
@@ -46,7 +46,7 @@ class Preview extends Component {
 };
 
 Preview.propTypes = {
-  item: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired
 };
 
 export default connect(function(state) {

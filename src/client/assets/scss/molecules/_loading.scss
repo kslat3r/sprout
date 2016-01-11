@@ -1,0 +1,17 @@
+.loading {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #000;
+  top: 50%;
+  margin-top: -50px;
+  text-align: center;
+  line-height: 130px;
+  border-radius: 20px;
+
+  i {
+    font-size: 5em;
+  }
+}
