@@ -2,9 +2,7 @@ import * as PlayerActionCreators from '../actions/player';
 
 export const initialState = {
   isPlaying: false,
-  track: {
-    id: 0
-  }
+  track: {}
 };
 
 export default function(state = initialState, action) {

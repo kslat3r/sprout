@@ -11,6 +11,8 @@ class Preview extends Component {
   play(e) {
     e.preventDefault();
 
+    //http://www.willvillanueva.com/the-web-audio-api-from-nodeexpress-to-your-browser/
+
     this.props.dispatch(PlayerActions.play(this.props.item));
   }
 
@@ -25,7 +27,7 @@ class Preview extends Component {
       return (
         <span>
           &nbsp;<a href="#" onClick={this.stop}>
-            <i className="fa fa-stop-circle" />
+            <i className="fa fa-stop" />
           </a>
         </span>
       );
@@ -34,7 +36,7 @@ class Preview extends Component {
     return (
       <span>
         &nbsp;<a href="#" onClick={this.play}>
-          <i className="fa fa-play-circle" />
+          <i className="fa fa-play" />
         </a>
       </span>
     );
