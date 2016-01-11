@@ -54,7 +54,7 @@ var opts = {
 
   watch: {
     js: [
-      __dirname + '/src/client'
+      __dirname + '/src/client/**/*.js'
     ],
     scss: [
       __dirname + '/src/client/assets/scss/**/*.scss'

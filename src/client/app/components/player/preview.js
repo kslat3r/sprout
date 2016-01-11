@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as PlayerActions from '../../actions/player';
+import Sound from 'react-sound';
 
 class Preview extends Component {
   constructor() {
@@ -11,13 +12,13 @@ class Preview extends Component {
   play(e) {
     e.preventDefault();
 
-    //http://www.willvillanueva.com/the-web-audio-api-from-nodeexpress-to-your-browser/
-
     this.props.dispatch(PlayerActions.play(this.props.item));
   }
 
   stop(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.dispatch(PlayerActions.stop());
   }
@@ -26,16 +27,17 @@ class Preview extends Component {
     if (this.props.player.track.id === this.props.item.id) {
       return (
         <span>
-          &nbsp;<a href="#" onClick={this.stop}>
+          <a href="#" onClick={this.stop}>
             <i className="fa fa-stop" />
           </a>
+          <Sound url={this.props.player.track.preview_url} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stop} />
         </span>
       );
     }
 
     return (
       <span>
-        &nbsp;<a href="#" onClick={this.play}>
+        <a href="#" onClick={this.play}>
           <i className="fa fa-play" />
         </a>
       </span>
