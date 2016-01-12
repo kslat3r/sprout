@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import Preview from '../player/preview';
+import Add from '../player/add';
 
 export default class Row extends Component {
   render() {
@@ -8,7 +9,7 @@ export default class Row extends Component {
       if (column === 'add') {
         return (
           <td key={i}>
-            Add
+            <Add track={this.props.data} />
           </td>
         );
       }
@@ -21,9 +22,7 @@ export default class Row extends Component {
         );
       }
 
-      //var value = _.get(this.props.data, column);
-
-      return <td key={i}>Foo</td>;
+      return <td key={i}>{_.get(this.props.data, column)}</td>;
     }.bind(this));
 
     return (
