@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Row from './row';
+import TrackRow from './row';
 import Masonry from 'react-masonry-component';
 
-export default class Table extends Component {
+export default class TracksTable extends Component {
   render() {
-    if (this.props.items.length) {
+    if (this.props.tracks.length) {
       var columns = [
         'add',
         'preview',
@@ -13,8 +13,8 @@ export default class Table extends Component {
         'album'
       ];
 
-      var rows = this.props.items.map(function(item, i) {
-        return <Row data={item} columns={columns} key={i} />;
+      var rows = this.props.tracks.map(function(track, i) {
+        return <TrackRow track={track} columns={columns} key={i} />;
       });
 
       return (
@@ -42,7 +42,6 @@ export default class Table extends Component {
   }
 };
 
-Table.propTypes = {
-  type: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired
+TracksTable.propTypes = {
+  tracks: PropTypes.array.isRequired
 };

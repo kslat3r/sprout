@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Grid from './grid';
-import Table from './table';
+import TracksTable from './table/tracks';
 import * as SearchActions from '../actions/search';
 
 class Search extends Component {
@@ -75,7 +75,7 @@ class Search extends Component {
           <Grid title="Albums" type="album" items={this.props.search.results.albums} masonry />
         </div>
         <div className="row">
-          <Table title="Tracks" type="track" items={this.props.search.results.tracks} />
+          <TracksTable title="Tracks" tracks={this.props.search.results.tracks} />
         </div>
       </div>
     );
