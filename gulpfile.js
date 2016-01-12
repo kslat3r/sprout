@@ -39,6 +39,11 @@ var opts = {
     buildDir: __dirname + '/build/fonts'
   },
 
+  images: {
+    srcDir: __dirname + '/src/client/assets/images/**/*',
+    buildDir: __dirname + '/build/images'
+  },
+
   html: {
     srcFile: __dirname + '/src/client/index.html',
     buildDir: __dirname + '/build'
@@ -72,5 +77,5 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', ['scripts', 'styles', 'fonts', 'html'], 'watch', 'serve:client');
+  runSequence('serve:server', ['scripts', 'styles', 'fonts', 'images', 'html'], 'watch', 'serve:client');
 });

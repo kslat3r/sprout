@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 export default class Artist extends Component {
   render() {
-    var imgSrc;
+    var imgSrc = '/images/thumbnail-placeholder.png';
 
-    if (this.props.data.images[0]) {
+    if (this.props.data.images[0] && this.props.data.images[0].url) {
       imgSrc = this.props.data.images[0].url;
     }
 
