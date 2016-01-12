@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Album from '../album';
-import Artist from '../artist';
-import Track from '../track';
+import Album from './album';
+import Artist from './artist';
 import Masonry from 'react-masonry-component';
 
 export default class Grid extends Component {

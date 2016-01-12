@@ -10,7 +10,7 @@ export default class Table extends Component {
         'preview',
         'name',
         'artists',
-        'album.name'
+        'album'
       ];
 
       var rows = this.props.items.map(function(item, i) {

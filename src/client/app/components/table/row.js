@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import Preview from '../player/preview';
 import Add from '../player/add';
+import ArtistLink from '../link/artist';
+import AlbumLink from '../link/album';
 
 export default class Row extends Component {
   render() {
@@ -23,18 +26,28 @@ export default class Row extends Component {
       }
 
       if (column === 'artists') {
-        var artists = '';
-
-        this.props.data.artists.forEach(function(artist, i) {
-          artists += artist.name + ', ';
-        });
-
-        artists = artists.replace(/,\s$/, '');
-
-        return <td key={i}>{artists}</td>;
+        return (
+          <td key={i}>
+            <ArtistLink artists={this.props.data.artists} />
+          </td>
+        );
       }
 
-      return <td key={i}>{_.get(this.props.data, column)}</td>;
+      if (column === 'album') {
+        return (
+          <td key={i}>
+            <AlbumLink album={this.props.data.album}>
+              {this.props.data.album.name}
+            </AlbumLink>
+          </td>
+        );
+      }
+
+      return (
+        <td key={i}>
+          {_.get(this.props.data, column)}
+        </td>
+      );
     }.bind(this));
 
     return (

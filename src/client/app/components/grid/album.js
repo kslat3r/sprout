@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import ArtistLink from '../link/artist';
+import AlbumLink from '../link/album';
 
 export default class Album extends Component {
   render() {
-    var url = "/album/" + this.props.data.id;
     var imgSrc = '/images/thumbnail-placeholder.png';
 
     if (this.props.data.images[0] && this.props.data.images[0].url) {
       imgSrc = this.props.data.images[0].url;
     }
 
-    var artists = '';
-
-    this.props.data.artists.forEach(function(artist, i) {
-      artists += artist.name + ', ';
-    });
-
-    artists = artists.replace(/,\s$/, '');
-
     return (
       <div className="thumbnail">
-        <a href={url}>
+        <AlbumLink album={this.props.data}>
           <img src={imgSrc} />
-        </a>
+        </AlbumLink>
         <div className="caption">
-          <a href={url}>
+          <AlbumLink album={this.props.data}>
             <h3>{this.props.data.name}</h3>
-          </a>
-          <h4>{artists}</h4>
+          </AlbumLink>
+          <h4><ArtistLink artists={this.props.data.artists} /></h4>
         </div>
       </div>
     );
   }
+};
+
+Album.propTypes = {
+  data: PropTypes.object.isRequired
 };
