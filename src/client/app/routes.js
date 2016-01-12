@@ -7,5 +7,7 @@ export default (
   <Router>
     <Route name="home" path="/" component={Home} />
     <Route name="dashboard" path="/dashboard" component={Dashboard} />
+    <Route name="artist" path="/artist/:id" component={Artist} />
+    <Route name="album" path="/album/:id" component={Album} />
   </Router>
 );
