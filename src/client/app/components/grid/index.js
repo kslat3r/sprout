@@ -17,9 +17,6 @@ export default class Grid extends Component {
           case 'artist':
             elem = <Artist data={item} />
           break;
-          case 'track':
-            elem = <Track data={item} />
-          break;
         }
 
         return (

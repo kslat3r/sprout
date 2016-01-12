@@ -18,7 +18,12 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case SearchActionCreators.SEARCH_RESET:
       return Object.assign({}, state, {
-        results: initialState.results,
+        results: initialState.results
+      });
+
+    case SearchActionCreators.SEARCH_UPDATE:
+      return Object.assign({}, state, {
+        term: action.term
       });
 
     case SearchActionCreators.SEARCH_REQUEST:

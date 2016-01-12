@@ -5,18 +5,30 @@ import Table from './table';
 import * as SearchActions from '../actions/search';
 
 class Search extends Component {
-  handleChange(key, e) {
-    this.props.search[key] = e.target.value;
+  constructor() {
+    this.searchChange = this.searchChange.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.router.location.query.searchTerm) {
+      this.props.dispatch(SearchActions.update({
+        term: this.props.router.location.query.searchTerm
+      }));
+
+      this.props.dispatch(SearchActions.request());
+    }
+  }
+
+  searchChange(e) {
+    this.props.dispatch(SearchActions.update({
+      term: e.target.value
+    }));
   }
 
   submit(e) {
     e.preventDefault();
 
-    if (this.props.search.term !== '') {
-      this.props.dispatch(SearchActions.request({
-        term: this.props.search.term
-      }));
-    }
+    this.props.dispatch(SearchActions.request());
   }
 
   requesting() {
@@ -50,7 +62,7 @@ class Search extends Component {
       <div>
         <form className="form-inline" onSubmit={this.submit.bind(this)}>
           <div className="form-group">
-            <input type="text" className="form-control" placeholder="Search for an album/artist/track" onChange={this.handleChange.bind(this, 'term')} />
+            <input type="text" className="form-control" value={this.props.search.term} placeholder="Search for an album/artist/track" onChange={this.searchChange} />
           </div>
           <button type="submit" className="btn btn-success">Search</button>
         </form>
@@ -72,6 +84,7 @@ class Search extends Component {
 
 export default connect(function(state) {
   return {
-    search: state.search
+    search: state.search,
+    router: state.router
   };
 })(Search);
