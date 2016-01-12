@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ThumbnailList from './thumbnailList';
-import TableList from './tableList';
+import Grid from './grid';
+import Table from './table';
 import * as SearchActions from '../actions/search';
 
 class Search extends Component {
@@ -57,13 +57,13 @@ class Search extends Component {
         {this.requesting()}
         {this.errored()}
         <div className="row">
-          <ThumbnailList title="Artists" type="artist" items={this.props.search.results.artists} masonry />
+          <Grid title="Artists" type="artist" items={this.props.search.results.artists} masonry />
         </div>
         <div className="row">
-          <ThumbnailList title="Albums" type="album" items={this.props.search.results.albums} masonry />
+          <Grid title="Albums" type="album" items={this.props.search.results.albums} masonry />
         </div>
         <div className="row">
-          <TableList title="Tracks" type="track" items={this.props.search.results.tracks} />
+          <Table title="Tracks" type="track" items={this.props.search.results.tracks} />
         </div>
       </div>
     );
