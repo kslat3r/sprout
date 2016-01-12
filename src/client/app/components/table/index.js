@@ -9,7 +9,7 @@ export default class Table extends Component {
         'add',
         'preview',
         'name',
-        'artists[0].name',
+        'artists',
         'album.name'
       ];
 

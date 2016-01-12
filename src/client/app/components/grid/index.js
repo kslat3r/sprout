@@ -20,7 +20,7 @@ export default class Grid extends Component {
         }
 
         return (
-          <div className="col-xs-6 col-sm-4 col-md-3" key={i}>
+          <div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={i}>
             {elem}
           </div>
         );

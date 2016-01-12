@@ -1,6 +1,9 @@
 @import 'bootstrap';
 @import 'font-awesome';
 
+@import 'atoms/typography';
 @import 'atoms/body';
 
 @import 'molecules/loading';
+
+@import 'organisms/thumbnail';

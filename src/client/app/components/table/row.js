@@ -22,6 +22,18 @@ export default class Row extends Component {
         );
       }
 
+      if (column === 'artists') {
+        var artists = '';
+
+        this.props.data.artists.forEach(function(artist, i) {
+          artists += artist.name + ', ';
+        });
+
+        artists = artists.replace(/,\s$/, '');
+
+        return <td key={i}>{artists}</td>;
+      }
+
       return <td key={i}>{_.get(this.props.data, column)}</td>;
     }.bind(this));
 
