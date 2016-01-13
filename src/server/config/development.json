@@ -17,6 +17,6 @@
       "successRedirect": "http://localhost:3000/dashboard",
       "failureRedirect": "http://localhost:3000/"
     },
-    "scope": ["streaming"]
+    "scope": ["streaming", "user-follow-read", "user-library-read"]
   }
 }
