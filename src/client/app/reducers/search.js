@@ -3,9 +3,33 @@ import * as SearchActionCreators from '../actions/search';
 export const initialState = {
   term: '',
   results: {
-    albums: [],
-    artists: [],
-    tracks: [],
+    albums: {
+      href: null,
+      items: [],
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0
+    },
+    artists: {
+      href: null,
+      items: [],
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0
+    },
+    tracks: {
+      href: null,
+      items: [],
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0
+    },
     length: 0
   },
 

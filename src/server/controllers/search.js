@@ -15,23 +15,23 @@ module.exports = {
         + results[2].body.tracks.items.length;
 
       var out = {
-        artists: results[0].body.artists.items,
-        albums: results[1].body.albums.items,
-        tracks: results[2].body.tracks.items,
+        artists: results[0].body.artists,
+        albums: results[1].body.albums,
+        tracks: results[2].body.tracks,
         length: length
       };
 
       try {
         promises = [];
 
-        out.albums.forEach(function(album) {
+        out.albums.items.forEach(function(album) {
           promises.push(req.spotify.getAlbum(album.id));
         });
 
         results = yield promises;
 
         results.forEach(function(result, i) {
-          out.albums[i].artists = result.body.artists;
+          out.albums.items[i].artists = result.body.artists;
         });
 
         res.send(out);

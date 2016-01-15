@@ -45,6 +45,9 @@ class Artist extends Component {
 
   artist() {
     if (this.props.artist.result.id && !this.props.artist.requesting && !this.props.artist.errored) {
+      var albums = this.props.artist.result.albums;
+      var tracks = this.props.artist.result.tracks;
+
       return (
         <div>
           <div className="row">
@@ -54,12 +57,12 @@ class Artist extends Component {
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <Grid title="Albums" type="album" items={this.props.artist.result.albums} masonry />
+              <Grid title="Albums" type="album" items={albums.items} limit={albums.limit} offset={albums.offset} total={albums.total} masonry />
             </div>
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <TracksTable title="Tracks" tracks={this.props.artist.result.tracks} />
+              <TracksTable title="Top Tracks" tracks={tracks.items} />
             </div>
           </div>
         </div>

@@ -1,7 +1,17 @@
 import * as AlbumActionCreators from '../actions/album';
 
 export const initialState = {
-  result: {},
+  result: {
+    tracks: {
+      href: null,
+      items: [],
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0
+    }
+  },
 
   requesting: false,
   errored: false,

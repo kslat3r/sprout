@@ -1,7 +1,20 @@
 import * as ArtistActionCreators from '../actions/artist';
 
 export const initialState = {
-  result: {},
+  result: {
+    tracks: {
+      items: [],
+    },
+    albums: {
+      href: null,
+      items: [],
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0
+    }
+  },
 
   requesting: false,
   errored: false,

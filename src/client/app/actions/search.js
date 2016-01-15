@@ -31,7 +31,7 @@ export function request(params) {
 
     dispatch(reset());
     dispatch({type: SEARCH_REQUEST});
-    dispatch(pushState(null, state.router.location.pathname, {searchTerm: state.search.term}));
+    dispatch(pushState(null, state.router.location.pathname, {term: state.search.term}));
 
     return fetch(state.config.apiUrl + '/search?term=' + state.search.term, state.config.fetch)
       .then(response => response.json())

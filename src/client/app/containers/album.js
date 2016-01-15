@@ -44,6 +44,8 @@ class Album extends Component {
 
   album() {
     if (this.props.album.result.id && !this.props.album.requesting && !this.props.album.errored) {
+      var tracks = this.props.album.result.tracks;
+
       return (
         <div>
           <div className="row">
@@ -53,7 +55,7 @@ class Album extends Component {
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <TracksTable title="Tracks" tracks={this.props.album.result.tracks} />
+              <TracksTable title="Tracks" tracks={tracks.items} limit={tracks.limit} offset={tracks.offset} total={tracks.total} />
             </div>
           </div>
         </div>

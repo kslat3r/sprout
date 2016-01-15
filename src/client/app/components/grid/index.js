@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Album from './album';
 import Artist from './artist';
 import Masonry from 'react-masonry-component';
+import Paging from '../paging';
 
 export default class Grid extends Component {
   render() {
@@ -36,6 +37,7 @@ export default class Grid extends Component {
             <Masonry options={masonryOpts}>
               {items}
             </Masonry>
+            <Paging />
           </div>
         );
       }

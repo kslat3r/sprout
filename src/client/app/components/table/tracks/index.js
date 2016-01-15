@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import TrackRow from './row';
 import Masonry from 'react-masonry-component';
+import Paging from '../../paging';
 
 export default class TracksTable extends Component {
   render() {
@@ -34,6 +35,7 @@ export default class TracksTable extends Component {
               {rows}
             </tbody>
           </table>
+          <Paging />
         </div>
       );
     }

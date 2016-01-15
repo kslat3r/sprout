@@ -11,9 +11,9 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    if (this.props.router.location.query.searchTerm) {
+    if (this.props.router.location.query.term) {
       this.props.dispatch(SearchActions.update({
-        term: this.props.router.location.query.searchTerm
+        term: this.props.router.location.query.term
       }));
 
       this.props.dispatch(SearchActions.request());
@@ -61,6 +61,10 @@ class Search extends Component {
   }
 
   render() {
+    var artists = this.props.search.results.artists;
+    var albums = this.props.search.results.albums;
+    var tracks = this.props.search.results.tracks;
+
     return (
       <div>
         <div className="row">
@@ -77,13 +81,13 @@ class Search extends Component {
             {this.requesting()}
             {this.errored()}
             <div className="row">
-              <Grid title="Artists" type="artist" items={this.props.search.results.artists} masonry />
+              <Grid title="Artists" type="artist" items={artists.items} limit={artists.limit} offset={artists.offset} total={artists.total} masonry />
             </div>
             <div className="row">
-              <Grid title="Albums" type="album" items={this.props.search.results.albums} masonry />
+              <Grid title="Albums" type="album" items={albums.items} limit={albums.limit} offset={albums.offset} total={albums.total} masonry />
             </div>
             <div className="row">
-              <TracksTable title="Tracks" tracks={this.props.search.results.tracks} />
+              <TracksTable title="Tracks" tracks={tracks.items} limit={tracks.limit} offset={tracks.offset} total={tracks.total} />
             </div>
           </div>
         </div>

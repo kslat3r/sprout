@@ -6,7 +6,7 @@ module.exports = {
     try {
       var result = yield req.spotify.getMySavedAlbums({});
 
-      res.send(result.body.items);
+      res.send(result.body);
     }
     catch (e) {
       res.status(404).send({});
@@ -25,9 +25,7 @@ module.exports = {
       var clonedAlbum = _.clone(album);
       clonedAlbum.tracks = undefined;
 
-      album.tracks = album.tracks.items;
-
-      album.tracks.forEach(function(track) {
+      album.tracks.items.forEach(function(track) {
         track.album = clonedAlbum;
       });
 

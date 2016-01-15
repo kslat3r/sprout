@@ -5,7 +5,7 @@ module.exports = {
     try {
       var result = yield req.spotify.getFollowedArtists({});
 
-      res.send(result.body.artists.items);
+      res.send(result.body);
     }
     catch (e) {
       res.status(404).send({});
@@ -23,8 +23,10 @@ module.exports = {
       var results = yield promises;
       var artist = results[0].body;
 
-      artist.tracks = results[1].body.tracks;
-      artist.albums = results[2].body.items;
+      artist.tracks = {
+        items: results[1].body.tracks
+      };
+      artist.albums = results[2].body;
 
       res.send(artist);
     }
