@@ -8,13 +8,13 @@ import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Artist extends Component {
   componentDidMount() {
-    this.props.dispatch(ArtistActions.request({
+    this.props.request({
       id: this.props.routeParams.id
-    }));
+    });
   }
 
   componentWillUnmount() {
-    this.props.dispatch(ArtistActions.reset());
+    this.props.reset();
   }
 
   requesting() {
@@ -87,4 +87,4 @@ export default connect(function(state) {
   return {
     artist: state.artist
   };
-})(Artist);
+}, ArtistActions)(Artist);

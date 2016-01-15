@@ -7,13 +7,13 @@ import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Album extends Component {
   componentDidMount() {
-    this.props.dispatch(AlbumActions.request({
+    this.props.request({
       id: this.props.routeParams.id
-    }));
+    });
   }
 
   componentWillUnmount() {
-    this.props.dispatch(AlbumActions.reset());
+    this.props.reset();
   }
 
   requesting() {
@@ -80,4 +80,4 @@ export default connect(function(state) {
   return {
     album: state.album
   };
-})(Album);
+}, AlbumActions)(Album);

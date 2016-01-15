@@ -7,30 +7,31 @@ import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Search extends Component {
   constructor() {
+    this.submit = this.submit.bind(this);
     this.searchChange = this.searchChange.bind(this);
   }
 
   componentDidMount() {
     if (this.props.router.location.query.term) {
-      this.props.dispatch(SearchActions.update({
+      this.props.update({
         term: this.props.router.location.query.term
-      }));
+      });
 
-      this.props.dispatch(SearchActions.request());
+      this.props.request();
     }
   }
 
   searchChange(e) {
-    this.props.dispatch(SearchActions.update({
+    this.props.update({
       term: e.target.value
-    }));
+    });
   }
 
   submit(e) {
     e.preventDefault();
 
     if (this.props.search.term !== '') {
-      this.props.dispatch(SearchActions.request());
+      this.props.request();
     }
   }
 
@@ -72,7 +73,7 @@ class Search extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <form className="form-inline" onSubmit={this.submit.bind(this)}>
+            <form className="form-inline" onSubmit={this.submit}>
               <div className="form-group">
                 <input type="text" className="form-control" value={this.props.search.term} placeholder="Search for an album/artist/track" onChange={this.searchChange} />
               </div>
@@ -103,4 +104,4 @@ export default connect(function(state) {
     search: state.search,
     router: state.router
   };
-})(Search);
+}, SearchActions)(Search);

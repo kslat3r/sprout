@@ -12,7 +12,7 @@ class Preview extends Component {
   play(e) {
     e.preventDefault();
 
-    this.props.dispatch(PlayerActions.play(this.props.track));
+    this.props.play(this.props.track);
   }
 
   stop(e) {
@@ -20,7 +20,7 @@ class Preview extends Component {
       e.preventDefault();
     }
 
-    this.props.dispatch(PlayerActions.stop());
+    this.props.stop();
   }
 
   render() {
@@ -53,4 +53,4 @@ export default connect(function(state) {
   return {
     player: state.player
   };
-})(Preview);
+}, PlayerActions)(Preview);
