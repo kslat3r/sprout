@@ -29,7 +29,9 @@ class Search extends Component {
   submit(e) {
     e.preventDefault();
 
-    this.props.dispatch(SearchActions.request());
+    if (this.props.search.term !== '') {
+      this.props.dispatch(SearchActions.request());
+    }
   }
 
   requesting() {

@@ -11,12 +11,8 @@ export default class Album extends Component {
       imgSrc = this.props.data.images[0].url;
     }
 
-    var albumType;
-
-    if (this.props.data.album_type !== 'album') {
-      albumType = this.props.data.album_type.charAt(0).toUpperCase() + this.props.data.album_type.slice(1);
-      albumType = <h5>{albumType}</h5>;
-    }
+    var albumType = this.props.data.album_type.charAt(0).toUpperCase() + this.props.data.album_type.slice(1);
+    albumType = <h5>{albumType}</h5>;
 
     return (
       <div className="thumbnail">

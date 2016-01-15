@@ -1,0 +1,29 @@
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #FFCB05;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.thumbnail {
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    color: #333333;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #333333;
+    }
+  }
+}

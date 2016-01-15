@@ -37,11 +37,11 @@ module.exports = {
         res.send(out);
       }
       catch (e) {
-        console.log(e);
+        res.status(500).send({});
       }
     }
     catch(e) {
-      console.log(e);
+      res.status(500).send({});
     }
   })
 };
