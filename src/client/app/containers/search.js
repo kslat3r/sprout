@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Grid from './grid';
-import TracksTable from './table/tracks';
+import Grid from '../components/grid';
+import TracksTable from '../components/table/tracks';
 import * as SearchActions from '../actions/search';
+import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Search extends Component {
   constructor() {
@@ -60,27 +61,36 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <form className="form-inline" onSubmit={this.submit.bind(this)}>
-          <div className="form-group">
-            <input type="text" className="form-control" value={this.props.search.term} placeholder="Search for an album/artist/track" onChange={this.searchChange} />
+        <div className="row">
+          <h1>Search</h1>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <form className="form-inline" onSubmit={this.submit.bind(this)}>
+              <div className="form-group">
+                <input type="text" className="form-control" value={this.props.search.term} placeholder="Search for an album/artist/track" onChange={this.searchChange} />
+              </div>
+              <button type="submit" className="btn btn-success">Search</button>
+            </form>
+            {this.requesting()}
+            {this.errored()}
+            <div className="row">
+              <Grid title="Artists" type="artist" items={this.props.search.results.artists} masonry />
+            </div>
+            <div className="row">
+              <Grid title="Albums" type="album" items={this.props.search.results.albums} masonry />
+            </div>
+            <div className="row">
+              <TracksTable title="Tracks" tracks={this.props.search.results.tracks} />
+            </div>
           </div>
-          <button type="submit" className="btn btn-success">Search</button>
-        </form>
-        {this.requesting()}
-        {this.errored()}
-        <div className="row">
-          <Grid title="Artists" type="artist" items={this.props.search.results.artists} masonry />
-        </div>
-        <div className="row">
-          <Grid title="Albums" type="album" items={this.props.search.results.albums} masonry />
-        </div>
-        <div className="row">
-          <TracksTable title="Tracks" tracks={this.props.search.results.tracks} />
         </div>
       </div>
     );
   }
 };
+
+Search = AuthorisationRequired(Search);
 
 export default connect(function(state) {
   return {

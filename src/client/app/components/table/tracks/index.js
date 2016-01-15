@@ -19,7 +19,7 @@ export default class TracksTable extends Component {
 
       return (
         <div>
-          <h1>{this.props.title}</h1>
+          <h2>{this.props.title}</h2>
           <table className="table">
             <thead>
               <tr>

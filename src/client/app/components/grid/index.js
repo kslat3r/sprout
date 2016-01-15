@@ -26,10 +26,14 @@ export default class Grid extends Component {
       }.bind(this));
 
       if (this.props.masonry) {
+        var masonryOpts = {
+          percentPosition: true
+        };
+
         return (
           <div>
-            <h1>{this.props.title}</h1>
-            <Masonry>
+            <h2>{this.props.title}</h2>
+            <Masonry options={masonryOpts}>
               {items}
             </Masonry>
           </div>
@@ -38,7 +42,7 @@ export default class Grid extends Component {
 
       return (
         <div>
-          <h1>{this.props.title}</h1>
+          <h2>{this.props.title}</h2>
           <div>
             {items}
           </div>

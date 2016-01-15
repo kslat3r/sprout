@@ -11,7 +11,7 @@ import thunk from 'redux-thunk';
 
 import { reduxReactRouter } from 'redux-router';
 import routes from './routes';
-import createHistory from 'history/lib/createBrowserHistory';
+import { createHistory } from 'history';
 
 //reducers
 

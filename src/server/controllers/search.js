@@ -3,9 +3,9 @@ var wrap = require('co-express');
 module.exports = {
   index: wrap(function* (req, res) {
     var promises = [
-      req.spotify.searchArtists(req.query.term),
-      req.spotify.searchAlbums(req.query.term),
-      req.spotify.searchTracks(req.query.term)
+      req.spotify.searchArtists(req.query.term, {market: req.user.profile.country || 'GB'}),
+      req.spotify.searchAlbums(req.query.term, {market: req.user.profile.country || 'GB'}),
+      req.spotify.searchTracks(req.query.term, {market: req.user.profile.country || 'GB'})
     ];
 
     try {

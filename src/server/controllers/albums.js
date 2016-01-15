@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var wrap = require('co-express');
 
 module.exports = {
@@ -8,7 +9,6 @@ module.exports = {
       res.send(result.body.items);
     }
     catch (e) {
-      console.log(e);
       res.status(404).send({});
     }
   }),
@@ -21,6 +21,15 @@ module.exports = {
 
       var results = yield promises;
       var album = results[0].body;
+
+      var clonedAlbum = _.clone(album);
+      clonedAlbum.tracks = undefined;
+
+      album.tracks = album.tracks.items;
+
+      album.tracks.forEach(function(track) {
+        track.album = clonedAlbum;
+      });
 
       res.send(album);
     }
