@@ -6,6 +6,7 @@ import Search from './containers/search';
 import Artist from './containers/artist';
 import Album from './containers/album';
 import Playlists from './containers/playlists';
+import Playlist from './containers/playlist';
 
 export default (
   <Router>
@@ -15,5 +16,6 @@ export default (
     <Route name="artist" path="/artists/:id" component={Artist} />
     <Route name="album" path="/albums/:id" component={Album} />
     <Route name="playlists" path="/playlists" component={Playlists} />
+    <Route name="playlist" path="/playlists/:id" component={Playlist} />
   </Router>
 );

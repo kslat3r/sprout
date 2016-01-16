@@ -7,6 +7,7 @@ import playerReducer from './player';
 import artistReducer from './artist';
 import albumReducer from './album';
 import playlistsReducer from './playlists';
+import playlistReducer from './playlist';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   player: playerReducer,
   artist: artistReducer,
   album: albumReducer,
-  playlists: playlistsReducer
+  playlists: playlistsReducer,
+  playlist: playlistReducer
 });
