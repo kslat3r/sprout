@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import ArtistLink from '../link/artist';
-import AlbumLink from '../link/album';
+import PlaylistLink from '../link/playlist';
 
-export default class Album extends Component {
+export default class Playlist extends Component {
   render() {
     var imgSrc = '/images/thumbnail-placeholder.png';
 
@@ -10,28 +9,23 @@ export default class Album extends Component {
       imgSrc = this.props.data.images[0].url;
     }
 
-    var albumType = this.props.data.album_type.charAt(0).toUpperCase() + this.props.data.album_type.slice(1);
-    albumType = <h5>{albumType}</h5>;
-
     return (
       <div className="thumbnail">
-        <AlbumLink album={this.props.data}>
+        <PlaylistLink playlist={this.props.data}>
           <div className="thumbnail-image">
             <img src={imgSrc} />
           </div>
-        </AlbumLink>
+        </PlaylistLink>
         <div className="caption">
-          <AlbumLink album={this.props.data}>
+          <PlaylistLink playlist={this.props.data}>
             <h3>{this.props.data.name}</h3>
-          </AlbumLink>
-          <h4><ArtistLink artists={this.props.data.artists} /></h4>
-          {albumType}
+          </PlaylistLink>
         </div>
       </div>
     );
   }
 };
 
-Album.propTypes = {
+Playlist.propTypes = {
   data: PropTypes.object.isRequired
 };

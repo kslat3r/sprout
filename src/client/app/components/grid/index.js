@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Album from './album';
 import Artist from './artist';
+import Playlist from './playlist';
 import Masonry from 'react-masonry-component';
 
 export default class Grid extends Component {
@@ -15,6 +16,9 @@ export default class Grid extends Component {
           break;
           case 'artist':
             elem = <Artist data={item} />
+          break;
+          case 'playlist':
+            elem = <Playlist data={item} />
           break;
         }
 

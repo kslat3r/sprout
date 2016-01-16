@@ -5,6 +5,7 @@ import Dashboard from './containers/dashboard';
 import Search from './containers/search';
 import Artist from './containers/artist';
 import Album from './containers/album';
+import Playlists from './containers/playlists';
 
 export default (
   <Router>
@@ -13,5 +14,6 @@ export default (
     <Route name="search" path="/search" component={Search} />
     <Route name="artist" path="/artists/:id" component={Artist} />
     <Route name="album" path="/albums/:id" component={Album} />
+    <Route name="playlists" path="/playlists" component={Playlists} />
   </Router>
 );
