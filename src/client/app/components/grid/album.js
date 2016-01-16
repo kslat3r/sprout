@@ -17,7 +17,9 @@ export default class Album extends Component {
     return (
       <div className="thumbnail">
         <AlbumLink album={this.props.data}>
-          <img src={imgSrc} />
+          <div className="thumbnail-image">
+            <img src={imgSrc} />
+          </div>
         </AlbumLink>
         <div className="caption">
           <AlbumLink album={this.props.data}>

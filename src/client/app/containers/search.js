@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Grid from '../components/grid';
 import TracksTable from '../components/table/tracks';
+import Paging from '../components/paging';
 import * as SearchActions from '../actions/search';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
@@ -11,18 +13,24 @@ class Search extends Component {
     this.searchChange = this.searchChange.bind(this);
   }
 
+  componentWillMount() {
+    this.artistsPaging = this.props.searchActions.paging.bind(this);
+    this.albumsPaging = this.props.searchActions.paging.bind(this);
+    this.tracksPaging = this.props.searchActions.paging.bind(this);
+  }
+
   componentDidMount() {
-    if (this.props.router.location.query.term) {
-      this.props.update({
+    if (this.props.router.location.query.term && this.props.search.results.length === 0) {
+      this.props.searchActions.update({
         term: this.props.router.location.query.term
       });
 
-      this.props.request();
+      this.props.searchActions.request();
     }
   }
 
   searchChange(e) {
-    this.props.update({
+    this.props.searchActions.update({
       term: e.target.value
     });
   }
@@ -31,7 +39,7 @@ class Search extends Component {
     e.preventDefault();
 
     if (this.props.search.term !== '') {
-      this.props.request();
+      this.props.searchActions.request();
     }
   }
 
@@ -82,13 +90,16 @@ class Search extends Component {
             {this.requesting()}
             {this.errored()}
             <div className="row">
-              <Grid title="Artists" type="artist" items={artists.items} limit={artists.limit} offset={artists.offset} total={artists.total} masonry />
+              <Grid title="Artists" type="artist" items={artists.items} masonry />
+              <Paging limit={artists.limit} offset={artists.offset} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
             </div>
             <div className="row">
-              <Grid title="Albums" type="album" items={albums.items} limit={albums.limit} offset={albums.offset} total={albums.total} masonry />
+              <Grid title="Albums" type="album" items={albums.items} masonry />
+              <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="albums" length={albums.items.length} />
             </div>
             <div className="row">
-              <TracksTable title="Tracks" tracks={tracks.items} limit={tracks.limit} offset={tracks.offset} total={tracks.total} />
+              <TracksTable title="Tracks" tracks={tracks.items} />
+              <Paging limit={tracks.limit} offset={tracks.offset} total={tracks.total} action={this.tracksPaging} type="tracks" length={tracks.items.length} />
             </div>
           </div>
         </div>
@@ -104,4 +115,8 @@ export default connect(function(state) {
     search: state.search,
     router: state.router
   };
-}, SearchActions)(Search);
+}, function(dispatch) {
+  return {
+    searchActions: bindActionCreators(SearchActions, dispatch)
+  };
+})(Search);

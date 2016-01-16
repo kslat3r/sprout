@@ -17,7 +17,11 @@ module.exports = {
       var promises = [
         req.spotify.getArtist.bind(req.spotify, req.params.id),
         req.spotify.getArtistTopTracks.bind(req.spotify, req.params.id, req.user.profile.country || 'GB'),
-        req.spotify.getArtistAlbums.bind(req.spotify, req.params.id, {market: req.user.profile.country || 'GB'})
+        req.spotify.getArtistAlbums.bind(req.spotify, req.params.id, {
+          market: req.user.profile.country || 'GB',
+          limit: req.query.limit !== undefined ? req.query.limit : 20,
+          offset: req.query.offset !== undefined ? req.query.offset : 0
+        })
       ];
 
       var results = yield promises;

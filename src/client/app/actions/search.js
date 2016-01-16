@@ -6,7 +6,7 @@ export const SEARCH_UPDATE = 'SEARCH_UPDATE';
 export const SEARCH_REQUEST = 'SEARCH_REQUEST';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
-
+export const SEARCH_PAGING_SUCCESS = 'SEARCH_PAGING_SUCCESS';
 
 export function reset() {
   return {
@@ -40,6 +40,19 @@ export function request(params) {
   };
 };
 
+export function paging(params) {
+  return function(dispatch, getState) {
+    let state = getState();
+
+    dispatch({type: SEARCH_REQUEST});
+
+    return fetch(state.config.apiUrl + '/search/' + params.type + '?term=' + state.search.term + '&offset=' + params.offset + '&limit=' + params.limit, state.config.fetch)
+      .then(response => response.json())
+      .then(json => dispatch(pagingSuccess(json)))
+      .catch(exception => dispatch(failure(exception)));
+  };
+};
+
 export function failure(exception) {
   return {
     type: SEARCH_FAILURE,
@@ -53,3 +66,10 @@ export function success(response) {
     response
   };
 };
+
+export function pagingSuccess(response) {
+  return {
+    type: SEARCH_PAGING_SUCCESS,
+    response
+  };
+}

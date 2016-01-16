@@ -5,6 +5,7 @@ export const ARTIST_RESET = 'ARTIST_RESET';
 export const ARTIST_REQUEST = 'ARTIST_REQUEST';
 export const ARTIST_FAILURE = 'ARTIST_FAILURE';
 export const ARTIST_SUCCESS = 'ARTIST_SUCCESS';
+export const ARTIST_PAGING_SUCCESS = 'ARTIST_PAGING_SUCCESS';
 
 export function reset() {
   return {
@@ -25,6 +26,19 @@ export function request(params) {
   };
 };
 
+export function paging(params) {
+  return function(dispatch, getState) {
+    let state = getState();
+
+    dispatch({type: ARTIST_REQUEST});
+
+    return fetch(state.config.apiUrl + '/artists/' + params.id + '?offset=' + params.offset + '&limit=' + params.limit, state.config.fetch)
+      .then(response => response.json())
+      .then(json => dispatch(pagingSuccess(json)))
+      .catch(exception => dispatch(failure(exception)));
+  };
+};
+
 export function failure(exception) {
   return {
     type: ARTIST_FAILURE,
@@ -38,3 +52,10 @@ export function success(response) {
     response
   };
 };
+
+export function pagingSuccess(response) {
+  return {
+    type: ARTIST_PAGING_SUCCESS,
+    response
+  };
+}

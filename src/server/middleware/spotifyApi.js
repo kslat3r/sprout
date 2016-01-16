@@ -30,7 +30,9 @@ module.exports = function() {
                   return console.log('Couldn\'t update user');
                 }
 
-                req.spotify.setAccessToken(FoundUser.get('accessToken'));
+                console.log('Refreshed user\'s access token');
+
+                req.spotify.setAccessToken(data.body.access_token);
                 next();
               });
             }, function(err) {

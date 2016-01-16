@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as ArtistActions from '../actions/artist';
 import Grid from '../components/grid';
 import ArtistTitle from '../components/title/artist';
 import TracksTable from '../components/table/tracks';
+import Paging from '../components/paging';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Artist extends Component {
+  componentWillMount() {
+    this.albumsPaging = this.props.artistActions.paging.bind(this);
+  }
+
   componentDidMount() {
-    this.props.request({
+    this.props.artistActions.request({
       id: this.props.routeParams.id
     });
   }
 
   componentWillUnmount() {
-    this.props.reset();
+    this.props.artistActions.reset();
   }
 
   requesting() {
@@ -44,7 +50,7 @@ class Artist extends Component {
   }
 
   artist() {
-    if (this.props.artist.result.id && !this.props.artist.requesting && !this.props.artist.errored) {
+    if (this.props.artist.result.id) {
       var albums = this.props.artist.result.albums;
       var tracks = this.props.artist.result.tracks;
 
@@ -58,6 +64,7 @@ class Artist extends Component {
           <div className="row">
             <div className="col-xs-12">
               <Grid title="Albums" type="album" items={albums.items} limit={albums.limit} offset={albums.offset} total={albums.total} masonry />
+              <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} id={this.props.artist.result.id} length={albums.items.length} />
             </div>
           </div>
           <div className="row">
@@ -87,4 +94,8 @@ export default connect(function(state) {
   return {
     artist: state.artist
   };
-}, ArtistActions)(Artist);
+}, function(dispatch) {
+  return {
+    artistActions: bindActionCreators(ArtistActions, dispatch)
+  };
+})(Artist);

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as ArtistActionCreators from '../actions/artist';
 
 export const initialState = {
@@ -46,6 +47,20 @@ export default function(state = initialState, action) {
         errored: false,
         exception: null
       });
+
+    case ArtistActionCreators.ARTIST_PAGING_SUCCESS:
+      var pagingState = {
+        result: _.extend({}, state.result)
+      };
+
+      pagingState.result.albums = action.response.albums;
+      pagingState.result.albums.items = state.result.albums.items.concat(action.response.albums.items);
+
+      return Object.assign({}, state, {
+        requesting: false,
+        errored: false,
+        exception: null
+      }, pagingState);
 
     default:
       return state;

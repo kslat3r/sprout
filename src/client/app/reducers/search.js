@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as SearchActionCreators from '../actions/search';
 
 export const initialState = {
@@ -70,6 +71,35 @@ export default function(state = initialState, action) {
         errored: false,
         exception: null
       });
+
+    case SearchActionCreators.SEARCH_PAGING_SUCCESS:
+      var pagingState = {
+        results: {
+          artists: state.results.artists,
+          albums: state.results.albums,
+          tracks: state.results.tracks,
+          length: state.results.length + action.response.length
+        }
+      };
+
+      if (action.response.artists) {
+        pagingState.results.artists = action.response.artists;
+        pagingState.results.artists.items = state.results.artists.items.concat(action.response.artists.items);
+      }
+      else if (action.response.albums) {
+        pagingState.results.albums = action.response.albums;
+        pagingState.results.albums.items = state.results.albums.items.concat(action.response.albums.items);
+      }
+      else if (action.response.tracks) {
+        pagingState.results.tracks = action.response.tracks;
+        pagingState.results.tracks.items = state.results.tracks.items.concat(action.response.tracks.items);
+      }
+
+      return Object.assign({}, state, {
+        requesting: false,
+        errored: false,
+        exception: null
+      }, pagingState);
 
     default:
       return state;
