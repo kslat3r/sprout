@@ -5,8 +5,8 @@ export default class Artist extends Component {
   render() {
     var imageSrc = '/images/thumbnail-placeholder.png';
 
-    if (this.props.data.images[0] && this.props.data.images[0].url) {
-      imageSrc = this.props.data.images[0].url;
+    if (this.props.data.images[this.props.data.images.length - 2] && this.props.data.images[this.props.data.images.length - 2].url) {
+      imageSrc = this.props.data.images[this.props.data.images.length - 2].url;
     }
 
     return (

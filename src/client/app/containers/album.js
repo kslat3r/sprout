@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as AlbumActions from '../actions/album';
 import AlbumTitle from '../components/title/album';
 import TracksTable from '../components/table/tracks';
@@ -7,13 +8,13 @@ import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Album extends Component {
   componentDidMount() {
-    this.props.request({
+    this.props.albumActions.request({
       id: this.props.routeParams.id
     });
   }
 
   componentWillUnmount() {
-    this.props.reset();
+    this.props.albumActions.reset();
   }
 
   requesting() {
@@ -80,4 +81,8 @@ export default connect(function(state) {
   return {
     album: state.album
   };
-}, AlbumActions)(Album);
+}, function(dispatch) {
+  return {
+    albumActions: bindActionCreators(AlbumActions, dispatch)
+  };
+})(Album);

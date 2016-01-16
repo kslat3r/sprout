@@ -6,8 +6,8 @@ export default class Album extends Component {
   render() {
     var imgSrc = '/images/thumbnail-placeholder.png';
 
-    if (this.props.data.images[0] && this.props.data.images[0].url) {
-      imgSrc = this.props.data.images[0].url;
+    if (this.props.data.images[this.props.data.images.length - 2] && this.props.data.images[this.props.data.images.length - 2].url) {
+      imgSrc = this.props.data.images[this.props.data.images.length - 2].url;
     }
 
     var albumType = this.props.data.album_type.charAt(0).toUpperCase() + this.props.data.album_type.slice(1);
