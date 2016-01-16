@@ -24,24 +24,28 @@ class Preview extends Component {
   }
 
   render() {
-    if (this.props.player.track.id === this.props.track.id) {
+    if (this.props.track.preview_url) {
+      if (this.props.player.track.id === this.props.track.id) {
+        return (
+          <span>
+            <a href="#" onClick={this.stop}>
+              <i className="fa fa-stop" />
+            </a>
+            <Sound url={this.props.player.track.preview_url} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stop} />
+          </span>
+        );
+      }
+
       return (
         <span>
-          <a href="#" onClick={this.stop}>
-            <i className="fa fa-stop" />
+          <a href="#" onClick={this.play}>
+            <i className="fa fa-play" />
           </a>
-          <Sound url={this.props.player.track.preview_url} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stop} />
         </span>
       );
     }
 
-    return (
-      <span>
-        <a href="#" onClick={this.play}>
-          <i className="fa fa-play" />
-        </a>
-      </span>
-    );
+    return false;
   }
 };
 

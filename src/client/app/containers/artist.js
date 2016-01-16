@@ -19,6 +19,18 @@ class Artist extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.routeParams.id !== nextProps.routeParams.id) {
+      this.props.artistActions.request({
+        id: nextProps.routeParams.id
+      });
+
+      if (window) {
+        window.scrollTo(0, 0);
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.props.artistActions.reset();
   }

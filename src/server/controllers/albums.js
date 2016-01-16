@@ -16,7 +16,7 @@ module.exports = {
   getById: wrap(function* (req, res) {
     try {
       var promises = [
-        req.spotify.getAlbum.bind(req.spotify, req.params.id, {})
+        req.spotify.getAlbum.bind(req.spotify, req.params.id, {market: req.user.profile.country || 'GB'})
       ];
 
       var results = yield promises;
