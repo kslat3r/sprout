@@ -8,8 +8,12 @@
 @import 'atoms/body';
 @import 'atoms/titles';
 @import 'atoms/links';
+@import 'atoms/buttons';
+@import 'atoms/forms';
 
 @import 'molecules/loading';
+@import 'molecules/thumbnail';
+@import 'molecules/paging';
 
-@import 'organisms/thumbnail';
-@import 'organisms/paging';
+@import 'organisms/add-control';
+@import 'organisms/tracks-table';

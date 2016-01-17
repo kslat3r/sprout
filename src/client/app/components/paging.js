@@ -22,7 +22,7 @@ export default class Paging extends Component {
     if (this.props.total > this.props.length) {
       return (
         <div className="col-xs-12 col-md-4 col-md-offset-4 text-center paging">
-          <button type="button" className="btn btn-block" onClick={this.click}>Load more</button>
+          <button type="button" className="btn btn-block btn-primary" onClick={this.click}>Load more</button>
         </div>
       );
     }

@@ -8,6 +8,7 @@ import artistReducer from './artist';
 import albumReducer from './album';
 import playlistsReducer from './playlists';
 import playlistReducer from './playlist';
+import addControlReducer from './addControl';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   artist: artistReducer,
   album: albumReducer,
   playlists: playlistsReducer,
-  playlist: playlistReducer
+  playlist: playlistReducer,
+  addControl: addControlReducer
 });

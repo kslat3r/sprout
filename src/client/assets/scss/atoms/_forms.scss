@@ -1,0 +1,7 @@
+form {
+  input:focus,
+  select:focus {
+    box-shadow: none !important;
+    border-color: #333 !important;
+  }
+}

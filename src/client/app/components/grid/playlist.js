@@ -5,8 +5,15 @@ export default class Playlist extends Component {
   render() {
     var imgSrc = '/images/thumbnail-placeholder.png';
 
-    if (this.props.data.images[this.props.data.images.length - 2] && this.props.data.images[this.props.data.images.length - 2].url) {
-      imgSrc = this.props.data.images[this.props.data.images.length - 2].url;
+    if (this.props.data.images.length > 1) {
+      if (this.props.data.images[this.props.data.images.length - 2] && this.props.data.images[this.props.data.images.length - 2].url) {
+        imgSrc = this.props.data.images[this.props.data.images.length - 2].url;
+      }
+    }
+    else {
+      if (this.props.data.images[0] && this.props.data.images[0].url) {
+        imgSrc = this.props.data.images[0].url;
+      }
     }
 
     return (

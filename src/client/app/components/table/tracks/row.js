@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Preview from '../../player/preview';
-import Add from '../../player/add';
+import Add from '../../set/add';
 import ArtistLink from '../../link/artist';
 import AlbumLink from '../../link/album';
 
@@ -11,7 +11,7 @@ export default class TrackRow extends Component {
     var columns = this.props.columns.map(function(column, i) {
       if (column === 'add') {
         return (
-          <td key={i}>
+          <td key={i} className="add">
             <Add track={this.props.track} />
           </td>
         );
@@ -19,7 +19,7 @@ export default class TrackRow extends Component {
 
       if (column === 'preview') {
         return (
-          <td key={i}>
+          <td key={i} className="preview">
             <Preview track={this.props.track} />
           </td>
         );

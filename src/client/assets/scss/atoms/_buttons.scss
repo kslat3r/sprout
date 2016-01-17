@@ -1,8 +1,9 @@
-.paging {
-  button {
+button {
+  &.btn-primary {
     background-color: #FFCB05;
     color: #333;
     border: 0;
+    padding: 8px 12px;
 
     &:hover {
       background-color: #E5B604;
@@ -12,6 +13,8 @@
     &:active,
     &:focus,
     &:active:focus {
+      background-color: #FFCB05;
+      color: #333;
       outline: 0;
       border: 0;
       outline-offset: 0;
