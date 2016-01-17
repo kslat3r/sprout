@@ -7,13 +7,22 @@ import * as TrackActions from '../../actions/track';
 class AddControl extends Component {
   constructor() {
     this.state = {
-      existingSet: null,
+      existingSetId: 0,
       newSetName: ''
     };
 
+    this.setExistingSetId = this.setExistingSetId.bind(this);
     this.setNewSetName = this.setNewSetName.bind(this);
     this.addToExistingSet = this.addToExistingSet.bind(this);
     this.addToNewSet = this.addToNewSet.bind(this);
+  }
+
+  setExistingSetId(e) {
+    if (e.target.value !== '0') {
+      this.setState({
+        existingSetId: e.target.value
+      });
+    }
   }
 
   setNewSetName(e) {
@@ -28,7 +37,7 @@ class AddControl extends Component {
     if (this.state.existingSet !== null) {
       this.props.trackActions.addToExistingSet({
         track: this.props.track,
-        set: this.state.existingSet
+        id: this.state.existingSetId
       });
 
       this.props.addControlActions.reset();
@@ -59,8 +68,8 @@ class AddControl extends Component {
       var addToExistingForm = (
         <form className="form-inline">
           <div className="form-group">
-            <select className="form-control">
-              <option disabled selected>Add to an existing set</option>
+            <select className="form-control" defaultValue={0} onChange={this.setExistingSetId}>
+              <option disabled value={0}>Add to an existing set</option>
               {options}
             </select>
           </div>
