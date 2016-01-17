@@ -9,7 +9,7 @@ files.forEach((file) => {
     fileName = file.replace(/\.js/, '');
 
     if (required[fileName] === undefined) {
-      required[fileName] = require('./' + fileName)();
+      required[fileName] = require('./' + fileName);
     }
   }
 });

@@ -41,7 +41,7 @@ class AddControl extends Component {
     if (this.state.newSetName !== '') {
       this.props.setActions.addToNewSet({
         track: this.props.track,
-        setName: this.state.newSetName
+        name: this.state.newSetName
       });
 
       this.props.addControlActions.reset();
