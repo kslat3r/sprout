@@ -1,17 +1,17 @@
 import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
-export const SET_REQUEST = 'SET_REQUEST';
-export const SET_FAILURE = 'SET_FAILURE';
-export const SET_SUCCESS = 'SET_SUCCESS';
+export const SETS_REQUEST = 'SETS_REQUEST';
+export const SETS_FAILURE = 'SETS_FAILURE';
+export const SETS_SUCCESS = 'SETS_SUCCESS';
 
-export function request(params) {
+export function request() {
   return function(dispatch, getState) {
     let state = getState();
 
-    dispatch({type: SET_REQUEST});
+    dispatch({type: SETS_REQUEST});
 
-    return fetch(state.config.apiUrl + '/set/' + params.id, state.config.fetch)
+    return fetch(state.config.apiUrl + '/sets', state.config.fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));
@@ -20,14 +20,14 @@ export function request(params) {
 
 export function failure(exception) {
   return {
-    type: SET_FAILURE,
+    type: SETS_FAILURE,
     exception
   };
 };
 
 export function success(response) {
   return {
-    type: SET_SUCCESS,
+    type: SETS_SUCCESS,
     response
   };
 };

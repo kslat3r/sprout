@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as AddControlActions from '../../actions/addControl';
-import * as SetActions from '../../actions/set';
+import * as TrackActions from '../../actions/track';
 
 class AddControl extends Component {
   constructor() {
@@ -26,7 +26,7 @@ class AddControl extends Component {
     e.preventDefault();
 
     if (this.state.existingSet !== null) {
-      this.props.setActions.addToExistingSet({
+      this.props.trackActions.addToExistingSet({
         track: this.props.track,
         set: this.state.existingSet
       });
@@ -39,7 +39,7 @@ class AddControl extends Component {
     e.preventDefault();
 
     if (this.state.newSetName !== '') {
-      this.props.setActions.addToNewSet({
+      this.props.trackActions.addToNewSet({
         track: this.props.track,
         name: this.state.newSetName
       });
@@ -49,16 +49,29 @@ class AddControl extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
+    var addToExistingForm
+
+    if (this.props.sets.results.length) {
+      var options = this.props.sets.results.map(function(set, i) {
+        return <option value={set._id} key={i}>{set.name}</option>;
+      });
+
+      var addToExistingForm = (
         <form className="form-inline">
           <div className="form-group">
             <select className="form-control">
-              <option disabled>Add to an existing set</option>
+              <option disabled selected>Add to an existing set</option>
+              {options}
             </select>
           </div>
           <button type="submit" className="btn btn-primary" onClick={this.addToExistingSet}>OK</button>
         </form>
+      );
+    }
+
+    return (
+      <div className="container">
+        {addToExistingForm}
         <form className="form-inline">
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Add to a new set" value={this.state.newSetName} onChange={this.setNewSetName} />
@@ -66,7 +79,7 @@ class AddControl extends Component {
           <button type="submit" className="btn btn-primary" onClick={this.addToNewSet}>OK</button>
         </form>
       </div>
-    )
+    );
   }
 };
 
@@ -75,10 +88,12 @@ AddControl.propTypes = {
 };
 
 export default connect(function(state) {
-  return {};
+  return {
+    sets: state.sets
+  };
 }, function(dispatch) {
   return {
     addControlActions: bindActionCreators(AddControlActions, dispatch),
-    setActions: bindActionCreators(SetActions, dispatch)
+    trackActions: bindActionCreators(TrackActions, dispatch)
   };
 })(AddControl);

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var setSchema = mongoose.Schema({
   name: String,
   tracks: Array,
-  samples: Object
+  spotifyProfileId: String
 });
 
 module.exports = mongoose.model('Set', setSchema);
