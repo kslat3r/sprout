@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as AddControlActions from '../../actions/addControl';
+import * as SetActions from '../../actions/set';
 
 class AddControl extends Component {
   constructor() {
     this.state = {
-      existingSetId: null,
+      existingSet: null,
       newSetName: ''
     };
 
@@ -24,7 +25,12 @@ class AddControl extends Component {
   addToExistingSet(e) {
     e.preventDefault();
 
-    if (this.state.existingSetId.id !== null) {
+    if (this.state.existingSet !== null) {
+      this.props.setActions.addToExistingSet({
+        track: this.props.track,
+        set: this.state.existingSet
+      });
+
       this.props.addControlActions.reset();
     }
   }
@@ -33,6 +39,11 @@ class AddControl extends Component {
     e.preventDefault();
 
     if (this.state.newSetName !== '') {
+      this.props.setActions.addToNewSet({
+        track: this.props.track,
+        setName: this.state.newSetName
+      });
+
       this.props.addControlActions.reset();
     }
   }
@@ -67,6 +78,7 @@ export default connect(function(state) {
   return {};
 }, function(dispatch) {
   return {
-    addControlActions: bindActionCreators(AddControlActions, dispatch)
+    addControlActions: bindActionCreators(AddControlActions, dispatch),
+    setActions: bindActionCreators(SetActions, dispatch)
   };
 })(AddControl);
