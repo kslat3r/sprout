@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import Preview from '../player/preview';
-import AlbumLink from '../link/album';
+import Preview from '../../player/preview';
 
 export default class SetTrack extends Component {
   render() {

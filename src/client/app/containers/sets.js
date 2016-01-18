@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetsActions from '../actions/sets';
-import SetRow from '../components/set/row';
+import SetRow from '../components/set/list/row';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Sets extends Component {

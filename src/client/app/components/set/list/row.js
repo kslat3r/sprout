@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import SetLink from '../link/set';
+import SetLink from '../../link/set';
 import SetTrack from './track';
 
 export default class SetRow extends Component {
