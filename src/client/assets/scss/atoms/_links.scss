@@ -6,7 +6,7 @@ a:active {
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
@@ -25,5 +25,20 @@ a:active {
     h6 {
       color: #333333;
     }
+  }
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #FFCB05;
+    text-decoration: none;
   }
 }

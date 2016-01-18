@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetsActions from '../actions/sets';
+import SetRow from '../components/set/row';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Sets extends Component {
@@ -22,7 +23,7 @@ class Sets extends Component {
       return (
         <div className="row">
           <div className="col-xs-12">
-            {this.props.playlists.exception.message}
+            {this.props.sets.exception.message}
           </div>
         </div>
       );
@@ -38,8 +39,11 @@ class Sets extends Component {
       return (
         <div>
           <div className="row">
-            <h2>Sets</h2>
+            <h1>Sets</h1>
           </div>
+          {sets.map((set, i) => {
+            return <SetRow set={set} key={i} />;
+          })}
         </div>
       );
     }

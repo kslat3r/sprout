@@ -23,7 +23,7 @@ export function addToExistingSet(params) {
 
     dispatch({type: TRACK_REQUEST});
 
-    var fetchParams = _.extend(state.config.fetch, getPOSTParams(), {
+    var fetchParams = _.extend(_.clone(state.config.fetch), getPOSTParams(), {
       body: JSON.stringify({
         track: params.track
       })

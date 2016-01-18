@@ -27,7 +27,7 @@ class Preview extends Component {
     if (this.props.track.preview_url) {
       if (this.props.player.track.id === this.props.track.id) {
         return (
-          <span>
+          <span className="preview stop">
             <a href="#" onClick={this.stop}>
               <i className="fa fa-stop" />
             </a>
@@ -37,7 +37,7 @@ class Preview extends Component {
       }
 
       return (
-        <span>
+        <span className="preview play">
           <a href="#" onClick={this.play}>
             <i className="fa fa-play" />
           </a>

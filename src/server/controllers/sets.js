@@ -1,3 +1,4 @@
+var co = require('co');
 var wrap = require('co-express');
 var mongoose = require('mongoose');
 var Set = mongoose.model('Set');
@@ -5,13 +6,20 @@ var Set = mongoose.model('Set');
 module.exports = {
   index: wrap(function* (req, res) {
     try {
-      Set.find({spotifyProfileId: req.user.profile.id}, function(err, FoundSets) {
-        if (err) {
-          return res.status(404).send({});
-        }
+      var FoundSets = yield Set.find({spotifyProfileId: req.user.profile.id});
+      var promises = [];
 
-        res.send(FoundSets);
+      FoundSets.forEach(function(Set) {
+        promises.push(req.spotify.getTracks(Set.tracks));
       });
+
+      var results = yield promises;
+
+      results.forEach(function(result, i) {
+        FoundSets[i].tracks = result.body.tracks;
+      });
+
+      res.send(FoundSets);
     }
     catch (e) {
       res.status(404).send({});
@@ -20,13 +28,12 @@ module.exports = {
 
   getById: wrap(function* (req, res) {
     try {
-      Set.findById(req.params.id, function(err, FoundSet) {
-        if (err) {
-          return res.status(404).send({});
-        }
+      var FoundSet = yield Set.findById(req.params.id);
+      var tracks = yield req.spotify.getTracks(FoundSet.tracks);
 
-        res.send(FoundSet);
-      });
+      FoundSet.tracks = tracks.body.tracks;
+
+      res.send(FoundSet);
     }
     catch (e) {
       res.status(404).send({});
@@ -46,13 +53,9 @@ module.exports = {
         obj.tracks.push(req.body.track.id);
       }
 
-      Set.create(obj, function(err, NewSet) {
-        if (err) {
-          return res.status(500).send({});
-        }
+      var NewSet = yield Set.create(obj);
 
-        res.send(NewSet);
-      });
+      res.send(NewSet);
     }
     catch (e) {
       res.status(500).send({});
@@ -61,18 +64,14 @@ module.exports = {
 
   addTrackToSet: wrap(function* (req, res) {
     try {
-      Set.findById(req.params.id, function(err, FoundSet) {
-        if (err) {
-          return res.status(500).send({});
-        }
+      var FoundSet = yield Set.findById(req.params.id);
 
-        if (FoundSet.tracks.indexOf(req.body.track.id) === -1) {
-          FoundSet.tracks.push(req.body.track.id);
-          FoundSet.save();
-        }
+      if (FoundSet.tracks.indexOf(req.body.track.id) === -1) {
+        FoundSet.tracks.push(req.body.track.id);
+        FoundSet.save();
+      }
 
-        res.send(FoundSet);
-      });
+      res.send(FoundSet);
     }
     catch (e) {
       res.status(500).send({});
