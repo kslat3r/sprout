@@ -11,12 +11,12 @@ module.exports = function(opts) {
       gulp.start('styles')
     });
 
-    watch(opts.scripts.buildDir + '/' + opts.scripts.buildFile, function() {
+    /*watch(opts.scripts.buildDir + '/' + opts.scripts.buildFile, function() {
       opts.browserSync.reload();
-    });
+    });*/
 
-    watch(opts.styles.buildDir + '/' + opts.styles.buildFile, function() {
+    /*watch(opts.styles.buildDir + '/' + opts.styles.buildFile, function() {
       opts.browserSync.reload();
-    });
+    });*/
   });
 };

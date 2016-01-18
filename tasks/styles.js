@@ -7,14 +7,16 @@ module.exports = function(opts) {
     var sassOpts = {
       includePaths: [
         opts.vendorDir + '/bootstrap-sass/assets/stylesheets',
-        opts.vendorDir + '/font-awesome/scss',
-        './node_modules/gemini-scrollbar/'
+        opts.vendorDir + '/font-awesome/scss'
       ]
     };
 
     gulp.src(opts.styles.srcFile)
       .pipe(plumber())
       .pipe(sass(sassOpts))
-      .pipe(gulp.dest(opts.styles.buildDir));
+      .pipe(gulp.dest(opts.styles.buildDir))
+      .pipe(opts.browserSync.reload({
+        stream: true
+      }));
   });
 }

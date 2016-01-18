@@ -12,6 +12,7 @@
     "cors": "^2.7.1",
     "express": "^4.12.2",
     "express-session": "^1.12.1",
+    "gulp-concat": "^2.6.0",
     "history": "^1.17.0",
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",

@@ -28,6 +28,15 @@ var opts = {
     buildFile: 'app.js',
   },
 
+  vendor: {
+    srcFile: [
+      __dirname + '/src/client/vendor/jquery/dist/jquery.min.js',
+      __dirname + '/src/client/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+    ],
+    buildDir: __dirname + '/build/js',
+    buildFile: 'vendor.js'
+  },
+
   styles: {
     srcFile: __dirname + '/src/client/assets/scss/screen.scss',
     buildDir: __dirname + '/build/css',
@@ -77,5 +86,9 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', ['scripts', 'styles', 'fonts', 'images', 'html'], 'watch', 'serve:client');
+  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'images', 'html'], 'serve:client');
+});
+
+gulp.on('err', function(err) {
+  console.log(err);
 });
