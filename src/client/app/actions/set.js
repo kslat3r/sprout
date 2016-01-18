@@ -11,7 +11,7 @@ export function request(params) {
 
     dispatch({type: SET_REQUEST});
 
-    return fetch(state.config.apiUrl + '/set/' + params.id, state.config.fetch)
+    return fetch(state.config.apiUrl + '/sets/' + params.id, state.config.fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));

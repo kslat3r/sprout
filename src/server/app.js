@@ -52,7 +52,9 @@ app.set('port', nconf.get('PORT') || 5000);
 //middleware
 
 app.use(cors({
-  origin: nconf.get('clientUrl'),
+  origin: function(origin, callback){
+    callback(null, nconf.get('clientUrls').indexOf(origin) !== -1);
+  },
   credentials: true
 }));
 

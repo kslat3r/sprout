@@ -7,6 +7,8 @@ import Artist from './containers/artist';
 import Album from './containers/album';
 import Playlists from './containers/playlists';
 import Playlist from './containers/playlist';
+import Sets from './containers/sets';
+import Set from './containers/set';
 
 export default (
   <Router>
@@ -17,5 +19,7 @@ export default (
     <Route name="album" path="/albums/:id" component={Album} />
     <Route name="playlists" path="/playlists" component={Playlists} />
     <Route name="playlist" path="/playlists/:id" component={Playlist} />
+    <Route name="sets" path="/sets" component={Sets} />
+    <Route name="set" path="/sets/:id" component={Set} />
   </Router>
 );

@@ -1,5 +1,8 @@
 {
-  "clientUrl": "http://localhost:3000",
+  "clientUrls": [
+    "http://localhost:3000",
+    "http://localhost:3002"
+  ],
   "apiUrl": "http://localhost:5000/api",
   "dbUrl": "mongodb://localhost/sprout",
 

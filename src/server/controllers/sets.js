@@ -7,11 +7,11 @@ module.exports = {
     try {
       Set.find({spotifyProfileId: req.user.profile.id}, function(err, FoundSets) {
         if (err) {
-          throw err;
+          return res.status(404).send({});
         }
 
         res.send(FoundSets);
-      })
+      });
     }
     catch (e) {
       res.status(404).send({});
@@ -22,7 +22,7 @@ module.exports = {
     try {
       Set.findById(req.params.id, function(err, FoundSet) {
         if (err) {
-          throw err;
+          return res.status(404).send({});
         }
 
         res.send(FoundSet);
@@ -48,7 +48,7 @@ module.exports = {
 
       Set.create(obj, function(err, NewSet) {
         if (err) {
-          throw err;
+          return res.status(500).send({});
         }
 
         res.send(NewSet);
@@ -62,6 +62,10 @@ module.exports = {
   addTrackToSet: wrap(function* (req, res) {
     try {
       Set.findById(req.params.id, function(err, FoundSet) {
+        if (err) {
+          return res.status(500).send({});
+        }
+
         if (FoundSet.tracks.indexOf(req.body.track.id) === -1) {
           FoundSet.tracks.push(req.body.track.id);
           FoundSet.save();
