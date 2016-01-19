@@ -16,7 +16,7 @@ module.exports = function(opts) {
       .transform(babelify)
       .bundle()
       .on('error', function(err) {
-        console.log(err);
+        console.log(err.message);
         this.emit('end');
       })
       .pipe(source(opts.scripts.buildFile))

@@ -44,7 +44,7 @@ class Set extends Component {
       return (
         <div>
           <div className="row">
-            <h2>Set</h2>
+            <h2>{this.props.set.name}</h2>
           </div>
         </div>
       );

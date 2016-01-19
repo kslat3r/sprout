@@ -9,8 +9,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case PlayerActionCreators.PLAYER_STOP:
       return Object.assign({}, state, {
-        isPlaying: false,
-        track: initialState.track
+        isPlaying: false
       });
 
     case PlayerActionCreators.PLAYER_PLAY:

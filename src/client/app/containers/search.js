@@ -8,19 +8,12 @@ import * as SearchActions from '../actions/search';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Search extends Component {
-  constructor() {
-    this.submit = this.submit.bind(this);
-    this.searchChange = this.searchChange.bind(this);
-  }
-
   componentWillMount() {
     this.artistsPaging = this.props.searchActions.paging.bind(this);
     this.albumsPaging = this.props.searchActions.paging.bind(this);
     this.tracksPaging = this.props.searchActions.paging.bind(this);
-  }
 
-  componentDidMount() {
-    if (this.props.router.location.query.term && this.props.search.results.length === 0) {
+    if (this.props.router.location.query.term) {
       this.props.searchActions.update({
         term: this.props.router.location.query.term
       });
@@ -29,16 +22,8 @@ class Search extends Component {
     }
   }
 
-  searchChange(e) {
-    this.props.searchActions.update({
-      term: e.target.value
-    });
-  }
-
-  submit(e) {
-    e.preventDefault();
-
-    if (this.props.search.term !== '') {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.search.term !== nextProps.search.term) {
       this.props.searchActions.request();
     }
   }
@@ -77,16 +62,10 @@ class Search extends Component {
     return (
       <div>
         <div className="row">
-          <h1>Search</h1>
+          <h1>Search for "{this.props.search.term}"</h1>
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <form className="form-inline" onSubmit={this.submit}>
-              <div className="form-group">
-                <input type="text" className="form-control" value={this.props.search.term} placeholder="Search for an album/artist/track" onChange={this.searchChange} />
-              </div>
-              <button type="submit" className="btn btn-success">Search</button>
-            </form>
             {this.requesting()}
             {this.errored()}
             <div className="row">

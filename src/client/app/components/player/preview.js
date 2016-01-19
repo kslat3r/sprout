@@ -25,7 +25,7 @@ class Preview extends Component {
 
   render() {
     if (this.props.track.preview_url) {
-      if (this.props.player.track.id === this.props.track.id) {
+      if (this.props.player.track.id === this.props.track.id && this.props.player.isPlaying) {
         return (
           <span className="preview stop">
             <a href="#" onClick={this.stop}>

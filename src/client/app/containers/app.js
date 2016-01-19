@@ -9,8 +9,8 @@ export default class App extends Component {
     var playerBar;
 
     if (this.props.user) {
-      header = <Header />;
-      playerBar = <PlayerBar />;
+      header = <Header {...this.props} {...this.state} />;
+      playerBar = <PlayerBar {...this.props} {...this.state} />;
     }
 
     return (
