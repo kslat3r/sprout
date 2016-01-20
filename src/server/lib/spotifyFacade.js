@@ -22,14 +22,14 @@ var SpotifyFacade = function(args) {
     }, {
       upsert: true
     }, function() {
-      logger.log('debug', 'CACHE: Saved ' + cacheKey);
+      logger.info('debug', 'CACHE: Saved ' + cacheKey);
       return resolve(resp);
     });
   };
 
   this.apiResponse = function(cacheKey, apiPromise, resolve, reject) {
     apiPromise.then(function(resp) {
-      logger.log('debug', 'API: Serving ' + cacheKey);
+      logger.info('debug', 'API: Serving ' + cacheKey);
       this.cache(cacheKey, resp, resolve);
     }.bind(this), function(err) {
       return reject(err);
@@ -45,11 +45,11 @@ var SpotifyFacade = function(args) {
       if (FoundCache) {
         apiPromise = undefined;
 
-        logger.log('debug', 'CACHE: Serving ' + cacheKey);
+        logger.info('debug', 'CACHE: Serving ' + cacheKey);
         return resolve(FoundCache.get('data'));
       }
 
-      logger.log('debug', 'CACHE: Could not find ' + cacheKey);
+      logger.info('debug', 'CACHE: Could not find ' + cacheKey);
       return this.apiResponse(cacheKey, apiPromise, resolve, reject);
     }.bind(this));
   };
@@ -64,11 +64,11 @@ var SpotifyFacade = function(args) {
 
         if (apiPromise) {
           if (!nconf.get('cache')) {
-            logger.log('debug', 'API: Attempting to serve ' + cacheKey);
+            logger.info('debug', 'API: Attempting to serve ' + cacheKey);
             return this.apiResponse(cacheKey, apiPromise, resolve, reject);
           }
           else {
-            logger.log('debug', 'CACHE: Attempting to serve ' + cacheKey);
+            logger.info('debug', 'CACHE: Attempting to serve ' + cacheKey);
             return this.cacheResponse(cacheKey, apiPromise, resolve, reject);
           }
         }

@@ -2,56 +2,46 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as PlayerActions from '../../actions/player';
+import Wavesurfer from 'react-wavesurfer';
 
 class PlayerBar extends Component {
   constructor() {
-    this.play = this.play.bind(this);
-    this.stop = this.stop.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.handleTogglePlay = this.handleTogglePlay.bind(this);
+    this.handlePositionChange = this.handlePositionChange.bind(this);
   }
 
-  play(e) {
-    e.preventDefault();
-
-    this.props.playerActions.play(this.props.player.track);
+  onReady(args) {
+    args.wavesurfer.play();
   }
 
-  stop(e) {
-    if (e) {
-      e.preventDefault();
-    }
+  handleTogglePlay() {
 
-    this.props.playerActions.stop();
+  }
+
+  handlePositionChange() {
+
   }
 
   render() {
-    var content;
-
     if (this.props.player.isPlaying) {
-      content = (
-        <span className="preview stop">
-          <a href="#" onClick={this.stop}>
-            <i className="fa fa-stop" />
-          </a>
-        </span>
-      );
-    }
-    else {
-      content = (
-        <span className="preview play">
-          <a href="#" onClick={this.play}>
-            <i className="fa fa-play" />
-          </a>
-        </span>
+      var waveOptions = {
+        height: 100,
+        progressColor: '#333',
+        waveColor: '#999',
+        normalize: true
+      };
+
+      return (
+        <nav className="navbar navbar-default navbar-fixed-bottom">
+          <div className="container-fluid">
+            <Wavesurfer audioFile={this.props.player.track.preview_url} playing={this.props.player.track.isPlaying} options={waveOptions} onReady={this.onReady} />
+          </div>
+        </nav>
       );
     }
 
-    return (
-      <nav className="navbar navbar-default navbar-fixed-bottom">
-        <div className="container-fluid">
-          {content}
-        </div>
-      </nav>
-    );
+    return false;
   }
 };
 

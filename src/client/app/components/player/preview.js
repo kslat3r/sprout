@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as PlayerActions from '../../actions/player';
-import Sound from 'react-sound';
 
 class Preview extends Component {
   constructor() {
@@ -31,7 +30,6 @@ class Preview extends Component {
             <a href="#" onClick={this.stop}>
               <i className="fa fa-stop" />
             </a>
-            <Sound url={this.props.player.track.preview_url} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stop} />
           </span>
         );
       }

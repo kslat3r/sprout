@@ -1,6 +1,6 @@
 {
   "logLevel": "debug",
-  "cache": false,
+  "cache": true,
 
   "clientUrls": [
     "http://localhost:3000",
@@ -20,7 +20,7 @@
     "clientSecret": "0751c91f081f4972bd177350c2694832",
     "callbackURL": "http://localhost:5000/api/auth/callback",
     "urls": {
-      "successRedirect": "http://localhost:3000/dashboard",
+      "successRedirect": "http://localhost:3000/sets",
       "failureRedirect": "http://localhost:3000/"
     },
     "scope": ["streaming", "user-follow-read", "user-library-read"]

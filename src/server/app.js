@@ -1,8 +1,9 @@
 //lib
 
-var logger = require('morgan');
 var path = require('path');
 var nconf = require('nconf');
+var winston = require('winston');
+var expressWinston = require('express-winston');
 
 var express = require('express');
 var session = require('express-session');
@@ -62,7 +63,16 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(logger('dev'));
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console({
+      colorize: true
+    })
+  ],
+  meta: false,
+  msg: "HTTP: {{req.method}} {{req.url}} {{res.statusCode}}"
+}));
+
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({

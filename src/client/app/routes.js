@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Router, Route, IndexRoute } from 'react-router';
 import App from './containers/app';
 import Home from './containers/home';
-import Dashboard from './containers/dashboard';
 import Search from './containers/search';
 import Artists from './containers/artists';
 import Artist from './containers/artist';
@@ -18,7 +17,6 @@ export default (
   <Router>
     <Route name="app" path="/" component={App}>
       <IndexRoute name="home" component={Home} />
-      <Route name="dashboard" path="dashboard" component={Dashboard} />
       <Route name="search" path="search" component={Search} />
       <Route name="artists" path="artists" component={Artists} />
       <Route name="artist" path="artists/:id" component={Artist} />

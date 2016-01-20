@@ -5,7 +5,7 @@ export default function(SubComponent) {
   class RedirectIfAuthorised extends Component {
     componentWillMount() {
       if (this.props.user) {
-        this.props.history.replaceState(null, '/dashboard');
+        this.props.history.replaceState(null, '/sets');
       }
     }
 

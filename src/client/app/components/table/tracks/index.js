@@ -27,21 +27,23 @@ class TracksTable extends Component {
       return (
         <div>
           <h2>{this.props.title}</h2>
-          <div className="table-responsive">
-            <table className="table tracks">
-              <thead>
-                <tr>
-                  <th className="add"></th>
-                  <th className="preview"></th>
-                  <th>Song</th>
-                  <th>Artist</th>
-                  <th>Album</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows}
-              </tbody>
-            </table>
+          <div className="col-xs-12">
+            <div className="table-responsive">
+              <table className="table tracks">
+                <thead>
+                  <tr>
+                    <th className="add"></th>
+                    <th className="preview"></th>
+                    <th>Song</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       );
