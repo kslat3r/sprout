@@ -22,7 +22,7 @@ var SpotifyFacade = function(args) {
     }, {
       upsert: true
     }, function() {
-      logger.log('debug', 'CACHE: Updated ' + cacheKey);
+      logger.log('debug', 'CACHE: Saved ' + cacheKey);
       return resolve(resp);
     });
   };

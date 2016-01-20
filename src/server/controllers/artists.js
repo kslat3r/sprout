@@ -3,11 +3,26 @@ var wrap = require('co-express');
 module.exports = {
   index: wrap(function* (req, res) {
     try {
-      var result = yield req.spotify.getFollowedArtists({});
+      var params = {};
+
+      if (req.query.cursor) {
+        params.after = req.query.cursor;
+      }
+
+      var result = yield req.spotify.getFollowedArtists(params);
+
+      result.body.artists.items = result.body.artists.items.filter(function(artist, i) {
+        if (artist === null) {
+          return false;
+        }
+
+        return true;
+      });
 
       res.send(result.body);
     }
     catch (e) {
+      console.log(e);
       res.status(404).send({});
     }
   }),

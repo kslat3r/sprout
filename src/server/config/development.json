@@ -1,6 +1,6 @@
 {
   "logLevel": "debug",
-  "cache": true,
+  "cache": false,
 
   "clientUrls": [
     "http://localhost:3000",

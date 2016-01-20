@@ -5,12 +5,15 @@ import authReducer from './auth';
 import searchReducer from './search';
 import playerReducer from './player';
 import artistReducer from './artist';
+import artistsReducer from './artists';
 import albumReducer from './album';
+import albumsReducer from './albums';
 import playlistsReducer from './playlists';
 import playlistReducer from './playlist';
 import addControlReducer from './addControl';
 import setsReducer from './sets';
 import setReducer from './set';
+import tracksReducer from './tracks';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -19,10 +22,13 @@ export default combineReducers({
   search: searchReducer,
   player: playerReducer,
   artist: artistReducer,
+  artists: artistsReducer,
   album: albumReducer,
+  albums: albumsReducer,
   playlists: playlistsReducer,
   playlist: playlistReducer,
   addControl: addControlReducer,
   sets: setsReducer,
-  set: setReducer
+  set: setReducer,
+  tracks: tracksReducer
 });

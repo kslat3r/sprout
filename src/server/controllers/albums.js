@@ -4,7 +4,14 @@ var wrap = require('co-express');
 module.exports = {
   index: wrap(function* (req, res) {
     try {
-      var result = yield req.spotify.getMySavedAlbums({});
+      var result = yield req.spotify.getMySavedAlbums({
+        limit: req.query.limit !== undefined ? req.query.limit : 20,
+        offset: req.query.offset !== undefined ? req.query.offset : 0
+      });
+
+      result.body.items.map(function(album, i) {
+        result.body.items[i] = album.album;
+      });
 
       res.send(result.body);
     }
