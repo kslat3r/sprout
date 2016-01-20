@@ -1,14 +1,16 @@
 var nconf = require('nconf');
-var Spotify = require('spotify-web-api-node');
+var SpotifyFacade = require('../lib/spotifyFacade');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var logger = require('winston');
 
 module.exports = function() {
   return function(req, res, next) {
     if (req.user) {
-      req.spotify = new Spotify({
+      req.spotify = new SpotifyFacade({
         clientId: nconf.get('spotify').clientID,
-        clientSecret: nconf.get('spotify').clientSecret
+        clientSecret: nconf.get('spotify').clientSecret,
+        spotifyProfileId: req.user.profile.id || null
       });
 
       req.spotify.setAccessToken(req.user.accessToken);
@@ -27,18 +29,20 @@ module.exports = function() {
 
               User.findOneAndUpdate({spotifyId: req.user.spotifyId}, {accessToken: data.body.access_token}, {}, function(err, FoundUser) {
                 if (err) {
-                  return console.log('Couldn\'t update user');
+                  return logger.log('debug', 'Couldn\'t update user');
                 }
 
-                console.log('Refreshed user\'s access token');
+                logger.log('debug', 'Refreshed user\'s access token');
 
                 req.spotify.setAccessToken(data.body.access_token);
                 next();
               });
             }, function(err) {
-              console.log('Could not refresh access token', err);
+              logger.log('debug', 'Could not refresh access token', err);
               next();
             });
+        }, function(err) {
+          logger.log(err);
         });
     }
     else {

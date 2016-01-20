@@ -22,6 +22,10 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var spotifyApi = require('./middleware/spotifyApi');
 
+//logger
+
+require('./lib/logger');
+
 //connect to mongo
 
 var connect = function() {
