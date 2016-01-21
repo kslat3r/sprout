@@ -23,6 +23,8 @@ class PlayerBar extends Component {
     this.setState({
       hasFinished: true
     });
+
+    this.props.playerActions.stop();
   }
 
   handlePosChange(args) {
