@@ -6,36 +6,48 @@ import Wavesurfer from 'react-wavesurfer';
 
 class PlayerBar extends Component {
   constructor() {
+    this.state = {
+      hasFinished: false
+    };
+
     this.onReady = this.onReady.bind(this);
-    this.handleTogglePlay = this.handleTogglePlay.bind(this);
-    this.handlePositionChange = this.handlePositionChange.bind(this);
+    this.onFinish = this.onFinish.bind(this);
+    this.handlePosChange = this.handlePosChange.bind(this);
   }
 
   onReady(args) {
     args.wavesurfer.play();
   }
 
-  handleTogglePlay() {
-
+  onFinish() {
+    this.setState({
+      hasFinished: true
+    });
   }
 
-  handlePositionChange() {
+  handlePosChange(args) {
+    if (this.state.hasFinished === true) {
+      args.wavesurfer.play();
 
+      this.setState({
+        hasFinished: false
+      });
+    }
   }
 
   render() {
     if (this.props.player.isPlaying) {
       var waveOptions = {
-        height: 100,
+        height: 50,
         progressColor: '#333',
         waveColor: '#999',
         normalize: true
       };
 
       return (
-        <nav className="navbar navbar-default navbar-fixed-bottom">
+        <nav className="navbar navbar-default navbar-fixed-bottom playbar">
           <div className="container-fluid">
-            <Wavesurfer audioFile={this.props.player.track.preview_url} playing={this.props.player.track.isPlaying} options={waveOptions} onReady={this.onReady} />
+            <Wavesurfer audioFile={this.props.player.track.preview_url} options={waveOptions} onReady={this.onReady} onFinish={this.onFinish} onPosChange={this.handlePosChange} playing={true} />
           </div>
         </nav>
       );

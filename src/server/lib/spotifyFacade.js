@@ -10,6 +10,16 @@ var Cache = mongoose.model('Cache');
 
 var SpotifyFacade = function(args) {
   this.api = new Spotify(args);
+  this.neverCached = [
+    'setAccessToken',
+    'setRefreshToken',
+    'getMe',
+    'refreshAccessToken',
+    'getAccessToken',
+    'getRefreshToken',
+    'getClientId',
+    'getClientSecret'
+  ];
 
   this.cache = function(cacheKey, resp, resolve) {
     Cache.findOneAndUpdate({
@@ -28,10 +38,13 @@ var SpotifyFacade = function(args) {
   };
 
   this.apiResponse = function(cacheKey, apiPromise, resolve, reject) {
+    console.log(cacheKey);
+
     apiPromise.then(function(resp) {
       logger.info('debug', 'API: Serving ' + cacheKey);
       this.cache(cacheKey, resp, resolve);
     }.bind(this), function(err) {
+      console.log(err);
       return reject(err);
     });
   };
@@ -43,8 +56,6 @@ var SpotifyFacade = function(args) {
       }
 
       if (FoundCache) {
-        apiPromise = undefined;
-
         logger.info('debug', 'CACHE: Serving ' + cacheKey);
         return resolve(FoundCache.get('data'));
       }
@@ -77,8 +88,11 @@ var SpotifyFacade = function(args) {
   };
 
   _.forEach(this.api, function(func, funcName) {
-    if (typeof(func) === 'function') {
+    if (typeof(func) === 'function' && this.neverCached.indexOf(funcName) === -1) {
       this[funcName] = this.execute(funcName);
+    }
+    else {
+      this[funcName] = this.api[funcName];
     }
   }.bind(this));
 };
