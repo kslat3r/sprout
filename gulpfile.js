@@ -31,7 +31,9 @@ var opts = {
   vendor: {
     srcFile: [
       __dirname + '/src/client/vendor/jquery/dist/jquery.min.js',
-      __dirname + '/src/client/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+      __dirname + '/src/client/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+      __dirname + '/src/client/vendor/wavesurfer.js/dist/wavesurfer.min.js',
+      __dirname + '/src/client/vendor/wavesurfer.js/dist/plugin/wavesurfer.regions.min.js'
     ],
     buildDir: __dirname + '/build/js',
     buildFile: 'vendor.js'

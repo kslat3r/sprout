@@ -11,14 +11,14 @@ var Cache = mongoose.model('Cache');
 var SpotifyFacade = function(args) {
   this.api = new Spotify(args);
   this.neverCached = [
-    'setAccessToken',
+    /*'setAccessToken',
     'setRefreshToken',
     'getMe',
     'refreshAccessToken',
     'getAccessToken',
     'getRefreshToken',
     'getClientId',
-    'getClientSecret'
+    'getClientSecret'*/
   ];
 
   this.cache = function(cacheKey, resp, resolve) {
@@ -38,8 +38,6 @@ var SpotifyFacade = function(args) {
   };
 
   this.apiResponse = function(cacheKey, apiPromise, resolve, reject) {
-    console.log(cacheKey);
-
     apiPromise.then(function(resp) {
       logger.info('debug', 'API: Serving ' + cacheKey);
       this.cache(cacheKey, resp, resolve);

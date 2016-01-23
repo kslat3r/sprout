@@ -5,7 +5,7 @@ import * as PlayerActions from '../../actions/player';
 class Preview extends Component {
   constructor() {
     this.play = this.play.bind(this);
-    this.stop = this.stop.bind(this);
+    this.pause = this.pause.bind(this);
   }
 
   play(e) {
@@ -14,21 +14,21 @@ class Preview extends Component {
     this.props.play(this.props.track);
   }
 
-  stop(e) {
+  pause(e) {
     if (e) {
       e.preventDefault();
     }
 
-    this.props.stop();
+    this.props.pause();
   }
 
   render() {
     if (this.props.track.preview_url) {
       if (this.props.player.track.id === this.props.track.id && this.props.player.isPlaying) {
         return (
-          <span className="preview stop">
-            <a href="#" onClick={this.stop}>
-              <i className="fa fa-stop" />
+          <span className="preview pause">
+            <a href="#" onClick={this.pause}>
+              <i className="fa fa-pause" />
             </a>
           </span>
         );
