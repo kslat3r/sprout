@@ -1,5 +1,37 @@
 .playbar {
   .container-fluid {
     padding: 0;
+
+    > * {
+      float: left;
+    }
+
+    .waveform {
+      width: 80%;
+    }
+
+    .controls {
+      width: 20%;
+
+      > span,
+      .add-control {
+        width: 25%;
+        text-align: center;
+        font-size: 2em;
+        display: block;
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+          color: #333;
+        }
+      }
+    }
   }
 }

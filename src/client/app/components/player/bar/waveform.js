@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as PlayerActions from '../../actions/player';
+import * as PlayerActions from '../../../actions/player';
 
-export default class Waveform extends Component {
+export default class PlayerBarWaveform extends Component {
   constructor() {
 
   }
@@ -72,12 +72,12 @@ export default class Waveform extends Component {
 
   render() {
     return (
-      <div ref="wavesurfer" />
+      <div ref="wavesurfer" className="waveform" />
     );
   }
 }
 
-Waveform.propTypes = {
+PlayerBarWaveform.propTypes = {
   track: PropTypes.object.isRequired
 };
 
@@ -89,4 +89,4 @@ export default connect(function(state) {
   return {
     playerActions: bindActionCreators(PlayerActions, dispatch)
   };
-})(Waveform);
+})(PlayerBarWaveform);
