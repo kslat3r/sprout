@@ -18,7 +18,7 @@ export default class PlayerBarWaveform extends Component {
     this.ws.init({
       container: this.refs.wavesurfer,
       height: 30,
-      progressColor: this.props.drag ? '#999' : '#555',
+      cursorColor: '#FFCB05'
     });
 
     this.ws.load(this.props.track.preview_url);

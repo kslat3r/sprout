@@ -52,7 +52,14 @@ export default class SetEditorSampler extends Component {
         f: 16000,
         type: 'highshelf'
       }],
-      filters: []
+      filters: [],
+      dragOptions: {
+        loop: false,
+        resize: true,
+        drag: true,
+        color: 'rgba(255, 203, 5, 0.4)'
+      },
+      region: null
     };
 
     if (WaveSurfer === undefined) {
@@ -67,25 +74,31 @@ export default class SetEditorSampler extends Component {
     this.rewind = this.rewind.bind(this);
     this.toggleLoop = this.toggleLoop.bind(this);
     this.toggleEQ = this.toggleEQ.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
   componentDidMount() {
     this.ws.init({
       container: this.refs.wavesurfer,
       height: 60,
-      progressColor: '#999'
+      progressColor: '#999',
+      cursorColor: '#FFCB05'
     });
 
-    this.ws.enableDragSelection({
-      loop: false,
-      resize: true,
-      drag: true
-    });
+    this.ws.enableDragSelection(this.state.dragOptions);
 
     this.ws.load(this.props.track.preview_url);
 
     this.ws.on('ready', () => {
       this.createFilters();
+    }.bind(this));
+
+    this.ws.on('finish', () => {
+      this.stop();
+
+      if (this.state.isLooped) {
+        this.play();
+      }
     }.bind(this));
 
     this.ws.on('region-created', (Region) => {
@@ -96,6 +109,17 @@ export default class SetEditorSampler extends Component {
       this.setState({
         region: Region
       });
+
+      Region.on('out', () => {
+        if (this.state.isLooped === true) {
+          this.play();
+        }
+        else {
+          this.stop();
+        }
+      }.bind(this));
+
+      this.stop();
     }.bind(this));
   }
 
@@ -129,7 +153,12 @@ export default class SetEditorSampler extends Component {
       isStopped: false
     });
 
-    this.ws.play();
+    if (this.state.region) {
+      this.ws.play(this.state.region.start);
+    }
+    else {
+      this.ws.play();
+    }
   }
 
   pause() {
@@ -150,13 +179,17 @@ export default class SetEditorSampler extends Component {
     });
 
     this.ws.stop();
+
+    if (this.state.region) {
+      this.ws.seekTo(this.state.region.start / this.ws.backend.buffer.duration);
+    }
   }
 
   rewind() {
-    this.ws.stop();
+    this.stop();
 
     if (this.state.isPlaying) {
-      this.ws.play();
+      this.play();
     }
   }
 
@@ -169,6 +202,16 @@ export default class SetEditorSampler extends Component {
   toggleEQ() {
     this.setState({
       showEQ: !this.state.showEQ
+    });
+  }
+
+  clear() {
+    if (this.state.region) {
+      this.state.region.remove();
+    }
+
+    this.setState({
+      region: null
     });
   }
 
@@ -257,6 +300,11 @@ export default class SetEditorSampler extends Component {
           <span className="stop">
             <a href="#" onClick={this.toggleEQ}>
               <i className="fa fa-bar-chart" />
+            </a>
+          </span>
+          <span className="clear">
+            <a href="#" onClick={this.clear}>
+              <i className="fa fa-eraser" />
             </a>
           </span>
         </div>
