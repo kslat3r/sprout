@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import Preview from '../../player/preview';
+import SetEditorWaveform from './sampler';
 
-export default class SetListTrack extends Component {
+export default class SetEditorTrack extends Component {
   render() {
     var track = this.props.track;
     var imageSrc = '/images/thumbnail-placeholder.png';
@@ -12,16 +12,15 @@ export default class SetListTrack extends Component {
     }
 
     return (
-      <div className="thumbnail track">
-        <div className="thumbnail-image">
-          <img src={imageSrc} />
+      <div className="row">
+        <div className="col-xs-12">
+          <SetEditorWaveform track={track} />
         </div>
-        <Preview track={track} />
       </div>
     );
   }
 };
 
-SetListTrack.propTypes = {
+SetEditorTrack.propTypes = {
   track: PropTypes.object.isRequired
 };

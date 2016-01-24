@@ -2,26 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 export default class ArtistLink extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      artists: []
-    };
+  render() {
+    var artists = [];
 
     if (this.props.artist) {
-      this.state.artists.push(this.props.artist);
+      artists.push(this.props.artist);
     }
     else if (this.props.artists) {
-      this.state.artists = this.props.artists;
+      artists = this.props.artists;
     }
-  }
 
-  render() {
-    var links = this.state.artists.map(function(artist, i) {
+    var links = artists.map(function(artist, i) {
       var seperator;
 
-      if (i < this.state.artists.length - 1) {
+      if (i < artists.length - 1) {
         seperator = <span>,&nbsp;</span>;
       }
 

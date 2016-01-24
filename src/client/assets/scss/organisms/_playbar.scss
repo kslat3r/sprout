@@ -8,6 +8,7 @@
 
     .waveform {
       width: 80%;
+      cursor: text;
     }
 
     .controls {
@@ -29,8 +30,24 @@
         a:visited,
         a:hover,
         a:active {
-          color: #333;
+          color: #555;
         }
+      }
+    }
+
+    .track-info {
+      width: 80%;
+      text-align: center;
+      height: 20px;
+      margin-top: -20px;
+      color: #999;
+      font-size: 0.9em;
+
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        color: #999;
       }
     }
   }

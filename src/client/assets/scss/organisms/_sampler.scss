@@ -1,0 +1,14 @@
+.sampler {
+  .eq {
+    .filter {
+      width: 10%;
+
+      input {
+        height: 150px;
+        -webkit-appearance: slider-vertical;
+        -moz-appearance: slider-vertical;
+        appearance: slider-vertical;
+      }
+    }
+  }
+}

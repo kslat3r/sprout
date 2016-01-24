@@ -14,7 +14,8 @@ class Add extends Component {
 
     if (this.props.addControl.track.id !== this.props.track.id) {
       this.props.addControlActions.open({
-        track: this.props.track
+        track: this.props.track,
+        context: this.props.context
       });
     }
     else {
@@ -26,7 +27,7 @@ class Add extends Component {
     var addControl;
     var className;
 
-    if (this.props.addControl.track.id === this.props.track.id) {
+    if (this.props.addControl.track.id === this.props.track.id && this.props.context === this.props.addControl.context) {
       addControl = <AddControl track={this.props.track} />
       className = 'open';
     }
@@ -43,7 +44,8 @@ class Add extends Component {
 };
 
 Add.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  context: PropTypes.string.isRequired
 };
 
 export default connect(function(state) {

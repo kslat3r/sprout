@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import SetLink from '../../link/set';
 import SetTrack from './track';
 
-export default class SetRow extends Component {
+export default class SetListRow extends Component {
   render() {
     var itemWidth = 160;
     var innerStyle = {
@@ -29,6 +29,6 @@ export default class SetRow extends Component {
   }
 };
 
-SetRow.propTypes = {
+SetListRow.propTypes = {
   set: PropTypes.object.isRequired
 };

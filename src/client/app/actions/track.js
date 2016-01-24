@@ -32,6 +32,7 @@ export function addToExistingSet(params) {
     return fetch(state.config.apiUrl + '/sets/' + params.id, fetchParams)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
+      .then(() => dispatch(SetsActions.request()))
       .catch(exception => dispatch(failure(exception)));
   };
 };

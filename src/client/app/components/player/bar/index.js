@@ -4,26 +4,38 @@ import { bindActionCreators } from 'redux';
 import * as PlayerActions from '../../../actions/player';
 import Waveform from './waveform';
 import Add from '../../set/add';
+import ArtistLink from '../../link/artist';
 
 class PlayerBar extends Component {
   constructor() {
-
+    this.rewind = this.rewind.bind(this);
+    this.pause = this.pause.bind(this);
+    this.play = this.play.bind(this);
+    this.stop = this.stop.bind(this);
   }
 
-  rewind() {
+  rewind(e) {
+    e.preventDefault();
 
+    this.props.playerActions.rewind();
   }
 
-  pause() {
+  pause(e) {
+    e.preventDefault();
 
+    this.props.playerActions.pause();
   }
 
-  play() {
+  play(e) {
+    e.preventDefault();
 
+    this.props.playerActions.play(this.props.player.track);
   }
 
-  stop() {
+  stop(e) {
+    e.preventDefault();
 
+    this.props.playerActions.stop();
   }
 
   render() {
@@ -56,7 +68,7 @@ class PlayerBar extends Component {
             <div className="controls">
               <span className="rewind">
                 <a href="#" onClick={this.rewind}>
-                  <i className="fa fa-fast-backward" />
+                  <i className="fa fa-backward" />
                 </a>
               </span>
               {pauseOrPlay}
@@ -65,7 +77,14 @@ class PlayerBar extends Component {
                   <i className="fa fa-stop" />
                 </a>
               </span>
-              <Add track={this.props.player.track} />
+              <Add track={this.props.player.track} context="bar" />
+            </div>
+            <div className="track-info">
+              <span>
+                {this.props.player.track.name}
+              </span>
+              <span>&nbsp;-&nbsp;</span>
+              <ArtistLink artists={this.props.player.track.artists} />
             </div>
           </div>
         </nav>

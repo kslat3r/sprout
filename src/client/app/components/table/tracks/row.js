@@ -12,7 +12,7 @@ export default class TrackRow extends Component {
       if (column === 'add') {
         return (
           <td key={i} className="add">
-            <Add track={this.props.track} />
+            <Add track={this.props.track} context="track" />
           </td>
         );
       }

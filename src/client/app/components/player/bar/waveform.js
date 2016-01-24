@@ -4,69 +4,54 @@ import { bindActionCreators } from 'redux';
 import * as PlayerActions from '../../../actions/player';
 
 export default class PlayerBarWaveform extends Component {
-  constructor() {
+  constructor(props) {
+    super(props);
 
-  }
-
-  componentDidMount() {
     if (WaveSurfer === undefined) {
       throw new Error('Wavesurfer is not defined');
     }
 
-    WaveSurfer.init({
+    this.ws = Object.create(WaveSurfer);
+  }
+
+  componentDidMount() {
+    this.ws.init({
       container: this.refs.wavesurfer,
-      height: 50,
+      height: 30,
       progressColor: this.props.drag ? '#999' : '#555',
     });
 
-    if (this.props.drag) {
-      WaveSurfer.enableDragSelection({
-        loop: true,
-        resize: true,
-        drag: false
-      });
-    }
+    this.ws.load(this.props.track.preview_url);
 
-    WaveSurfer.load(this.props.track.preview_url);
-
-    WaveSurfer.on('ready', () => {
-      WaveSurfer.play();
+    this.ws.on('ready', () => {
+      this.ws.play();
     }.bind(this));
 
-    WaveSurfer.on('finish', () => {
+    this.ws.on('finish', () => {
       this.props.playerActions.stop();
     }.bind(this));
-
-    if (this.props.drag) {
-      WaveSurfer.on('region-created', (Region) => {
-        if (this.state.region) {
-          this.state.region.remove();
-        }
-
-        this.setState({
-          region: Region
-        });
-      }.bind(this));
-    }
   }
 
   componentWillUnmount() {
-    WaveSurfer.destroy();
+    this.ws.destroy();
+    this.ws = undefined;
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.track.id !== nextProps.track.id) {
-      WaveSurfer.load(nextProps.track.preview_url);
+      this.ws.load(nextProps.track.preview_url);
     }
 
     if (nextProps.player.isPaused) {
-      WaveSurfer.pause();
+      this.ws.pause();
     }
     else if (nextProps.player.isPlaying) {
-      WaveSurfer.play();
+      if (this.props.track.id === nextProps.track.id) {
+        this.ws.play();
+      }
     }
     else if (nextProps.player.isStopped) {
-      WaveSurfer.stop();
+      this.ws.stop();
     }
   }
 

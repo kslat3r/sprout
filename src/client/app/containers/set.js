@@ -3,12 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
+import EditorTrack from '../components/set/editor/track';
 
 class Set extends Component {
   componentDidMount() {
     this.props.setActions.request({
       id: this.props.routeParams.id
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.routeParams.id !== nextProps.routeParams.id) {
+      this.props.setActions.request({
+        id: nextProps.routeParams.id
+      });
+    }
   }
 
   requesting() {
@@ -39,13 +48,19 @@ class Set extends Component {
 
   set() {
     var set = this.props.set.result;
+    var tracks = set.tracks || [];
 
     if (!this.props.set.requesting && !this.props.set.errored) {
       return (
         <div>
           <div className="row">
-            <h2>{this.props.set.name}</h2>
+            <h2>{set.name}</h2>
           </div>
+          {tracks.map((track, i) => {
+            return (
+              <EditorTrack track={track} key={i} />
+            );
+          })}
         </div>
       );
     }

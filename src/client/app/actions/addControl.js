@@ -13,6 +13,7 @@ export function reset() {
 export function open(params) {
   return {
     type: ADD_CONTROL_OPEN,
-    track: params.track
+    track: params.track,
+    context: params.context
   };
 };

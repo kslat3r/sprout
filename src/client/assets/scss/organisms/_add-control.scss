@@ -36,3 +36,25 @@
     }
   }
 }
+
+.playbar {
+  .add-control {
+    a {
+      &.open {
+        background-color: transparent;
+        color: yellow;
+      }
+    }
+
+    .container {
+      right: 30px;
+      bottom: 65px;
+      border-radius: 10px;
+
+      select,
+      input {
+        margin-top: -4px;
+      }
+    }
+  }
+}

@@ -11,14 +11,14 @@ var Cache = mongoose.model('Cache');
 var SpotifyFacade = function(args) {
   this.api = new Spotify(args);
   this.neverCached = [
-    /*'setAccessToken',
+    'setAccessToken',
     'setRefreshToken',
     'getMe',
     'refreshAccessToken',
     'getAccessToken',
     'getRefreshToken',
     'getClientId',
-    'getClientSecret'*/
+    'getClientSecret'
   ];
 
   this.cache = function(cacheKey, resp, resolve) {

@@ -22,3 +22,20 @@ export function stop() {
     type: PLAYER_STOP
   };
 }
+
+export function rewind() {
+  return function(dispatch, getState) {
+    let state = getState();
+
+    dispatch({type: PLAYER_STOP});
+
+    if (state.player.isPlaying) {
+      setTimeout(() => {
+        dispatch({
+          type: PLAYER_PLAY,
+          track: state.player.track
+        });
+      }, 1);
+    }
+  };
+}
