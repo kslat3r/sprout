@@ -101,7 +101,7 @@ export default class SetEditorSampler extends Component {
       }
     }.bind(this));
 
-    this.ws.on('region-created', (Region) => {
+    this.ws.on('region-update-end', (Region) => {
       if (this.state.region) {
         this.state.region.remove();
       }
@@ -114,12 +114,14 @@ export default class SetEditorSampler extends Component {
         if (this.state.isLooped === true) {
           this.play();
         }
-        else {
+        else if (this.state.isPlaying) {
           this.stop();
         }
       }.bind(this));
 
-      this.stop();
+      setTimeout(() => {
+        this.ws.seekTo(Region.start / this.ws.backend.buffer.duration);
+      }.bind(this), 10);
     }.bind(this));
   }
 
@@ -160,6 +162,8 @@ export default class SetEditorSampler extends Component {
       this.ws.play();
     }
   }
+
+  //there's a bug here where pausing doesnt work in a region
 
   pause() {
     this.setState({
