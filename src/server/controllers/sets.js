@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var co = require('co');
 var wrap = require('co-express');
 var mongoose = require('mongoose');
@@ -45,12 +46,13 @@ module.exports = {
       var obj = {
         name: req.body.name,
         spotifyProfileId: req.user.profile.id,
-
-        tracks: []
+        tracks: [],
+        tracksMeta: {}
       };
 
       if (req.body.track) {
         obj.tracks.push(req.body.track.id);
+        obj.tracksMeta[req.body.track.id] = Set.defaultTrackMeta;
       }
 
       var NewSet = yield Set.create(obj);
@@ -68,12 +70,34 @@ module.exports = {
 
       if (FoundSet.tracks.indexOf(req.body.track.id) === -1) {
         FoundSet.tracks.push(req.body.track.id);
+        FoundSet.tracksMeta[req.body.track.id] = Set.defaultTrackMeta;
+
         FoundSet.save();
       }
 
       res.send(FoundSet);
     }
     catch (e) {
+      res.status(500).send({});
+    }
+  }),
+
+  updateTrackInSet: wrap(function* (req, res) {
+    try {
+      var FoundSet = yield Set.findById(req.params.setId);
+
+      if (FoundSet.tracksMeta[req.params.trackId]) {
+        FoundSet.tracksMeta[req.params.trackId] = _.merge(FoundSet.tracksMeta[req.params.trackId], req.body);
+
+        yield Set.update({_id: FoundSet.id}, FoundSet.toJSON());
+
+        res.send(FoundSet);
+      }
+      else {
+        throw new Error('Track not found in set');
+      }
+    }
+    catch(e) {
       res.status(500).send({});
     }
   })
