@@ -1,71 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import SetEditorSamplerControls from './samplerControls';
+import SetEditorEQ from './eq';
+import SetEditorEQControls from './eqControls';
+import * as SetActions from '../../../actions/set';
 
-export default class SetEditorSampler extends Component {
+class SetEditorSampler extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isPlaying: false,
-      isPaused: false,
-      isStopped: true,
-      isLooped: false,
-      showEQ: false,
-      EQ: [{
-        f: 32,
-        type: 'lowshelf'
-      },
-      {
-        f: 64,
-        type: 'peaking'
-      },
-      {
-        f: 125,
-        type: 'peaking'
-      },
-      {
-        f: 250,
-        type: 'peaking'
-      },
-      {
-        f: 500,
-        type: 'peaking'
-      },
-      {
-        f: 1000,
-        type: 'peaking'
-      },
-      {
-        f: 2000,
-        type: 'peaking'
-      },
-      {
-        f: 4000,
-        type: 'peaking'
-      },
-      {
-        f: 8000,
-        type: 'peaking'
-      },
-      {
-        f: 16000,
-        type: 'highshelf'
-      }],
-      filters: [],
-      dragOptions: {
-        loop: false,
-        resize: true,
-        drag: true,
-        color: 'rgba(255, 203, 5, 0.4)'
-      },
-      region: null
-    };
 
     if (WaveSurfer === undefined) {
       throw new Error('Wavesurfer is not defined');
     }
 
+    this.state = Object.assign({}, this.props.sampler)
+    this.state.ref = 'wavesurfer_' + this.props.index;
     this.ws = Object.create(WaveSurfer);
 
     this.play = this.play.bind(this);
@@ -75,54 +25,17 @@ export default class SetEditorSampler extends Component {
     this.toggleLoop = this.toggleLoop.bind(this);
     this.toggleEQ = this.toggleEQ.bind(this);
     this.clear = this.clear.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   componentDidMount() {
-    this.ws.init({
-      container: this.refs.wavesurfer,
-      height: 60,
-      progressColor: '#999',
-      cursorColor: '#FFCB05'
-    });
-
-    this.ws.enableDragSelection(this.state.dragOptions);
+    this.ws.init(Object.assign({}, this.state.wsOptions, {
+      container: this.refs[this.state.ref]
+    }));
 
     this.ws.load(this.props.track.preview_url);
-
-    this.ws.on('ready', () => {
-      this.createFilters();
-    }.bind(this));
-
-    this.ws.on('finish', () => {
-      this.stop();
-
-      if (this.state.isLooped) {
-        this.play();
-      }
-    }.bind(this));
-
-    this.ws.on('region-update-end', (Region) => {
-      if (this.state.region) {
-        this.state.region.remove();
-      }
-
-      this.setState({
-        region: Region
-      });
-
-      Region.on('out', () => {
-        if (this.state.isLooped === true) {
-          this.play();
-        }
-        else if (this.state.isPlaying) {
-          this.stop();
-        }
-      }.bind(this));
-
-      setTimeout(() => {
-        this.ws.seekTo(Region.start / this.ws.backend.buffer.duration);
-      }.bind(this), 10);
-    }.bind(this));
+    this.ws.enableDragSelection(this.state.dragOptions);
+    this.bindEvents();
   }
 
   componentWillUnmount() {
@@ -130,11 +43,19 @@ export default class SetEditorSampler extends Component {
     this.ws = undefined;
   }
 
-  createFilters() {
+  bindEvents() {
+    this.ws.on('ready', this.onReady.bind(this));
+    this.ws.on('finish', this.onFinish.bind(this));
+    this.ws.on('region-update-end', this.onRegionUpdateEnd.bind(this));
+  }
+
+  onReady() {
     var filters = this.state.EQ.map((band) => {
+      var value = this.props.track.meta.eq[band.f];
       var filter = this.ws.backend.ac.createBiquadFilter();
+
       filter.type = band.type;
-      filter.gain.value = 0;
+      filter.gain.value = value;
       filter.Q.value = 1;
       filter.frequency.value = band.f;
 
@@ -146,6 +67,37 @@ export default class SetEditorSampler extends Component {
     this.setState({
       filters: filters
     });
+  }
+
+  onFinish() {
+    this.stop();
+
+    if (this.state.isLooped) {
+      this.play();
+    }
+  }
+
+  onRegionUpdateEnd(Region) {
+    if (this.state.region) {
+      this.state.region.remove();
+    }
+
+    this.setState({
+      region: Region
+    });
+
+    Region.on('out', () => {
+      if (this.state.isLooped === true) {
+        this.play();
+      }
+      else if (this.state.isPlaying) {
+        this.stop();
+      }
+    }.bind(this));
+
+    setTimeout(() => {
+      this.ws.seekTo(Region.start / this.ws.backend.buffer.duration);
+    }.bind(this), 10);
   }
 
   play() {
@@ -163,8 +115,6 @@ export default class SetEditorSampler extends Component {
     }
   }
 
-  //there's a bug here where pausing doesnt work in a region
-
   pause() {
     this.setState({
       isPlaying: false,
@@ -172,7 +122,7 @@ export default class SetEditorSampler extends Component {
       isStopped: false
     });
 
-    this.ws.pause();
+    this.ws.pause(); //there's a bug here where pausing doesnt work in a region
   }
 
   stop() {
@@ -219,98 +169,50 @@ export default class SetEditorSampler extends Component {
     });
   }
 
-  onFilterChange(filter, index, e) {
-    filter.gain.value = ~~e.target.value;
-
-    this.forceUpdate();
+  remove() {
+    this.props.setActions.deleteTrack({
+      id: this.props.track.id
+    });
   }
 
   render() {
-    var eq;
-    var pauseOrPlay;
-    var loopOrEnd;
+    var eq,
+      eqControls,
+      setEditorSampleControlsProps = {
+        isPlaying: this.state.isPlaying,
+        isLooped: this.state.isLooped,
+        pause: this.pause,
+        play: this.play,
+        rewind: this.rewind,
+        stop: this.stop,
+        toggleLoop: this.toggleLoop,
+        toggleEQ: this.toggleEQ,
+        clear: this.clear,
+        remove: this.remove
+      };
 
     if (this.state.showEQ) {
-      eq = (
-        <div className="eq">
-          {this.state.filters.map((filter, i) => {
-            return (
-              <div className="col-xs-1 filter" key={i}>
-                <input type="range" min="-40" max="40" value={filter.gain.value} title={filter.frequency.value} orient="vertical" onChange={this.onFilterChange.bind(this, filter, i)} />
-              </div>
-            );
-          }.bind(this))}
-        </div>
-      );
-    }
-
-    if (this.state.isPlaying) {
-      pauseOrPlay = (
-        <span className="pause">
-          <a href="#" onClick={this.pause}>
-            <i className="fa fa-pause" />
-          </a>
-        </span>
-      );
-    }
-    else {
-      pauseOrPlay = (
-        <span className="play">
-          <a href="#" onClick={this.play}>
-            <i className="fa fa-play" />
-          </a>
-        </span>
-      );
-    }
-
-    if (this.state.isLooped) {
-      loopOrEnd = (
-        <span className="loop">
-          <a href="#" onClick={this.toggleLoop}>
-            <i className="fa fa-long-arrow-right" />
-          </a>
-        </span>
-      );
-    }
-    else {
-      loopOrEnd = (
-        <span className="loop">
-          <a href="#" onClick={this.toggleLoop}>
-            <i className="fa fa-repeat" />
-          </a>
-        </span>
-      );
+      eq = <SetEditorEQ filters={this.state.filters} track={this.props.track} />;
+      eqControls = <SetEditorEQControls />;
     }
 
     return (
       <div className="sampler">
-        <div className="col-xs-10">
-          <div ref="wavesurfer" className="waveform" />
-          {eq}
+        <div className="row">
+          <div className="col-xs-11">
+            <div ref={this.state.ref} className="waveform" />
+          </div>
+          <div className="col-xs-1">
+            <SetEditorSamplerControls {...setEditorSampleControlsProps} />
+          </div>
         </div>
-        <div className="col-xs-2 controls">
-          <span className="rewind">
-            <a href="#" onClick={this.rewind}>
-              <i className="fa fa-backward" />
-            </a>
-          </span>
-          {pauseOrPlay}
-          <span className="stop">
-            <a href="#" onClick={this.stop}>
-              <i className="fa fa-stop" />
-            </a>
-          </span>
-          {loopOrEnd}
-          <span className="stop">
-            <a href="#" onClick={this.toggleEQ}>
-              <i className="fa fa-bar-chart" />
-            </a>
-          </span>
-          <span className="clear">
-            <a href="#" onClick={this.clear}>
-              <i className="fa fa-eraser" />
-            </a>
-          </span>
+        <div className="row">
+          <div className="col-xs-11">
+            {eq}
+          </div>
+          <div className="col-xs-1">
+            {eqControls}
+          </div>
         </div>
       </div>
     );
@@ -318,13 +220,16 @@ export default class SetEditorSampler extends Component {
 }
 
 SetEditorSampler.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 export default connect(function(state) {
   return {
+    sampler: state.sampler
   };
 }, function(dispatch) {
   return {
+    setActions: bindActionCreators(SetActions, dispatch)
   };
 })(SetEditorSampler);

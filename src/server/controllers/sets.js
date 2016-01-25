@@ -11,13 +11,17 @@ module.exports = {
       var promises = [];
 
       FoundSets.forEach(function(Set) {
-        promises.push(req.spotify.getTracks(Set.tracks));
+        if (Set.tracks.length) {
+          promises.push(req.spotify.getTracks(Set.tracks));
+        }
       });
 
       var results = yield promises;
 
       results.forEach(function(result, i) {
-        FoundSets[i].tracks = result.body.tracks;
+        if (FoundSets[i].tracks.length) {
+          FoundSets[i].tracks = result.body.tracks;
+        }
       });
 
       res.send(FoundSets);
@@ -30,9 +34,20 @@ module.exports = {
   getById: wrap(function* (req, res) {
     try {
       var FoundSet = yield Set.findById(req.params.id);
-      var tracks = yield req.spotify.getTracks(FoundSet.tracks);
 
-      FoundSet.tracks = tracks.body.tracks;
+      if (FoundSet.tracks.length) {
+        var tracks = yield req.spotify.getTracks(FoundSet.tracks);
+        FoundSet.tracks = tracks.body.tracks;
+      }
+      else {
+        FoundSet.tracks = [];
+      }
+
+      FoundSet.tracks.forEach((track) => {
+        track.meta = FoundSet.tracksMeta[track.id];
+      });
+
+      FoundSet.tracksMeta = undefined;
 
       res.send(FoundSet);
     }
@@ -72,7 +87,7 @@ module.exports = {
         FoundSet.tracks.push(req.body.track.id);
         FoundSet.tracksMeta[req.body.track.id] = Set.defaultTrackMeta;
 
-        FoundSet.save();
+        yield Set.update({_id: FoundSet.id}, FoundSet.toJSON());
       }
 
       res.send(FoundSet);
@@ -96,6 +111,24 @@ module.exports = {
       else {
         throw new Error('Track not found in set');
       }
+    }
+    catch(e) {
+      res.status(500).send({});
+    }
+  }),
+
+  deleteTrackFromSet: wrap(function* (req, res) {
+    try {
+      var FoundSet = yield Set.findById(req.params.setId);
+
+      FoundSet.tracksMeta = _.omit(FoundSet.tracksMeta, req.params.trackId);
+      FoundSet.tracks = _.remove(FoundSet.tracks, (val, i) => {
+        return val !== req.params.trackId;
+      });
+
+      yield FoundSet.save();
+
+      res.send(FoundSet);
     }
     catch(e) {
       res.status(500).send({});

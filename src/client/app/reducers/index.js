@@ -14,6 +14,7 @@ import addControlReducer from './addControl';
 import setsReducer from './sets';
 import setReducer from './set';
 import tracksReducer from './tracks';
+import samplerReducer from './sampler';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
   addControl: addControlReducer,
   sets: setsReducer,
   set: setReducer,
-  tracks: tracksReducer
+  tracks: tracksReducer,
+  sampler: samplerReducer
 });

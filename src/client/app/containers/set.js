@@ -58,7 +58,7 @@ class Set extends Component {
           </div>
           {tracks.map((track, i) => {
             return (
-              <EditorTrack track={track} key={i} />
+              <EditorTrack track={track} index={i} key={i} />
             );
           })}
         </div>

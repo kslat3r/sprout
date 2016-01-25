@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import SetEditorWaveform from './sampler';
+import SetEditorSampler from './sampler';
 
 export default class SetEditorTrack extends Component {
   render() {
@@ -12,9 +12,16 @@ export default class SetEditorTrack extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-xs-12">
-          <SetEditorWaveform track={track} />
+      <div className="m-b-40 b-b-solid p-b-40">
+        <div className="row m-b-20">
+          <div className="col-xs-1">
+            <img src={imageSrc} className="img-responsive" />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <SetEditorSampler track={track} index={this.props.index} />
+          </div>
         </div>
       </div>
     );

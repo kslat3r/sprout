@@ -48,7 +48,8 @@ export default class Header extends Component {
       playlistsClass,
       artistsClass,
       albumsClass,
-      tracksClass;
+      tracksClass,
+      seperator;
 
     switch (this.props.router.routes[this.props.router.routes.length - 1].name) {
       case 'sets':
@@ -70,6 +71,10 @@ export default class Header extends Component {
       case 'tracks':
         tracksClass = 'active';
       break;
+    }
+
+    if (this.props.sets.results.length) {
+      seperator = <li role="separator" className="divider"></li>;
     }
 
     return (
@@ -102,7 +107,7 @@ export default class Header extends Component {
                       </li>
                     );
                   })}
-                  <li role="separator" className="divider"></li>
+                  {seperator}
                   <li>
                     <Link to="/sets">View all sets</Link>
                   </li>

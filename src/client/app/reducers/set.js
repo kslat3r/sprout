@@ -1,7 +1,9 @@
 import * as SetActionCreators from '../actions/set';
 
 export const initialState = {
-  result: {},
+  result: {
+    tracks: []
+  },
 
   requesting: false,
   errored: false,
