@@ -45,10 +45,13 @@ class SetEditorSampler extends Component {
   bindEvents() {
     this.ws.on('ready', this.onReady.bind(this));
     this.ws.on('finish', this.onFinish.bind(this));
-    this.ws.on('region-update-end', this.onRegionUpdateEnd.bind(this));
+    this.ws.on('region-update-end', this.onRegionUpdated.bind(this));
   }
 
   onReady() {
+
+    //eq
+
     var filters = this.state.EQ.map((band) => {
       var value = this.props.track.meta.eq[band.f];
       var filter = this.ws.backend.ac.createBiquadFilter();
@@ -62,6 +65,12 @@ class SetEditorSampler extends Component {
     }.bind(this));
 
     this.ws.backend.setFilters(filters);
+
+    this.setState({
+      filters: filters
+    });
+
+    //sample
 
     if (this.props.track.meta.startPosition && this.props.track.meta.endPosition) {
       var Region = this.ws.addRegion({
@@ -77,10 +86,6 @@ class SetEditorSampler extends Component {
         region: Region
       });
     }
-
-    this.setState({
-      filters: filters
-    });
   }
 
   onFinish() {
@@ -91,9 +96,10 @@ class SetEditorSampler extends Component {
     }
   }
 
-  onRegionUpdateEnd(Region) {
-    if (this.state.region) {
+  onRegionUpdated(Region, e) {
+    if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
       this.state.region.remove();
+      this.stop();
     }
 
     this.setState({
@@ -108,8 +114,8 @@ class SetEditorSampler extends Component {
       }
     });
 
-    this.onRegionOut(Region);
     this.seekToRegion(Region);
+    this.onRegionOut(Region);
   }
 
   onRegionOut(Region) {

@@ -48,7 +48,7 @@ export const initialState = {
   filters: [],
 
   wsOptions: {
-    height: 60,
+    height: 100,
     progressColor: '#999',
     cursorColor: '#FFCB05'
   },
