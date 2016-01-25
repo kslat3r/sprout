@@ -57,11 +57,6 @@ export default class SetEditorSamplerControls extends Component {
           </a>
         </span>
         {loopOrEnd}
-        <span className="eq">
-          <a href="#" onClick={this.props.toggleEQ}>
-            <i className="fa fa-bar-chart" />
-          </a>
-        </span>
         <span className="clear">
           <a href="#" onClick={this.props.clear}>
             <i className="fa fa-eraser" />
@@ -85,7 +80,6 @@ SetEditorSamplerControls.propTypes = {
   rewind: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   toggleLoop: PropTypes.func.isRequired,
-  toggleEQ: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired
 };

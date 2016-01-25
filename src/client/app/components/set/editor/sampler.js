@@ -23,7 +23,6 @@ class SetEditorSampler extends Component {
     this.stop = this.stop.bind(this);
     this.rewind = this.rewind.bind(this);
     this.toggleLoop = this.toggleLoop.bind(this);
-    this.toggleEQ = this.toggleEQ.bind(this);
     this.clear = this.clear.bind(this);
     this.remove = this.remove.bind(this);
   }
@@ -64,6 +63,21 @@ class SetEditorSampler extends Component {
 
     this.ws.backend.setFilters(filters);
 
+    if (this.props.track.meta.startPosition && this.props.track.meta.endPosition) {
+      var Region = this.ws.addRegion({
+        start: this.props.track.meta.startPosition,
+        end: this.props.track.meta.endPosition,
+        color: this.state.dragOptions.color
+      });
+
+      this.onRegionOut(Region);
+      this.seekToRegion(Region);
+
+      this.setState({
+        region: Region
+      });
+    }
+
     this.setState({
       filters: filters
     });
@@ -86,6 +100,19 @@ class SetEditorSampler extends Component {
       region: Region
     });
 
+    this.props.setActions.updateTrack({
+      id: this.props.track.id,
+      params: {
+        startPosition: Region.start,
+        endPosition: Region.end
+      }
+    });
+
+    this.onRegionOut(Region);
+    this.seekToRegion(Region);
+  }
+
+  onRegionOut(Region) {
     Region.on('out', () => {
       if (this.state.isLooped === true) {
         this.play();
@@ -94,7 +121,9 @@ class SetEditorSampler extends Component {
         this.stop();
       }
     }.bind(this));
+  }
 
+  seekToRegion(Region) {
     setTimeout(() => {
       this.ws.seekTo(Region.start / this.ws.backend.buffer.duration);
     }.bind(this), 10);
@@ -153,16 +182,18 @@ class SetEditorSampler extends Component {
     });
   }
 
-  toggleEQ() {
-    this.setState({
-      showEQ: !this.state.showEQ
-    });
-  }
-
   clear() {
     if (this.state.region) {
       this.state.region.remove();
     }
+
+    this.props.setActions.updateTrack({
+      id: this.props.track.id,
+      params: {
+        startPosition: null,
+        endPosition: null
+      }
+    });
 
     this.setState({
       region: null
@@ -186,15 +217,9 @@ class SetEditorSampler extends Component {
         rewind: this.rewind,
         stop: this.stop,
         toggleLoop: this.toggleLoop,
-        toggleEQ: this.toggleEQ,
         clear: this.clear,
         remove: this.remove
       };
-
-    if (this.state.showEQ) {
-      eq = <SetEditorEQ filters={this.state.filters} track={this.props.track} />;
-      eqControls = <SetEditorEQControls />;
-    }
 
     return (
       <div className="sampler">
@@ -206,12 +231,12 @@ class SetEditorSampler extends Component {
             <SetEditorSamplerControls {...setEditorSampleControlsProps} />
           </div>
         </div>
-        <div className="row">
+        <div className="row m-t-10">
           <div className="col-xs-11">
-            {eq}
+            <SetEditorEQ filters={this.state.filters} track={this.props.track} />
           </div>
           <div className="col-xs-1">
-            {eqControls}
+            <SetEditorEQControls />
           </div>
         </div>
       </div>
