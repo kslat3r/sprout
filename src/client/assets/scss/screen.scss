@@ -14,16 +14,16 @@
 @import 'atoms/forms';
 
 @import 'molecules/loading';
-@import 'molecules/thumbnail';
+@import 'molecules/modal';
 @import 'molecules/paging';
+@import 'molecules/table';
+@import 'molecules/thumbnail';
 
-@import 'organisms/navbar';
 @import 'organisms/add-control';
-@import 'organisms/tracks-table';
+@import 'organisms/equaliser';
+@import 'organisms/navbar';
 @import 'organisms/playbar';
 @import 'organisms/sampler';
-@import 'organisms/equaliser';
-@import 'organisms/editor';
-@import 'organisms/modal';
+@import 'organisms/set-scroller';
 
 @import 'templates/set';
