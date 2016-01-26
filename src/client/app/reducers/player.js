@@ -31,6 +31,9 @@ export default function(state = initialState, action) {
         isStopped: true
       });
 
+    case PlayerActionCreators.PLAYER_RESET:
+      return Object.assign({}, state, initialState);
+
     default:
       return state;
   }

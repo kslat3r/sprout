@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SetEditorSamplerControls from './samplerControls';
 import SetEditorEQ from './eq';
-import SetEditorEQControls from './eqControls';
+import SetEditorReverb from './reverb';
+import SetEditorCompressor from './compressor';
 import * as SetActions from '../../../actions/set';
 
 class SetEditorSampler extends Component {
@@ -16,6 +17,8 @@ class SetEditorSampler extends Component {
 
     this.state = Object.assign({}, this.props.sampler)
     this.state.ref = 'wavesurfer_' + this.props.index;
+    this.state.isLooped = this.props.track.meta.loop;
+
     this.ws = Object.create(WaveSurfer);
 
     this.play = this.play.bind(this);
@@ -24,6 +27,9 @@ class SetEditorSampler extends Component {
     this.rewind = this.rewind.bind(this);
     this.toggleLoop = this.toggleLoop.bind(this);
     this.clear = this.clear.bind(this);
+    this.resetEQ = this.resetEQ.bind(this);
+    this.resetReverb = this.resetReverb.bind(this);
+    this.resetCompressor = this.resetCompressor.bind(this);
     this.remove = this.remove.bind(this);
   }
 
@@ -99,7 +105,10 @@ class SetEditorSampler extends Component {
   onRegionUpdated(Region, e) {
     if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
       this.state.region.remove();
-      this.stop();
+
+      if (this.state.isPlaying) {
+        this.stop();
+      }
     }
 
     this.setState({
@@ -183,6 +192,13 @@ class SetEditorSampler extends Component {
   }
 
   toggleLoop() {
+    this.props.setActions.updateTrack({
+      id: this.props.track.id,
+      params: {
+        loop: !this.state.isLooped
+      }
+    });
+
     this.setState({
       isLooped: !this.state.isLooped
     });
@@ -206,6 +222,24 @@ class SetEditorSampler extends Component {
     });
   }
 
+  resetEQ() {
+    this.setState({
+      filters: this.state.filters.map(function(filter) {
+        filter.gain.value = 0;
+
+        return filter;
+      })
+    });
+  }
+
+  resetReverb() {
+
+  }
+
+  resetCompressor() {
+
+  }
+
   remove() {
     this.props.setActions.deleteTrack({
       id: this.props.track.id
@@ -214,7 +248,8 @@ class SetEditorSampler extends Component {
 
   render() {
     var eq,
-      eqControls,
+      reverb,
+      compressor,
       setEditorSampleControlsProps = {
         isPlaying: this.state.isPlaying,
         isLooped: this.state.isLooped,
@@ -227,9 +262,15 @@ class SetEditorSampler extends Component {
         remove: this.remove
       };
 
+    if (this.state.filters.length) {
+      eq = <SetEditorEQ filters={this.state.filters} track={this.props.track} resetEQ={this.resetEQ} />;
+      reverb = <SetEditorReverb filters={this.state.filters} track={this.props.track} resetReverb={this.resetReverb} />;
+      compressor = <SetEditorCompressor filters={this.state.filters} track={this.props.track} resetCompressor={this.resetCompressor} />;
+    }
+
     return (
       <div className="sampler">
-        <div className="row">
+        <div className="row vertical-center">
           <div className="col-xs-11">
             <div ref={this.state.ref} className="waveform" />
           </div>
@@ -237,13 +278,14 @@ class SetEditorSampler extends Component {
             <SetEditorSamplerControls {...setEditorSampleControlsProps} />
           </div>
         </div>
-        <div className="row m-t-10">
-          <div className="col-xs-11">
-            <SetEditorEQ filters={this.state.filters} track={this.props.track} />
-          </div>
-          <div className="col-xs-1">
-            <SetEditorEQControls />
-          </div>
+        <div className="row">
+          {eq}
+        </div>
+        <div className="row">
+          {reverb}
+        </div>
+        <div className="row">
+          {compressor}
         </div>
       </div>
     );

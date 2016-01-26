@@ -1,18 +1,40 @@
 .sampler {
+  > .row:first-child {
+    margin-bottom: 10px;
+  }
+
   .waveform {
     cursor: text;
   }
 
-  .eq {
-    .filter {
-      width: 10%;
+  .vertical-center {
+    display: flex;
+    align-items: center;
+  }
 
-      input {
-        height: 150px;
-        -webkit-appearance: slider-vertical;
-        -moz-appearance: slider-vertical;
-        appearance: slider-vertical;
-      }
+  .toggle-handler {
+    background-color: #444;
+    margin-left: 15px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: #666;
+    border-radius: 5px;
+    font-size: 0.8em;
+    padding: 2px 0;
+  }
+
+  .controls {
+    .row {
+      text-align: center;
+    }
+
+    span {
+      font-size: 1.5em;
+      width: 33%;
+      display: block;
+      float: left;
     }
   }
 }

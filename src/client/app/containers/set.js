@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
+import * as PlayerActions from '../actions/player';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 import EditorTrack from '../components/set/editor/track';
 
 class Set extends Component {
   componentDidMount() {
+    this.props.playerActions.reset();
+
     this.props.setActions.request({
       id: this.props.routeParams.id
     });
@@ -52,7 +55,7 @@ class Set extends Component {
 
     if (!this.props.set.requesting && !this.props.set.errored) {
       return (
-        <div>
+        <div className="set">
           <div className="row">
             <h2>{set.name}</h2>
           </div>
@@ -87,6 +90,7 @@ export default connect(function(state) {
   };
 }, function(dispatch) {
   return {
-    setActions: bindActionCreators(SetActions, dispatch)
+    setActions: bindActionCreators(SetActions, dispatch),
+    playerActions: bindActionCreators(PlayerActions, dispatch)
   };
 })(Set);

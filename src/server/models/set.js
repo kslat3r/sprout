@@ -11,6 +11,7 @@ setSchema.statics.defaultTrackMeta = {
   name: null,
   startPosition: null,
   endPosition: null,
+  loop: false,
   eq: {
     32: 0,
     64: 0,

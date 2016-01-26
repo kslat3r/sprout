@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import SetEditorSampler from './sampler';
+import ArtistLink from '../../link/artist';
 
 export default class SetEditorTrack extends Component {
   render() {
@@ -12,10 +13,18 @@ export default class SetEditorTrack extends Component {
     }
 
     return (
-      <div className="m-b-40 b-b-solid p-b-40">
+      <div className="m-b-40 b-b-solid p-b-40 editor-track col-xs-12">
         <div className="row m-b-20">
-          <div className="col-xs-1">
+          <div className="col-xs-1 no-padding">
             <img src={imageSrc} className="img-responsive" />
+          </div>
+          <div className="col-xs-11">
+            <h3>
+              {this.props.track.name}
+            </h3>
+            <h4>
+              <ArtistLink artists={this.props.track.artists} />
+            </h4>
           </div>
         </div>
         <div className="row">

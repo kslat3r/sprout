@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class SetEditorEQControls extends Component {
+export default class SetEditorCompressorControls extends Component {
   render() {
     return (
       <div className="controls">
         <div className="row">
           <span className="reset">
-            <a href="#" onClick={this.props.resetEQ}>
+            <a href="#" onClick={this.props.resetCompressor}>
               <i className="fa fa-eraser" />
             </a>
           </span>
@@ -16,6 +16,6 @@ export default class SetEditorEQControls extends Component {
   }
 }
 
-SetEditorEQControls.propTypes = {
-  resetEQ: PropTypes.func.isRequired
+SetEditorCompressorControls.propTypes = {
+  resetCompressor: PropTypes.func.isRequired
 };

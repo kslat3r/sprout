@@ -1,0 +1,17 @@
+.eq {
+  .filter {
+    width: 10%;
+
+    span {
+      display: block;
+      text-align: center;
+    }
+
+    input {
+      height: 150px;
+      -webkit-appearance: slider-vertical;
+      -moz-appearance: slider-vertical;
+      appearance: slider-vertical;
+    }
+  }
+}
