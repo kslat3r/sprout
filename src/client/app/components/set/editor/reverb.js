@@ -22,12 +22,16 @@ class SetEditorReverb extends Component {
     });
   }
 
+  clear() {
+
+  }
+
   render() {
     var reverb;
 
     if (this.state.shown) {
       reverb = (
-        <div className="reverb m-t-20 m-b-20 vertical-center">
+        <div className="row vertical-center m-t-20 m-b-20">
           <div className="col-xs-11">
             Reverb
           </div>
@@ -39,7 +43,7 @@ class SetEditorReverb extends Component {
     }
 
     return (
-      <div>
+      <div className="reverb">
         <div className="toggle-handler" onClick={this.toggleShown}>
           Reverb
         </div>
@@ -50,8 +54,8 @@ class SetEditorReverb extends Component {
 }
 
 SetEditorReverb.propTypes = {
-  filters: PropTypes.array.isRequired,
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired
 };
 
 export default connect(function(state) {

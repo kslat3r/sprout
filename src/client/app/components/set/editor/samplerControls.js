@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as TrackActions from '../../../actions/track';
 import { Modal, Button } from 'react-bootstrap';
 
 export default class SetEditorSamplerControls extends Component {
@@ -11,6 +14,12 @@ export default class SetEditorSamplerControls extends Component {
 
     this.showRemoveModal = this.showRemoveModal.bind(this);
     this.hideRemoveModal = this.hideRemoveModal.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.stop = this.stop.bind(this);
+    this.rewind = this.rewind.bind(this);
+    this.toggleLoop = this.toggleLoop.bind(this);
+    this.clear = this.clear.bind(this);
     this.remove = this.remove.bind(this);
   }
 
@@ -26,8 +35,63 @@ export default class SetEditorSamplerControls extends Component {
     });
   }
 
+  play() {
+    this.props.trackActions.play(this.track.id);
+  }
+
+  pause() {
+    this.props.trackActions.pause(this.track.id);
+  }
+
+  stop() {
+    this.props.trackActions.stop(this.track.id);
+
+    /*if (this.state.region) {
+      this.ws.seekTo(this.state.region.start / this.ws.backend.buffer.duration);
+    }*/
+  }
+
+  rewind() {
+    this.props.trackActions.stop(this.track.id);
+
+    if (this.props.meta.isPlaying) {
+      this.props.trackActions.play(this.track.id);
+    }
+  }
+
+  toggleLoop() {
+    this.props.setActions.updateTrack({
+      id: this.props.track.id,
+      params: {
+        loop: !this.props.meta.isLooped
+      }
+    });
+
+    this.props.trackActions.toggleLoop(this.track.id);
+  }
+
+  clear() {
+    /*if (this.state.region) {
+      this.state.region.remove();
+    }*/
+
+    this.props.setActions.updateTrack({
+      id: this.props.track.id,
+      params: {
+        startPosition: null,
+        endPosition: null
+      }
+    });
+
+    /*this.setState({
+      region: null
+    });*/
+  }
+
   remove() {
-    this.props.remove();
+    this.props.setActions.deleteTrack({
+      id: this.props.track.id
+    });
 
     this.setState({
       removeModalShown: false
@@ -38,10 +102,10 @@ export default class SetEditorSamplerControls extends Component {
     var pauseOrPlay;
     var loopOrEnd;
 
-    if (this.props.isPlaying) {
+    if (this.props.meta.isPlaying) {
       pauseOrPlay = (
         <span className="pause">
-          <a href="#" onClick={this.props.pause}>
+          <a href="#" onClick={this.pause}>
             <i className="fa fa-pause" />
           </a>
         </span>
@@ -50,17 +114,17 @@ export default class SetEditorSamplerControls extends Component {
     else {
       pauseOrPlay = (
         <span className="play">
-          <a href="#" onClick={this.props.play}>
+          <a href="#" onClick={this.play}>
             <i className="fa fa-play" />
           </a>
         </span>
       );
     }
 
-    if (this.props.isLooped) {
+    if (this.props.meta.isLooped) {
       loopOrEnd = (
         <span className="loop">
-          <a href="#" onClick={this.props.toggleLoop}>
+          <a href="#" onClick={this.toggleLoop}>
             <i className="fa fa-repeat" />
           </a>
         </span>
@@ -69,7 +133,7 @@ export default class SetEditorSamplerControls extends Component {
     else {
       loopOrEnd = (
         <span className="loop">
-          <a href="#" onClick={this.props.toggleLoop}>
+          <a href="#" onClick={this.toggleLoop}>
             <i className="fa fa-long-arrow-right" />
           </a>
         </span>
@@ -89,13 +153,13 @@ export default class SetEditorSamplerControls extends Component {
         </Modal>
         <div className="row">
           <span className="rewind">
-            <a href="#" onClick={this.props.rewind}>
+            <a href="#" onClick={this.rewind}>
               <i className="fa fa-backward" />
             </a>
           </span>
           {pauseOrPlay}
           <span className="stop">
-            <a href="#" onClick={this.props.stop}>
+            <a href="#" onClick={this.stop}>
               <i className="fa fa-stop" />
             </a>
           </span>
@@ -103,7 +167,7 @@ export default class SetEditorSamplerControls extends Component {
         <div className="row">
           {loopOrEnd}
           <span className="clear">
-            <a href="#" onClick={this.props.clear}>
+            <a href="#" onClick={this.clear}>
               <i className="fa fa-eraser" />
             </a>
           </span>
@@ -119,13 +183,6 @@ export default class SetEditorSamplerControls extends Component {
 }
 
 SetEditorSamplerControls.propTypes = {
-  isPlaying: PropTypes.bool.isRequired,
-  isLooped: PropTypes.bool.isRequired,
-  pause: PropTypes.func.isRequired,
-  play: PropTypes.func.isRequired,
-  rewind: PropTypes.func.isRequired,
-  stop: PropTypes.func.isRequired,
-  toggleLoop: PropTypes.func.isRequired,
-  clear: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired
 };

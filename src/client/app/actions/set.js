@@ -19,45 +19,6 @@ export function request(params) {
   };
 };
 
-export function updateTrack(params) {
-  return function(dispatch, getState) {
-    let state = getState();
-
-    var fetchParams = _.extend(_.clone(state.config.fetch), {
-      method: 'PATCH',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }, {
-      body: JSON.stringify(params.params)
-    });
-
-    return fetch(state.config.apiUrl + '/sets/' + state.set.result._id + '/tracks/' + params.id, fetchParams)
-      .catch(exception => dispatch(failure(exception)));
-  };
-};
-
-export function deleteTrack(params) {
-  return function(dispatch, getState) {
-    console.log(this);
-
-    let state = getState();
-
-    var fetchParams = _.extend(_.clone(state.config.fetch), {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-
-    return fetch(state.config.apiUrl + '/sets/' + state.set.result._id + '/tracks/' + params.id, fetchParams)
-      .then(() => dispatch(request({id: state.set.result._id})))
-      .catch(exception => dispatch(failure(exception)));
-  };
-};
-
 export function failure(exception) {
   return {
     type: SET_FAILURE,

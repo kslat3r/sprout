@@ -1,6 +1,6 @@
 //redux
 
-import { compose, applyMiddleware, createStore } from 'redux'
+import { compose, applyMiddleware, createStore } from 'redux';
 
 //middleware
 

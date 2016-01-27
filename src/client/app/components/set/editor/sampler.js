@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as TrackActions from '../../../actions/track';
 import SetEditorSamplerControls from './samplerControls';
-import SetEditorEQ from './eq';
-import SetEditorReverb from './reverb';
-import SetEditorCompressor from './compressor';
-import * as SetActions from '../../../actions/set';
 
 class SetEditorSampler extends Component {
   constructor(props) {
@@ -15,37 +12,32 @@ class SetEditorSampler extends Component {
       throw new Error('Wavesurfer is not defined');
     }
 
-    this.state = Object.assign({}, this.props.sampler)
-    this.state.ref = 'wavesurfer_' + this.props.index;
-    this.state.isLooped = this.props.track.meta.loop;
-
     this.ws = Object.create(WaveSurfer);
 
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.stop = this.stop.bind(this);
-    this.rewind = this.rewind.bind(this);
-    this.toggleLoop = this.toggleLoop.bind(this);
-    this.clear = this.clear.bind(this);
-    this.resetEQ = this.resetEQ.bind(this);
-    this.resetReverb = this.resetReverb.bind(this);
-    this.resetCompressor = this.resetCompressor.bind(this);
-    this.remove = this.remove.bind(this);
+    this.state = {
+      region: null
+    };
   }
 
   componentDidMount() {
-    this.ws.init(Object.assign({}, this.state.wsOptions, {
-      container: this.refs[this.state.ref]
+    this.ws.init(Object.assign({}, this.props.sampler.wsOptions, {
+      container: this.refs.wavesurfer
     }));
 
     this.ws.load(this.props.track.preview_url);
-    this.ws.enableDragSelection(this.state.dragOptions);
+    this.ws.enableDragSelection(this.props.sampler.dragOptions);
     this.bindEvents();
   }
 
   componentWillUnmount() {
-    this.ws.destroy();
-    this.ws = undefined;
+    if (this.ws) {
+      this.ws.destroy();
+      this.ws = undefined;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   bindEvents() {
@@ -58,12 +50,11 @@ class SetEditorSampler extends Component {
 
     //eq
 
-    var filters = this.state.EQ.map((band) => {
-      var value = this.props.track.meta.eq[band.f];
+    var filters = this.props.meta.EQ.map((band) => {
       var filter = this.ws.backend.ac.createBiquadFilter();
 
       filter.type = band.type;
-      filter.gain.value = value;
+      filter.gain.value = band.value;
       filter.Q.value = 1;
       filter.frequency.value = band.f;
 
@@ -72,17 +63,13 @@ class SetEditorSampler extends Component {
 
     this.ws.backend.setFilters(filters);
 
-    this.setState({
-      filters: filters
-    });
-
     //sample
 
-    if (this.props.track.meta.startPosition && this.props.track.meta.endPosition) {
+    if (this.props.meta.startPosition && this.props.meta.endPosition) {
       var Region = this.ws.addRegion({
-        start: this.props.track.meta.startPosition,
-        end: this.props.track.meta.endPosition,
-        color: this.state.dragOptions.color
+        start: this.props.meta.startPosition,
+        end: this.props.meta.endPosition,
+        color: this.props.sampler.dragOptions.color
       });
 
       this.onRegionOut(Region);
@@ -95,10 +82,10 @@ class SetEditorSampler extends Component {
   }
 
   onFinish() {
-    this.stop();
+    this.props.trackActions.stop(this.props.track.id);
 
-    if (this.state.isLooped) {
-      this.play();
+    if (this.props.meta.isLooped) {
+      this.props.trackActions.play(this.props.track.id);
     }
   }
 
@@ -106,8 +93,8 @@ class SetEditorSampler extends Component {
     if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
       this.state.region.remove();
 
-      if (this.state.isPlaying) {
-        this.stop();
+      if (this.props.meta.isPlaying) {
+        this.props.trackActions.stop(this.props.track.id);
       }
     }
 
@@ -115,7 +102,7 @@ class SetEditorSampler extends Component {
       region: Region
     });
 
-    this.props.setActions.updateTrack({
+    this.props.trackActions.updateInSet({
       id: this.props.track.id,
       params: {
         startPosition: Region.start,
@@ -129,11 +116,11 @@ class SetEditorSampler extends Component {
 
   onRegionOut(Region) {
     Region.on('out', () => {
-      if (this.state.isLooped === true) {
-        this.play();
+      if (this.props.meta.isLooped === true) {
+        this.props.trackActions.play(this.props.track.id);
       }
-      else if (this.state.isPlaying) {
-        this.stop();
+      else if (this.props.meta.isPlaying) {
+        this.props.trackActions.stop(this.props.track.id);
       }
     }.bind(this));
   }
@@ -144,148 +131,16 @@ class SetEditorSampler extends Component {
     }.bind(this), 10);
   }
 
-  play() {
-    this.setState({
-      isPlaying: true,
-      isPaused: false,
-      isStopped: false
-    });
-
-    if (this.state.region) {
-      this.ws.play(this.state.region.start);
-    }
-    else {
-      this.ws.play();
-    }
-  }
-
-  pause() {
-    this.setState({
-      isPlaying: false,
-      isPaused: true,
-      isStopped: false
-    });
-
-    this.ws.pause(); //there's a bug here where pausing doesnt work in a region
-  }
-
-  stop() {
-    this.setState({
-      isPlaying: false,
-      isPaused: false,
-      isStopped: true
-    });
-
-    this.ws.stop();
-
-    if (this.state.region) {
-      this.ws.seekTo(this.state.region.start / this.ws.backend.buffer.duration);
-    }
-  }
-
-  rewind() {
-    this.stop();
-
-    if (this.state.isPlaying) {
-      this.play();
-    }
-  }
-
-  toggleLoop() {
-    this.props.setActions.updateTrack({
-      id: this.props.track.id,
-      params: {
-        loop: !this.state.isLooped
-      }
-    });
-
-    this.setState({
-      isLooped: !this.state.isLooped
-    });
-  }
-
-  clear() {
-    if (this.state.region) {
-      this.state.region.remove();
-    }
-
-    this.props.setActions.updateTrack({
-      id: this.props.track.id,
-      params: {
-        startPosition: null,
-        endPosition: null
-      }
-    });
-
-    this.setState({
-      region: null
-    });
-  }
-
-  resetEQ() {
-    this.setState({
-      filters: this.state.filters.map(function(filter) {
-        filter.gain.value = 0;
-
-        return filter;
-      })
-    });
-  }
-
-  resetReverb() {
-
-  }
-
-  resetCompressor() {
-
-  }
-
-  remove() {
-    this.props.setActions.deleteTrack({
-      id: this.props.track.id
-    });
-  }
-
   render() {
-    var eq,
-      reverb,
-      compressor,
-      setEditorSampleControlsProps = {
-        isPlaying: this.state.isPlaying,
-        isLooped: this.state.isLooped,
-        pause: this.pause,
-        play: this.play,
-        rewind: this.rewind,
-        stop: this.stop,
-        toggleLoop: this.toggleLoop,
-        clear: this.clear,
-        remove: this.remove
-      };
-
-    if (this.state.filters.length) {
-      eq = <SetEditorEQ filters={this.state.filters} track={this.props.track} resetEQ={this.resetEQ} />;
-      reverb = <SetEditorReverb filters={this.state.filters} track={this.props.track} resetReverb={this.resetReverb} />;
-      compressor = <SetEditorCompressor filters={this.state.filters} track={this.props.track} resetCompressor={this.resetCompressor} />;
-    }
-
     return (
       <div className="sampler">
         <div className="row vertical-center">
           <div className="col-xs-11">
-            <div ref={this.state.ref} className="waveform" />
+            <div ref="wavesurfer" className="waveform" />
           </div>
           <div className="col-xs-1">
-            <SetEditorSamplerControls {...setEditorSampleControlsProps} />
+            <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />
           </div>
-        </div>
-        <div className="row">
-          {eq}
-        </div>
-        <div className="row">
-          {reverb}
-        </div>
-        <div className="row">
-          {compressor}
         </div>
       </div>
     );
@@ -294,7 +149,7 @@ class SetEditorSampler extends Component {
 
 SetEditorSampler.propTypes = {
   track: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired
+  meta: PropTypes.object.isRequired
 };
 
 export default connect(function(state) {
@@ -303,6 +158,6 @@ export default connect(function(state) {
   };
 }, function(dispatch) {
   return {
-    setActions: bindActionCreators(SetActions, dispatch)
+    trackActions: bindActionCreators(TrackActions, dispatch)
   };
 })(SetEditorSampler);

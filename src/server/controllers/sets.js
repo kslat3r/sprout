@@ -43,12 +43,6 @@ module.exports = {
         FoundSet.tracks = [];
       }
 
-      FoundSet.tracks.forEach((track) => {
-        track.meta = FoundSet.tracksMeta[track.id];
-      });
-
-      FoundSet.tracksMeta = undefined;
-
       res.send(FoundSet);
     }
     catch (e) {

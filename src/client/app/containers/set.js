@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
 import * as PlayerActions from '../actions/player';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
-import EditorTrack from '../components/set/editor/track';
+import SetTrack from '../components/set/track';
 
 class Set extends Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ class Set extends Component {
       return (
         <div className="row">
           <div className="col-xs-12">
-            {this.props.playlists.exception.message}
+            {this.props.set.exception.message}
           </div>
         </div>
       );
@@ -50,20 +50,23 @@ class Set extends Component {
   }
 
   set() {
-    var set = this.props.set.result;
-    var tracks = set.tracks || [];
+    var tracks;
+
+    if (this.props.set.result.tracks.length) {
+      tracks = this.props.set.result.tracks.map((track, i) => {
+        return (
+          <SetTrack track={track} meta={this.props.set.meta[track.id]} index={i} key={i} />
+        );
+      });
+    }
 
     if (!this.props.set.requesting && !this.props.set.errored) {
       return (
         <div className="set">
           <div className="row">
-            <h2>{set.name}</h2>
+            <h2>{this.props.set.result.name}</h2>
           </div>
-          {tracks.map((track, i) => {
-            return (
-              <EditorTrack track={track} index={i} key={i} />
-            );
-          })}
+          {tracks}
         </div>
       );
     }

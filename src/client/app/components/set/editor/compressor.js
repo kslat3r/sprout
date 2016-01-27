@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as SetActions from '../../../actions/set';
 import SetEditorCompressorControls from './compressorControls';
 
 class SetEditorCompressor extends Component {
@@ -27,19 +26,19 @@ class SetEditorCompressor extends Component {
 
     if (this.state.shown) {
       compressor = (
-        <div className="compressor m-t-20 m-b-20 vertical-center">
+        <div className="row vertical-center m-t-20 m-b-20">
           <div className="col-xs-11">
             Compressor
           </div>
           <div className="col-xs-1">
-            <SetEditorCompressorControls resetCompressor={this.props.resetCompressor} />
+            <SetEditorCompressorControls />
           </div>
         </div>
       );
     }
 
     return (
-      <div>
+      <div className="compressor">
         <div className="toggle-handler" onClick={this.toggleShown}>
           Compressor
         </div>
@@ -50,8 +49,8 @@ class SetEditorCompressor extends Component {
 }
 
 SetEditorCompressor.propTypes = {
-  filters: PropTypes.array.isRequired,
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired
 };
 
 export default connect(function(state) {
@@ -59,6 +58,5 @@ export default connect(function(state) {
   };
 }, function(dispatch) {
   return {
-    setActions: bindActionCreators(SetActions, dispatch)
   };
 })(SetEditorCompressor);
