@@ -35,8 +35,8 @@ export default class SetTrack extends Component {
           <div className="col-xs-12">
             <SetEditorSampler track={track} meta={meta} />
             <SetEditorFilters track={track} meta={meta} />
-            {/*<SetEditorReverb track={track} meta={meta} />
-            <SetEditorCompressor track={track} meta={meta} />*/}
+            {/*<SetEditorReverb track={track} meta={meta} />*/}
+            <SetEditorCompressor track={track} meta={meta} />
           </div>
         </div>
       </div>

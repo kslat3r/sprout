@@ -31,7 +31,7 @@ class SetEditorCompressor extends Component {
             Compressor
           </div>
           <div className="col-xs-1">
-            <SetEditorCompressorControls />
+            <SetEditorCompressorControls track={this.props.track} meta={this.props.meta} />
           </div>
         </div>
       );

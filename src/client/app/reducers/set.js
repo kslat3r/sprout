@@ -19,11 +19,11 @@ export const initialTrackState = {
   isPlaying: false,
   isPaused: false,
   isStopped: true,
+  isLooped: false,
 
   region: null,
   startPosition: null,
   endPosition: null,
-  isLooped: false,
 
   filters: [{
     frequency: 32,
@@ -81,7 +81,12 @@ export const initialTrackState = {
   },
 
   compressor: {
-
+    threshold: 0,
+    knee: 0,
+    ratio: 0,
+    reduction: 0,
+    attack: 0,
+    release: 0
   }
 };
 
@@ -178,6 +183,20 @@ export default function(state = initialState, action) {
       var newState = Object.assign({}, state);
 
       newState.meta[action.id].filters = action.filters;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_SET_REVERB:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].reverb = action.reverb;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_SET_COMPRESSOR:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].compressor = action.compressor;
 
       return newState;
 

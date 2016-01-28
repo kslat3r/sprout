@@ -11,6 +11,8 @@ export const TRACK_TOGGLE_LOOP = 'TRACK_TOGGLE_LOOP';
 export const TRACK_SET_REGION = 'TRACK_SET_REGION';
 export const TRACK_CLEAR_REGION = 'TRACK_CLEAR_REGION';
 export const TRACK_SET_FILTERS = 'TRACK_SET_FILTERS';
+export const TRACK_SET_REVERB = 'TRACK_SET_REVERB';
+export const TRACK_SET_COMPRESSOR = 'TRACK_SET_COMPRESSOR';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
 export const TRACK_SUCCESS = 'TRACK_SUCCESS';
@@ -156,7 +158,23 @@ export function setFilters(id, filters) {
     id,
     filters
   };
-}
+};
+
+export function setReverb(id, reverb) {
+  return {
+    type: TRACK_SET_REVERB,
+    id,
+    reverb
+  };
+};
+
+export function setCompressor(id, compressor) {
+  return {
+    type: TRACK_SET_COMPRESSOR,
+    id,
+    compressor
+  };
+};
 
 export function failure(exception) {
   return {

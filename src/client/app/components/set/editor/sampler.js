@@ -37,26 +37,36 @@ class SetEditorSampler extends Component {
 
     //region
 
-    if (this.props.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
-      this.props.region.remove();
-      this.props.region = null;
+    if (this.props.meta.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
+      this.props.meta.region.remove();
+      this.props.meta.region = null;
 
       return;
     }
 
-    //eq
+    var filtersToSet = [];
 
-    if (!this.ws.backend.filters || !_.isEqual(this.props.meta.filters, nextProps.meta.filters)) {
-      if (this.props.meta.filters[0] instanceof BiquadFilterNode) {
-        this.ws.backend.setFilters(this.props.meta.filters);
-      }
+    //filter
+
+    if (nextProps.meta.filters[0] instanceof BiquadFilterNode) {
+      filtersToSet = filtersToSet.concat(nextProps.meta.filters);
     }
+
+    //compressor
+
+    if (nextProps.meta.compressor instanceof DynamicsCompressorNode) {
+      filtersToSet.push(nextProps.meta.compressor);
+    }
+
+    console.log(filtersToSet);
+
+    this.ws.backend.setFilters(filtersToSet);
 
     //control state
 
     if (nextProps.meta.isPlaying) {
-      if (this.props.region) {
-        this.seekToRegion(this.props.region);
+      if (this.props.meta.region) {
+        this.seekToRegion(this.props.meta.region);
       }
 
       this.ws.play();
@@ -66,8 +76,8 @@ class SetEditorSampler extends Component {
         this.ws.stop();
       }
 
-      if (this.props.region) {
-        this.ws.seekTo(this.props.region.start / this.ws.getDuration());
+      if (this.props.meta.region) {
+        this.ws.seekTo(this.props.meta.region.start / this.ws.getDuration());
       }
       else {
         this.ws.seekTo(0);
@@ -86,7 +96,7 @@ class SetEditorSampler extends Component {
 
   onReady() {
 
-    //eq
+    //filters
 
     var filters = this.props.meta.filters.map((band) => {
       var filter = this.ws.backend.ac.createBiquadFilter();
@@ -103,15 +113,19 @@ class SetEditorSampler extends Component {
 
     //reverb
 
-    //var reverb = this.ws.backend.ac.createConvolver();
+    var reverb = this.ws.backend.ac.createConvolver();
 
-    //this.props.tracksAction.setReverb(this.props.track.id, reverb);
+    this.props.trackActions.setReverb(this.props.track.id, reverb);
 
     //compressor
 
-    //var compressor = this.ws.backend.ac.createDynamicsCompressor();
+    var compressor = this.ws.backend.ac.createDynamicsCompressor();
 
-    //this.props.trackAction.setCompressor(this.props.track.id, compressor);
+    Object.keys(this.props.meta.compressor).forEach((key) => {
+      compressor[key].value = this.props.meta.compressor[key];
+    });
+
+    this.props.trackActions.setCompressor(this.props.track.id, compressor);
 
     //sample
 
@@ -125,7 +139,7 @@ class SetEditorSampler extends Component {
       this.onRegionOut(Region);
       this.seekToRegion(Region);
 
-      this.props.region = Region;
+      this.props.meta.region = Region;
     }
   }
 
@@ -138,11 +152,11 @@ class SetEditorSampler extends Component {
   }
 
   onRegionUpdated(Region, e) {
-    if (this.props.region && e.toElement.className !== 'wavesurfer-region') {
-      this.props.region.remove();
+    if (this.props.meta.region && e.toElement.className !== 'wavesurfer-region') {
+      this.props.meta.region.remove();
     }
 
-    this.props.region = Region;
+    this.props.meta.region = Region;
 
     var regionParams = {
       startPosition: Region.start,
