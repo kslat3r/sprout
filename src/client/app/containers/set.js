@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
 import * as PlayerActions from '../actions/player';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
-import SetTrack from '../components/set/track';
+import SetEditorTrack from '../components/set/editor/track';
 
 class Set extends Component {
   componentDidMount() {
@@ -55,7 +55,7 @@ class Set extends Component {
     if (this.props.set.result.tracks.length) {
       tracks = this.props.set.result.tracks.map((track, i) => {
         return (
-          <SetTrack track={track} meta={this.props.set.meta[track.id]} index={i} key={i} />
+          <SetEditorTrack track={track} meta={this.props.set.meta[track.id]} index={i} key={i} />
         );
       });
     }

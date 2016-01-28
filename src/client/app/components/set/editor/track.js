@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import ArtistLink from '../link/artist';
-import SetEditorSampler from './editor/sampler';
-import SetEditorEQ from './editor/eq';
-import SetEditorReverb from './editor/reverb';
-import SetEditorCompressor from './editor/compressor';
+import ArtistLink from '../../link/artist';
+import SetEditorSampler from './sampler';
+import SetEditorEQ from './eq';
+import SetEditorReverb from './reverb';
+import SetEditorCompressor from './compressor';
 
 export default class SetTrack extends Component {
   render() {

@@ -1,4 +1,5 @@
 import * as SetActionCreators from '../actions/set';
+import * as TrackActionCreators from '../actions/track';
 
 export const initialState = {
   result: {
@@ -19,6 +20,7 @@ export const initialTrackState = {
   isPaused: false,
   isStopped: true,
 
+  region: null,
   startPosition: null,
   endPosition: null,
   isLooped: false,
@@ -62,7 +64,9 @@ export const initialTrackState = {
   {
     f: 16000,
     type: 'highshelf'
-  }]
+  }],
+
+  filters: []
 };
 
 export default function(state = initialState, action) {
@@ -103,6 +107,63 @@ export default function(state = initialState, action) {
           })
         });
       });
+
+      return newState;
+
+    case TrackActionCreators.TRACK_PLAY:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].isPlaying = true;
+      newState.meta[action.id].isPaused = false;
+      newState.meta[action.id].isStopped = false;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_PAUSE:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].isPlaying = false;
+      newState.meta[action.id].isPaused = true;
+      newState.meta[action.id].isStopped = false;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_STOP:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].isPlaying = false;
+      newState.meta[action.id].isPaused = false;
+      newState.meta[action.id].isStopped = true;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_TOGGLE_LOOP:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].isLooped = !newState.meta[action.id].isLooped;
+
+      return newState;
+
+    case TrackActionCreators.TRACK_SET_REGION:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].startPosition = action.params.startPosition;
+      newState.meta[action.id].endPosition = action.params.endPosition;
+
+      return newState
+
+    case TrackActionCreators.TRACK_CLEAR_REGION:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].startPosition = null;
+      newState.meta[action.id].endPosition = null;
+
+      return newState
+
+    case TrackActionCreators.TRACK_SET_FILTERS:
+      var newState = Object.assign({}, state);
+
+      newState.meta[action.id].filters = action.filters;
 
       return newState;
 

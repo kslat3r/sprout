@@ -20,7 +20,7 @@ import reducers from './reducers';
 //create store
 
 const createStoreWithMiddleware = compose(
-  applyMiddleware(createLogger()),
+  //applyMiddleware(createLogger()),
   applyMiddleware(thunk),
   reduxReactRouter({routes, createHistory})
 )(createStore);

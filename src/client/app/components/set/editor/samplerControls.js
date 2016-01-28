@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import { Modal, Button } from 'react-bootstrap';
 
-export default class SetEditorSamplerControls extends Component {
+class SetEditorSamplerControls extends Component {
   constructor(props) {
     super(props);
 
@@ -36,62 +36,48 @@ export default class SetEditorSamplerControls extends Component {
   }
 
   play() {
-    this.props.trackActions.play(this.track.id);
+    this.props.trackActions.play(this.props.track.id);
   }
 
   pause() {
-    this.props.trackActions.pause(this.track.id);
+    this.props.trackActions.pause(this.props.track.id);
   }
 
   stop() {
-    this.props.trackActions.stop(this.track.id);
-
-    /*if (this.state.region) {
-      this.ws.seekTo(this.state.region.start / this.ws.backend.buffer.duration);
-    }*/
+    this.props.trackActions.stop(this.props.track.id);
   }
 
   rewind() {
-    this.props.trackActions.stop(this.track.id);
+    var shouldPlay = this.props.meta.isPlaying;
 
-    if (this.props.meta.isPlaying) {
-      this.props.trackActions.play(this.track.id);
+    this.stop();
+
+    if (shouldPlay) {
+      setTimeout(() => {
+        this.props.trackActions.play(this.props.track.id);
+      }.bind(this), 5);
     }
   }
 
   toggleLoop() {
-    this.props.setActions.updateTrack({
-      id: this.props.track.id,
-      params: {
-        loop: !this.props.meta.isLooped
-      }
+    this.props.trackActions.updateInSet(this.props.track.id, {
+      loop: !this.props.meta.isLooped
     });
 
-    this.props.trackActions.toggleLoop(this.track.id);
+    this.props.trackActions.toggleLoop(this.props.track.id);
   }
 
   clear() {
-    /*if (this.state.region) {
-      this.state.region.remove();
-    }*/
-
-    this.props.setActions.updateTrack({
-      id: this.props.track.id,
-      params: {
-        startPosition: null,
-        endPosition: null
-      }
+    this.props.trackActions.updateInSet(this.props.track.id, {
+      startPosition: null,
+      endPosition: null
     });
 
-    /*this.setState({
-      region: null
-    });*/
+    this.props.trackActions.clearRegion(this.props.track.id);
   }
 
   remove() {
-    this.props.setActions.deleteTrack({
-      id: this.props.track.id
-    });
+    this.props.trackActions.deleteFromSet(this.props.track.id);
 
     this.setState({
       removeModalShown: false
@@ -186,3 +172,14 @@ SetEditorSamplerControls.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
+
+export default connect(function(state) {
+  return {
+  };
+}, function(dispatch) {
+  return {
+    trackActions: bindActionCreators(TrackActions, dispatch)
+  };
+}, function(stateProps, dispatchProps, ownProps) {
+  return Object.assign(stateProps, dispatchProps, ownProps);
+})(SetEditorSamplerControls);

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -37,7 +38,46 @@ class SetEditorSampler extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+
+    //region
+
+    if (this.state.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
+      this.state.region.remove();
+      this.state.region = null;
+
+      return;
+    }
+
+    //eq
+
+    if (!this.ws.backend.filters || !_.isEqual(this.props.meta.filters, nextProps.meta.filters)) {
+      this.ws.backend.setFilters(this.props.meta.filters);
+    }
+
+    //control state
+
+    if (nextProps.meta.isPlaying) {
+      if (this.state.region) {
+        this.seekToRegion(this.state.region);
+      }
+
+      this.ws.play();
+    }
+    else if (nextProps.meta.isStopped) {
+      if (this.ws.isPlaying()) {
+        this.ws.stop();
+      }
+
+      if (this.state.region) {
+        this.ws.seekTo(this.state.region.start / this.ws.getDuration());
+      }
+      else {
+        this.ws.seekTo(0);
+      }
+    }
+    else if (nextProps.meta.isPaused) {
+      this.ws.pause();
+    }
   }
 
   bindEvents() {
@@ -61,7 +101,7 @@ class SetEditorSampler extends Component {
       return filter;
     }.bind(this));
 
-    this.ws.backend.setFilters(filters);
+    this.props.trackActions.setFilters(this.props.track.id, filters);
 
     //sample
 
@@ -75,9 +115,7 @@ class SetEditorSampler extends Component {
       this.onRegionOut(Region);
       this.seekToRegion(Region);
 
-      this.setState({
-        region: Region
-      });
+      this.state.region = Region;
     }
   }
 
@@ -92,23 +130,17 @@ class SetEditorSampler extends Component {
   onRegionUpdated(Region, e) {
     if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
       this.state.region.remove();
-
-      if (this.props.meta.isPlaying) {
-        this.props.trackActions.stop(this.props.track.id);
-      }
     }
 
-    this.setState({
-      region: Region
-    });
+    this.state.region = Region;
 
-    this.props.trackActions.updateInSet({
-      id: this.props.track.id,
-      params: {
-        startPosition: Region.start,
-        endPosition: Region.end
-      }
-    });
+    var regionParams = {
+      startPosition: Region.start,
+      endPosition: Region.end
+    };
+
+    this.props.trackActions.updateInSet(this.props.track.id, regionParams);
+    this.props.trackActions.setRegion(this.props.track.id, regionParams);
 
     this.seekToRegion(Region);
     this.onRegionOut(Region);
@@ -116,7 +148,7 @@ class SetEditorSampler extends Component {
 
   onRegionOut(Region) {
     Region.on('out', () => {
-      if (this.props.meta.isLooped === true) {
+      if (this.props.meta.isLooped) {
         this.props.trackActions.play(this.props.track.id);
       }
       else if (this.props.meta.isPlaying) {
@@ -127,7 +159,7 @@ class SetEditorSampler extends Component {
 
   seekToRegion(Region) {
     setTimeout(() => {
-      this.ws.seekTo(Region.start / this.ws.backend.buffer.duration);
+      this.ws.seekTo(Region.start / this.ws.getDuration());
     }.bind(this), 10);
   }
 
@@ -160,4 +192,6 @@ export default connect(function(state) {
   return {
     trackActions: bindActionCreators(TrackActions, dispatch)
   };
+}, function(stateProps, dispatchProps, ownProps) {
+  return Object.assign(stateProps, dispatchProps, ownProps);
 })(SetEditorSampler);
