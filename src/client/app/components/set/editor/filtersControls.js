@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 
-class SetEditorEQControls extends Component {
+class SetEditorFiltersControls extends Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ class SetEditorEQControls extends Component {
   }
 }
 
-SetEditorEQControls.propTypes = {
+SetEditorFiltersControls.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -51,4 +51,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorEQControls);
+})(SetEditorFiltersControls);

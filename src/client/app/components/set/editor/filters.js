@@ -3,9 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
-import SetEditorEQControls from './eqControls';
+import SetEditorFiltersControls from './filtersControls';
 
-class SetEditorEQ extends Component {
+class SetEditorFilters extends Component {
   constructor(props) {
     super(props);
 
@@ -25,25 +25,30 @@ class SetEditorEQ extends Component {
 
   onFilterChange(filter, index, e) {
     this.props.meta.filters[index].gain.value = ~~e.target.value;
-    this.forceUpdate();
-
-    this.props.trackActions.setFilters(this.props.track.id, this.props.meta.filters);
-
-    var eq = {};
-    eq[filter.frequency.value] = filter.gain.value;
 
     if (this.state.updateTimeout) {
       clearInterval(this.state.updateTimeout);
     }
 
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {eq}]), 500);
+    var filters = this.props.meta.filters.map((filter) => {
+      return {
+        frequency: filter.frequency.value,
+        type: filter.type,
+        value: filter.gain.value
+      };
+    });
+
+    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {filters}]), 500);
+    this.props.trackActions.setFilters(this.props.track.id, this.props.meta.filters);
+
+    this.forceUpdate();
   }
 
   render() {
-    var eq;
+    var filters;
 
     if (this.state.shown) {
-      eq = (
+      filters = (
         <div className="m-t-20 m-b-20">
           <div className="row vertical-center">
             <div className="col-xs-11">
@@ -58,7 +63,7 @@ class SetEditorEQ extends Component {
               }.bind(this))}
             </div>
             <div className="col-xs-1">
-              <SetEditorEQControls track={this.props.track} meta={this.props.meta} />
+              <SetEditorFiltersControls track={this.props.track} meta={this.props.meta} />
             </div>
           </div>
         </div>
@@ -66,17 +71,17 @@ class SetEditorEQ extends Component {
     }
 
     return (
-      <div className="eq">
+      <div className="filters">
         <div className="toggle-handler" onClick={this.toggleShown}>
-          Equaliser
+          Filters
         </div>
-        {eq}
+        {filters}
       </div>
     );
   }
 }
 
-SetEditorEQ.propTypes = {
+SetEditorFilters.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -90,4 +95,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorEQ);
+})(SetEditorFilters);

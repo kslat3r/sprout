@@ -11,18 +11,62 @@ setSchema.statics.defaultTrackMeta = {
   name: null,
   startPosition: null,
   endPosition: null,
-  loop: false,
-  eq: {
-    32: 0,
-    64: 0,
-    125: 0,
-    250: 0,
-    500: 0,
-    1000: 0,
-    2000: 0,
-    4000: 0,
-    8000: 0,
-    16000: 0
+  isLooped: false,
+  filters: [{
+    frequency: 32,
+    type: 'lowshelf',
+    value: 0
+  },
+  {
+    frequency: 64,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 125,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 250,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 500,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 1000,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 2000,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 4000,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 8000,
+    type: 'peaking',
+    value: 0
+  },
+  {
+    frequency: 16000,
+    type: 'highshelf',
+    value: 0
+  }],
+  reverb: {
+
+  },
+  compressor: {
+
   }
 };
 

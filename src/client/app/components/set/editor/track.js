@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import ArtistLink from '../../link/artist';
 import SetEditorSampler from './sampler';
-import SetEditorEQ from './eq';
+import SetEditorFilters from './filters';
 import SetEditorReverb from './reverb';
 import SetEditorCompressor from './compressor';
 
@@ -34,9 +34,9 @@ export default class SetTrack extends Component {
         <div className="row">
           <div className="col-xs-12">
             <SetEditorSampler track={track} meta={meta} />
-            <SetEditorEQ track={track} meta={meta} />
-            <SetEditorReverb track={track} meta={meta} />
-            <SetEditorCompressor track={track} meta={meta} />
+            <SetEditorFilters track={track} meta={meta} />
+            {/*<SetEditorReverb track={track} meta={meta} />
+            <SetEditorCompressor track={track} meta={meta} />*/}
           </div>
         </div>
       </div>

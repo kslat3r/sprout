@@ -14,10 +14,6 @@ class SetEditorSampler extends Component {
     }
 
     this.ws = Object.create(WaveSurfer);
-
-    this.state = {
-      region: null
-    };
   }
 
   componentDidMount() {
@@ -41,9 +37,9 @@ class SetEditorSampler extends Component {
 
     //region
 
-    if (this.state.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
-      this.state.region.remove();
-      this.state.region = null;
+    if (this.props.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
+      this.props.region.remove();
+      this.props.region = null;
 
       return;
     }
@@ -51,14 +47,16 @@ class SetEditorSampler extends Component {
     //eq
 
     if (!this.ws.backend.filters || !_.isEqual(this.props.meta.filters, nextProps.meta.filters)) {
-      this.ws.backend.setFilters(this.props.meta.filters);
+      if (this.props.meta.filters[0] instanceof BiquadFilterNode) {
+        this.ws.backend.setFilters(this.props.meta.filters);
+      }
     }
 
     //control state
 
     if (nextProps.meta.isPlaying) {
-      if (this.state.region) {
-        this.seekToRegion(this.state.region);
+      if (this.props.region) {
+        this.seekToRegion(this.props.region);
       }
 
       this.ws.play();
@@ -68,8 +66,8 @@ class SetEditorSampler extends Component {
         this.ws.stop();
       }
 
-      if (this.state.region) {
-        this.ws.seekTo(this.state.region.start / this.ws.getDuration());
+      if (this.props.region) {
+        this.ws.seekTo(this.props.region.start / this.ws.getDuration());
       }
       else {
         this.ws.seekTo(0);
@@ -90,18 +88,30 @@ class SetEditorSampler extends Component {
 
     //eq
 
-    var filters = this.props.meta.EQ.map((band) => {
+    var filters = this.props.meta.filters.map((band) => {
       var filter = this.ws.backend.ac.createBiquadFilter();
 
       filter.type = band.type;
       filter.gain.value = band.value;
+      filter.frequency.value = band.frequency;
       filter.Q.value = 1;
-      filter.frequency.value = band.f;
 
       return filter;
     }.bind(this));
 
     this.props.trackActions.setFilters(this.props.track.id, filters);
+
+    //reverb
+
+    //var reverb = this.ws.backend.ac.createConvolver();
+
+    //this.props.tracksAction.setReverb(this.props.track.id, reverb);
+
+    //compressor
+
+    //var compressor = this.ws.backend.ac.createDynamicsCompressor();
+
+    //this.props.trackAction.setCompressor(this.props.track.id, compressor);
 
     //sample
 
@@ -115,7 +125,7 @@ class SetEditorSampler extends Component {
       this.onRegionOut(Region);
       this.seekToRegion(Region);
 
-      this.state.region = Region;
+      this.props.region = Region;
     }
   }
 
@@ -128,11 +138,11 @@ class SetEditorSampler extends Component {
   }
 
   onRegionUpdated(Region, e) {
-    if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
-      this.state.region.remove();
+    if (this.props.region && e.toElement.className !== 'wavesurfer-region') {
+      this.props.region.remove();
     }
 
-    this.state.region = Region;
+    this.props.region = Region;
 
     var regionParams = {
       startPosition: Region.start,

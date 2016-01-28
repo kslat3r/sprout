@@ -25,48 +25,64 @@ export const initialTrackState = {
   endPosition: null,
   isLooped: false,
 
-  EQ: [{
-    f: 32,
-    type: 'lowshelf'
+  filters: [{
+    frequency: 32,
+    type: 'lowshelf',
+    value: 0
   },
   {
-    f: 64,
-    type: 'peaking'
+    frequency: 64,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 125,
-    type: 'peaking'
+    frequency: 125,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 250,
-    type: 'peaking'
+    frequency: 250,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 500,
-    type: 'peaking'
+    frequency: 500,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 1000,
-    type: 'peaking'
+    frequency: 1000,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 2000,
-    type: 'peaking'
+    frequency: 2000,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 4000,
-    type: 'peaking'
+    frequency: 4000,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 8000,
-    type: 'peaking'
+    frequency: 8000,
+    type: 'peaking',
+    value: 0
   },
   {
-    f: 16000,
-    type: 'highshelf'
+    frequency: 16000,
+    type: 'highshelf',
+    value: 0
   }],
 
-  filters: []
+  reverb: {
+
+  },
+
+  compressor: {
+
+  }
 };
 
 export default function(state = initialState, action) {
@@ -98,13 +114,11 @@ export default function(state = initialState, action) {
 
           startPosition: action.response.tracksMeta[track.id].startPosition,
           endPosition: action.response.tracksMeta[track.id].endPosition,
-          isLooped: action.response.tracksMeta[track.id].loop,
+          isLooped: action.response.tracksMeta[track.id].isLooped,
 
-          EQ: initialTrackState.EQ.map((filter) => {
-            filter.value = action.response.tracksMeta[track.id].eq[filter.f];
-
-            return filter;
-          })
+          filters: action.response.tracksMeta[track.id].filters,
+          reverb: action.response.tracksMeta[track.id].reverb,
+          compressor: action.response.tracksMeta[track.id].compressor
         });
       });
 
