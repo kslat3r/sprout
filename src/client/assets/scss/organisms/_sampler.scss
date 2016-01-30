@@ -3,6 +3,22 @@
     margin-bottom: 10px;
   }
 
+  .loading {
+    position: relative;
+    background-color: transparent;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    font-size: 2em;
+    margin: auto;
+    text-align: center;
+    margin-bottom: -200px;
+  }
+
   .waveform {
     cursor: text;
   }

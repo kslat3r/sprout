@@ -66,12 +66,11 @@ setSchema.statics.defaultTrackMeta = {
 
   },
   compressor: {
-    threshold: 0,
-    knee: 0,
-    ratio: 0,
-    reduction: 0,
-    attack: 0,
-    release: 0
+    threshold: -24,
+    knee: 30,
+    ratio: 12,
+    attack: 0.003,
+    release: 0.250
   }
 };
 

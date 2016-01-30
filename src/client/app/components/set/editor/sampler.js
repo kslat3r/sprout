@@ -14,6 +14,10 @@ class SetEditorSampler extends Component {
     }
 
     this.ws = Object.create(WaveSurfer);
+
+    this.state = {
+      ready: false
+    };
   }
 
   componentDidMount() {
@@ -58,8 +62,6 @@ class SetEditorSampler extends Component {
       filtersToSet.push(nextProps.meta.compressor);
     }
 
-    console.log(filtersToSet);
-
     this.ws.backend.setFilters(filtersToSet);
 
     //control state
@@ -95,6 +97,9 @@ class SetEditorSampler extends Component {
   }
 
   onReady() {
+    this.setState({
+      ready: true
+    });
 
     //filters
 
@@ -188,14 +193,32 @@ class SetEditorSampler extends Component {
   }
 
   render() {
+    var controls;
+    var throbber;
+
+    if (this.state.ready) {
+      controls = <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />;
+    }
+
+    if (!this.state.ready) {
+      throbber = (
+        <div className="row">
+          <div className="loading col-xs-12">
+            <i className="fa fa-spinner fa-spin"></i>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="sampler">
+        {throbber}
         <div className="row vertical-center">
           <div className="col-xs-11">
             <div ref="wavesurfer" className="waveform" />
           </div>
           <div className="col-xs-1">
-            <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />
+            {controls}
           </div>
         </div>
       </div>

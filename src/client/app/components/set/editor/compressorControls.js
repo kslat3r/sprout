@@ -13,7 +13,7 @@ export default class SetEditorCompressorControls extends Component {
   reset() {
     var compressor = {};
 
-    ['threshold', 'knee', 'ratio', 'reduction', 'attack', 'release'].forEach((key) => {
+    ['threshold', 'knee', 'ratio', 'attack', 'release'].forEach((key) => {
       compressor[key] = this.props.meta.compressor[key].defaultValue;
       this.props.meta.compressor[key].value = this.props.meta.compressor[key].defaultValue;
     }.bind(this));

@@ -16,6 +16,17 @@ export default class SetTrack extends Component {
       imageSrc = track.album.images[track.album.images.length - 2].url;
     }
 
+    var filters;
+    var compressor;
+
+    if (meta.filters[0] instanceof BiquadFilterNode) {
+      filters = <SetEditorFilters track={track} meta={meta} />;
+    }
+
+    if (meta.compressor instanceof DynamicsCompressorNode) {
+      compressor = <SetEditorCompressor track={track} meta={meta} />;
+    }
+
     return (
       <div className="m-b-40 b-b-solid p-b-40 set-track col-xs-12">
         <div className="row m-b-20">
@@ -34,9 +45,9 @@ export default class SetTrack extends Component {
         <div className="row">
           <div className="col-xs-12">
             <SetEditorSampler track={track} meta={meta} />
-            <SetEditorFilters track={track} meta={meta} />
+            {filters}
             {/*<SetEditorReverb track={track} meta={meta} />*/}
-            <SetEditorCompressor track={track} meta={meta} />
+            {compressor}
           </div>
         </div>
       </div>
