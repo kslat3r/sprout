@@ -108,7 +108,7 @@ class SetEditorEffect extends Component {
     return (
       <div className={className}>
         <div className="toggle-handler">
-          {_.capitalize(this.props.effect)}
+          {_.startCase(this.props.effect)}
           <Switch state={!this.props.meta.effects[this.props.effect].bypass} size="mini" onText="On" offText="Bypass" onColor="success" offColor="danger" onChange={this.onBypassToggle} />
         </div>
           <ReactCSSTransitionGroup transitionName="effect-params" transitionEnterTimeout={0} transitionLeaveTimeout={0}>
