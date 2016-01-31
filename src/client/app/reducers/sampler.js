@@ -12,7 +12,7 @@ export const initialState = {
     color: 'rgba(255, 203, 5, 0.4)'
   },
 
-  region: null
+  region: null,  
 };
 
 export default function() {

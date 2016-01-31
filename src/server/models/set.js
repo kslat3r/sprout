@@ -14,15 +14,6 @@ setSchema.statics.defaultTrackMeta = {
   isLooped: false,
   hasLoaded: false,
   effects: {
-    reverb: {
-      highCut: 22050,
-      lowCut: 20,
-      dryLevel: 0,
-      wetLevel: 0,
-      level: 0,
-      impulse: null,
-      bypass: 1
-    },
     chorus: {
       rate: 1.5,
       feedback: 0.2,
@@ -68,7 +59,7 @@ setSchema.statics.defaultTrackMeta = {
       dryLevel: 1,
       wetLevel: 1,
       level: 1,
-      impulse: null,
+      impulse: 'Block Inside.wav',
       bypass: 1
     },
     filters: {
@@ -85,63 +76,63 @@ setSchema.statics.defaultTrackMeta = {
           frequency: 64,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 125,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 250,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 500,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 1000,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 2000,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 4000,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 8000,
           Q: 1,
           gain: 0,
-          type: 'peaking',
+          filterType: 'peaking',
           bypass: 0
         },
         {
           frequency: 16000,
           Q: 1,
           gain: 0,
-          type: 'highshelf',
+          filterType: 'highshelf',
           bypass: 0
         }
       ]

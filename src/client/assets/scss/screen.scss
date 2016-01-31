@@ -2,6 +2,7 @@
 
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'react-bootstrap-switch';
 
 @import 'atoms/borders';
 @import 'atoms/margins';
@@ -20,12 +21,10 @@
 @import 'molecules/thumbnail';
 
 @import 'organisms/add-control';
-@import 'organisms/filters';
 @import 'organisms/navbar';
 @import 'organisms/playbar';
-@import 'organisms/sampler';
 @import 'organisms/set-scroller';
-@import 'organisms/compressor';
-@import 'organisms/reverb';
+@import 'organisms/sampler';
+@import 'organisms/effect';
 
 @import 'templates/set';

@@ -24,26 +24,18 @@
       align-items: center;
     }
 
-    .toggle-handler {
-      background-color: #444;
-      text-align: center;
-      cursor: pointer;
-      margin-top: 2px;
-      margin-bottom: 2px;
-      color: #666;
-      border-radius: 5px;
-      font-size: 0.8em;
-      padding: 2px 0;
-    }
-
     .controls {
       .row {
         text-align: center;
+
+        &:nth-child(2) {
+          margin-bottom: 10px;
+        }
       }
 
       span {
-        font-size: 1.5em;
-        width: 33%;
+        font-size: 1em;
+        width: 30%;
         display: block;
         float: left;
       }

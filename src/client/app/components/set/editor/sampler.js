@@ -69,7 +69,7 @@ class SetEditorSampler extends Component {
 
       //single effects
 
-      ['chorus', 'delay', 'phaser', 'overdrive', 'compressor', 'convolver', 'tremolo', 'wahWah', 'bitcrusher', 'pingPongDelay'].forEach((effect) => {
+      nextProps.effects.single.forEach((effect) => {
         if (!this.state[effect]) {
           if (!nextProps.meta.effects[effect].bypass) {
             this.state[effect] = new this.tuna[_.capitalize(effect)](nextProps.meta.effects[effect]);
@@ -89,7 +89,7 @@ class SetEditorSampler extends Component {
 
       //array effects
 
-      ['filters'].forEach((effect) => {
+      /*nextProps.effects.multiple.forEach((effect) => {
         if (!this.state[effect]) {
           this.state[effect] = [];
 
@@ -113,7 +113,7 @@ class SetEditorSampler extends Component {
             });
           }
         }
-      }.bind(this));
+      }.bind(this));*/
     }
 
     //control state
@@ -256,7 +256,8 @@ SetEditorSampler.propTypes = {
 
 export default connect(function(state) {
   return {
-    sampler: state.sampler
+    sampler: state.sampler,
+    effects: state.effects
   };
 }, function(dispatch) {
   return {

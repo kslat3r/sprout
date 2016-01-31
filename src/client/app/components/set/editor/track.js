@@ -1,29 +1,26 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ArtistLink from '../../link/artist';
 import SetEditorSampler from './sampler';
-import SetEditorFilters from './filters';
-import SetEditorReverb from './reverb';
-import SetEditorCompressor from './compressor';
+import SetEditorEffect from './effect';
 
-export default class SetTrack extends Component {
+class SetTrack extends Component {
   render() {
     var track = this.props.track;
     var meta = this.props.meta;
     var imageSrc = '/images/thumbnail-placeholder.png';
-
-    var filters;
-    var reverb;
-    var compressor;
+    var effects = [];
 
     if (track.album.images[track.album.images.length - 2] && track.album.images[track.album.images.length - 2].url) {
       imageSrc = track.album.images[track.album.images.length - 2].url;
     }
 
     if (meta.hasLoaded) {
-      /*filters = <SetEditorFilters track={track} meta={meta} />;
-      reverb = <SetEditorReverb track={track} meta={meta} />;
-      compressor = <SetEditorCompressor track={track} meta={meta} />;*/
+      this.props.effects.single.forEach((effect, i) => {
+        effects.push(<SetEditorEffect effect={effect} track={track} meta={meta} key={i} />)
+      });
     }
 
     return (
@@ -44,9 +41,7 @@ export default class SetTrack extends Component {
         <div className="row">
           <div className="col-xs-12">
             <SetEditorSampler track={track} meta={meta} />
-            {filters}
-            {reverb}
-            {compressor}
+            {effects}
           </div>
         </div>
       </div>
@@ -58,3 +53,14 @@ SetTrack.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
+
+export default connect(function(state) {
+  return {
+    sampler: state.sampler,
+    effects: state.effects
+  };
+}, function(dispatch) {
+  return {};
+}, function(stateProps, dispatchProps, ownProps) {
+  return Object.assign(stateProps, dispatchProps, ownProps);
+})(SetTrack);

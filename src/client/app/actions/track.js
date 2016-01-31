@@ -158,27 +158,11 @@ export function clearRegion(id) {
   };
 };
 
-export function setFilters(id, filters) {
+export function setEffects(id, effects) {
   return {
-    type: TRACK_SET_FILTERS,
+    type: TRACK_SET_EFFECTS,
     id,
-    filters
-  };
-};
-
-export function setReverb(id, reverb) {
-  return {
-    type: TRACK_SET_REVERB,
-    id,
-    reverb
-  };
-};
-
-export function setCompressor(id, compressor) {
-  return {
-    type: TRACK_SET_COMPRESSOR,
-    id,
-    compressor
+    effects
   };
 };
 

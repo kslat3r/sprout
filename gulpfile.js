@@ -21,6 +21,7 @@ var opts = {
 
   browserSync: browserSync.create(),
   vendorDir: __dirname + '/src/client/vendor',
+  nodeModulesDir: __dirname + '/node_modules',
 
   scripts: {
     srcFile: __dirname + '/src/client/app/index.js',
@@ -53,6 +54,11 @@ var opts = {
   images: {
     srcDir: __dirname + '/src/client/assets/images/**/*',
     buildDir: __dirname + '/build/images'
+  },
+
+  impulses: {
+    srcDir: __dirname + '/src/client/assets/impulses/**/*',
+    buildDir: __dirname + '/build/impulses'
   },
 
   html: {
@@ -88,7 +94,7 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'images', 'html'], 'serve:client');
+  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'impulses', 'images', 'html'], 'serve:client');
 });
 
 gulp.on('err', function(err) {
