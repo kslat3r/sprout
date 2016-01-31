@@ -12,19 +12,18 @@ export default class SetTrack extends Component {
     var meta = this.props.meta;
     var imageSrc = '/images/thumbnail-placeholder.png';
 
+    var filters;
+    var reverb;
+    var compressor;
+
     if (track.album.images[track.album.images.length - 2] && track.album.images[track.album.images.length - 2].url) {
       imageSrc = track.album.images[track.album.images.length - 2].url;
     }
 
-    var filters;
-    var compressor;
-
-    if (meta.filters[0] instanceof BiquadFilterNode) {
-      filters = <SetEditorFilters track={track} meta={meta} />;
-    }
-
-    if (meta.compressor instanceof DynamicsCompressorNode) {
-      compressor = <SetEditorCompressor track={track} meta={meta} />;
+    if (meta.hasLoaded) {
+      /*filters = <SetEditorFilters track={track} meta={meta} />;
+      reverb = <SetEditorReverb track={track} meta={meta} />;
+      compressor = <SetEditorCompressor track={track} meta={meta} />;*/
     }
 
     return (
@@ -46,7 +45,7 @@ export default class SetTrack extends Component {
           <div className="col-xs-12">
             <SetEditorSampler track={track} meta={meta} />
             {filters}
-            {/*<SetEditorReverb track={track} meta={meta} />*/}
+            {reverb}
             {compressor}
           </div>
         </div>

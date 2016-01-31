@@ -1,9 +1,13 @@
 import _ from 'lodash';
+import lodashInflection from 'lodash-inflection';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Tuna from 'tunajs';
 import * as TrackActions from '../../../actions/track';
 import SetEditorSamplerControls from './samplerControls';
+
+_.mixin(lodashInflection);
 
 class SetEditorSampler extends Component {
   constructor(props) {
@@ -14,9 +18,20 @@ class SetEditorSampler extends Component {
     }
 
     this.ws = Object.create(WaveSurfer);
+    this.tuna = null;
 
     this.state = {
-      ready: false
+      chorus: null,
+      delay: null,
+      phaser: null,
+      overdrive: null,
+      compressor: null,
+      convolver: null,
+      filters: null,
+      tremolo: null,
+      wahWah: null,
+      bitcrusher: null,
+      pingPongDelay: null
     };
   }
 
@@ -48,21 +63,58 @@ class SetEditorSampler extends Component {
       return;
     }
 
-    var filtersToSet = [];
+    //effects
 
-    //filter
+    if (this.tuna) {
 
-    if (nextProps.meta.filters[0] instanceof BiquadFilterNode) {
-      filtersToSet = filtersToSet.concat(nextProps.meta.filters);
+      //single effects
+
+      ['chorus', 'delay', 'phaser', 'overdrive', 'compressor', 'convolver', 'tremolo', 'wahWah', 'bitcrusher', 'pingPongDelay'].forEach((effect) => {
+        if (!this.state[effect]) {
+          if (!nextProps.meta.effects[effect].bypass) {
+            this.state[effect] = new this.tuna[_.capitalize(effect)](nextProps.meta.effects[effect]);
+          }
+        }
+        else {
+          if (!nextProps.meta.effects[effect].bypass) {
+            Object.keys(nextProps.meta.effects[effect]).forEach((key) => {
+              this.state[effect][key] = nextProps.meta.effects[effect][key];
+            }.bind(this));
+          }
+          else {
+            this.state[effect].bypass = nextProps.meta.effects[effect].bypass;
+          }
+        }
+      }.bind(this));
+
+      //array effects
+
+      ['filters'].forEach((effect) => {
+        if (!this.state[effect]) {
+          this.state[effect] = [];
+
+          if (!nextProps.meta.effects[effect].bypass) {
+            nextProps.meta.effects[effect].items.forEach((item) => {
+              this.state[effect].push(new this.tuna[_.capitalize(_.singularize(effect))](item));
+            }.bind(this));
+          }
+        }
+        else {
+          if (!nextProps.meta.effects[effect].bypass) {
+            this.state[effect].forEach((item, i) => {
+              Object.keys(nextProps.meta.effects[effect][i]).forEach((key) => {
+                item[key] = nextProps.meta.effects[effect][i][key];
+              });
+            });
+          }
+          else {
+            this.state[effect].forEach((item, i) => {
+              item.bypass = nextProps.meta.effects[effect].bypass;
+            });
+          }
+        }
+      }.bind(this));
     }
-
-    //compressor
-
-    if (nextProps.meta.compressor instanceof DynamicsCompressorNode) {
-      filtersToSet.push(nextProps.meta.compressor);
-    }
-
-    this.ws.backend.setFilters(filtersToSet);
 
     //control state
 
@@ -97,42 +149,13 @@ class SetEditorSampler extends Component {
   }
 
   onReady() {
-    this.setState({
-      ready: true
-    });
+    this.props.trackActions.hasLoaded(this.props.track.id);
 
-    //filters
+    //tuna
 
-    var filters = this.props.meta.filters.map((band) => {
-      var filter = this.ws.backend.ac.createBiquadFilter();
+    this.tuna = new Tuna(this.ws.backend.ac);
 
-      filter.type = band.type;
-      filter.gain.value = band.value;
-      filter.frequency.value = band.frequency;
-      filter.Q.value = 1;
-
-      return filter;
-    }.bind(this));
-
-    this.props.trackActions.setFilters(this.props.track.id, filters);
-
-    //reverb
-
-    var reverb = this.ws.backend.ac.createConvolver();
-
-    this.props.trackActions.setReverb(this.props.track.id, reverb);
-
-    //compressor
-
-    var compressor = this.ws.backend.ac.createDynamicsCompressor();
-
-    Object.keys(this.props.meta.compressor).forEach((key) => {
-      compressor[key].value = this.props.meta.compressor[key];
-    });
-
-    this.props.trackActions.setCompressor(this.props.track.id, compressor);
-
-    //sample
+    //region
 
     if (this.props.meta.startPosition && this.props.meta.endPosition) {
       var Region = this.ws.addRegion({
@@ -196,11 +219,11 @@ class SetEditorSampler extends Component {
     var controls;
     var throbber;
 
-    if (this.state.ready) {
+    if (this.props.meta.hasLoaded) {
       controls = <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />;
     }
 
-    if (!this.state.ready) {
+    if (!this.props.meta.hasLoaded) {
       throbber = (
         <div className="row">
           <div className="loading col-xs-12">

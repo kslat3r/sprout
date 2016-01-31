@@ -4,15 +4,14 @@ import fetch from 'isomorphic-fetch';
 import * as SetsActions from './sets';
 import * as SetActions from './set';
 
+export const TRACK_HAS_LOADED = 'TRACK_HAS_LOADED';
 export const TRACK_PLAY = 'TRACK_PLAY';
 export const TRACK_PAUSE = 'TRACK_PAUSE';
 export const TRACK_STOP = 'TRACK_STOP';
 export const TRACK_TOGGLE_LOOP = 'TRACK_TOGGLE_LOOP';
 export const TRACK_SET_REGION = 'TRACK_SET_REGION';
 export const TRACK_CLEAR_REGION = 'TRACK_CLEAR_REGION';
-export const TRACK_SET_FILTERS = 'TRACK_SET_FILTERS';
-export const TRACK_SET_REVERB = 'TRACK_SET_REVERB';
-export const TRACK_SET_COMPRESSOR = 'TRACK_SET_COMPRESSOR';
+export const TRACK_SET_EFFECTS = 'TRACK_SET_EFFECTS';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
 export const TRACK_SUCCESS = 'TRACK_SUCCESS';
@@ -108,6 +107,13 @@ export function deleteFromSet(id) {
       .catch(exception => dispatch(failure(exception)));
   };
 };
+
+export function hasLoaded(id) {
+  return {
+    type: TRACK_HAS_LOADED,
+    id
+  };
+}
 
 export function play(id) {
   return {

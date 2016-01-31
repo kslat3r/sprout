@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as TrackActions from '../../../actions/track';
 
 export default class SetEditorReverbControls extends Component {
   constructor(props) {
@@ -12,6 +15,8 @@ export default class SetEditorReverbControls extends Component {
   }
 
   render() {
+    console.log(this.props.meta.reverb);
+
     return (
       <div className="controls">
         <div className="row">
@@ -27,4 +32,17 @@ export default class SetEditorReverbControls extends Component {
 }
 
 SetEditorReverbControls.propTypes = {
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired
 };
+
+export default connect(function(state) {
+  return {
+  };
+}, function(dispatch) {
+  return {
+    trackActions: bindActionCreators(TrackActions, dispatch)
+  };
+}, function(stateProps, dispatchProps, ownProps) {
+  return Object.assign(stateProps, dispatchProps, ownProps);
+})(SetEditorReverbControls);
