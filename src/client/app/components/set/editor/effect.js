@@ -89,7 +89,7 @@ class SetEditorEffect extends Component {
 
               return (
                 <div className={className} key={i}>
-                  <span className="title">{_.capitalize(key)}</span>
+                  <span className="title">{_.startCase(key)}</span>
                   {elem}
                 </div>
               );

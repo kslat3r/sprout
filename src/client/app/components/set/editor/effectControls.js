@@ -13,7 +13,7 @@ export default class SetEditorEffectControls extends Component {
 
   reset() {
     var newEffect = {};
-    newEffect[this.props.effect] = this.props.effects.default[this.props.effect];
+    newEffect[this.props.effect] = _.cloneDeep(this.props.effects.default[this.props.effect]);
     newEffect[this.props.effect].bypass = this.props.meta.effects[this.props.effect].bypass;
 
     var newEffects = _.extend(this.props.meta.effects, newEffect);
