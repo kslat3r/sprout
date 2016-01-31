@@ -18,8 +18,8 @@ class SetTrack extends Component {
     }
 
     if (meta.hasLoaded) {
-      this.props.effects.single.forEach((effect, i) => {
-        effects.push(<SetEditorEffect effect={effect} track={track} meta={meta} key={i} />)
+      this.props.effects.single.forEach((name, i) => {
+        effects.push(<SetEditorEffect effect={name} track={track} meta={meta} key={i} />);
       });
     }
 

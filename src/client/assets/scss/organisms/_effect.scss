@@ -24,6 +24,26 @@
     }
   }
 
+  .effect-params-enter {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .effect-params-enter.effect-params-enter-active {
+    max-height: 500px;
+    transition: all 250ms linear;
+  }
+
+  .effect-params-leave {
+    max-height: 500px;
+  }
+
+  .effect-params-leave.effect-params-leave-active {
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 250ms linear;
+  }
+
   .effect-params {
     .effect-param {
       margin-bottom: 20px;

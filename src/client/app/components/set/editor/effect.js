@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
@@ -27,7 +28,7 @@ class SetEditorEffect extends Component {
 
   onParamChange(key, e) {
     if (e.target && e.target.value) {
-      this.props.meta.effects[this.props.effect][key] = e.target.value;
+      this.props.meta.effects[this.props.effect][key] = parseFloat(e.target.value);
     }
     else {
       this.props.meta.effects[this.props.effect][key] = e;
@@ -110,7 +111,9 @@ class SetEditorEffect extends Component {
           {_.capitalize(this.props.effect)}
           <Switch state={!this.props.meta.effects[this.props.effect].bypass} size="mini" onText="On" offText="Bypass" onColor="success" offColor="danger" onChange={this.onBypassToggle} />
         </div>
-        {effect}
+          <ReactCSSTransitionGroup transitionName="effect-params" transitionEnterTimeout={0} transitionLeaveTimeout={0}>
+            {effect}
+          </ReactCSSTransitionGroup>
       </div>
     );
   }
