@@ -20,7 +20,7 @@ class SetEditorEffect extends Component {
   }
 
   onBypassToggle(e) {
-    this.props.meta.effects[this.props.effect].bypass = !this.props.meta.effects[this.props.effect].bypass;
+    this.props.meta.effects[this.props.effect].bypass = !!!this.props.meta.effects[this.props.effect].bypass;
 
     this.props.trackActions.setEffects(this.props.track.id, this.props.meta.effects);
     this.props.trackActions.updateInSet(this.props.track.id, {effects: this.props.meta.effects});

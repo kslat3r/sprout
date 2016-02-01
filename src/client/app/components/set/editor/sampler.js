@@ -65,11 +65,13 @@ class SetEditorSampler extends Component {
 
     //effects
 
-    if (this.tuna) {
+    if (this.tuna && !_.isEqual(this.props.meta.effects, nextProps.meta.effects)) {
+
+      console.log(true);
 
       //single effects
 
-      nextProps.effects.single.forEach((effect) => {
+      /*nextProps.effects.single.forEach((effect) => {
         if (!this.state[effect]) {
           if (!nextProps.meta.effects[effect].bypass) {
             this.state[effect] = new this.tuna[_.capitalize(effect)](nextProps.meta.effects[effect]);
@@ -85,7 +87,7 @@ class SetEditorSampler extends Component {
             this.state[effect].bypass = nextProps.meta.effects[effect].bypass;
           }
         }
-      }.bind(this));
+      }.bind(this));*/
 
       //array effects
 
@@ -114,6 +116,8 @@ class SetEditorSampler extends Component {
           }
         }
       }.bind(this));*/
+
+      return;
     }
 
     //control state
