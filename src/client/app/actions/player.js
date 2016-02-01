@@ -28,11 +28,11 @@ export function rewind() {
 
     dispatch({type: PLAYER_STOP});
 
-    if (state.player.isPlaying) {
+    if (state.get('player').toJS().isPlaying) {
       setTimeout(() => {
         dispatch({
           type: PLAYER_PLAY,
-          track: state.player.get('track').toJS()
+          track: state.get('player').toJS().track
         });
       }, 1);
     }

@@ -33,7 +33,7 @@ export function addToExistingSet(params) {
 
     var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
       body: JSON.stringify({
-        track: params.track.toJS()
+        track: params.track
       })
     });
 
@@ -53,7 +53,7 @@ export function addToNewSet(params) {
 
     var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
       body: JSON.stringify({
-        track: params.track.toJS(),
+        track: params.track,
         name: params.name
       })
     });
@@ -100,7 +100,7 @@ export function deleteFromSet(id) {
     return fetch(state.get('config').apiUrl + '/sets/' + state.set.result._id + '/tracks/' + id, fetchParams)
       .then(() => {
         dispatch(SetActions.request({
-          id: state.set.result._id
+          id: state.set.toJS().result._id
         }));
       })
       .catch(exception => dispatch(failure(exception)));

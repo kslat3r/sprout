@@ -40,6 +40,7 @@ export default function(state = initialState, action) {
 
     case AlbumActionCreators.ALBUM_SUCCESS:
       return state.merge({
+        result: action.response,
         requesting: false,
         errored: false,
         exception: null
