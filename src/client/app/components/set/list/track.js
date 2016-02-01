@@ -5,11 +5,11 @@ import Preview from '../../player/preview';
 export default class SetListTrack extends Component {
   render() {
     var track = this.props.track;
-    var albumImages = track.getIn(['album', 'images']).toArray();
+    var albumImages = track.album.images;
     var imageSrc = '/images/thumbnail-placeholder.png';
 
-    if (albumImages[albumImages.length - 2] && albumImages[albumImages.length - 2].get('url')) {
-      imageSrc = albumImages[albumImages.length - 2].get('url');
+    if (albumImages[albumImages.length - 2] && albumImages[albumImages.length - 2].url) {
+      imageSrc = albumImages[albumImages.length - 2].url;
     }
 
     return (

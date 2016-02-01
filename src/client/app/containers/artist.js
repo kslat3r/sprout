@@ -104,7 +104,7 @@ Artist = AuthorisationRequired(Artist);
 
 export default connect(function(state) {
   return {
-    artist: state.get('artist')
+    artist: state.get('artist').toJS()
   };
 }, function(dispatch) {
   return {

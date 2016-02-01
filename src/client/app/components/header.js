@@ -73,7 +73,7 @@ export default class Header extends Component {
       break;
     }
 
-    if (this.props.sets.get('results').size) {
+    if (this.props.sets.results.length) {
       seperator = <li role="separator" className="divider"></li>;
     }
 
@@ -98,11 +98,11 @@ export default class Header extends Component {
                   Sets <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
-                  {this.props.sets.get('results').map((set, i) => {
+                  {this.props.sets.results.map((set, i) => {
                     return (
                       <li key={i}>
                         <SetLink set={set}>
-                          {set.get('name')}
+                          {set.name}
                         </SetLink>
                       </li>
                     );
@@ -136,8 +136,8 @@ export default class Header extends Component {
 
 export default connect(function(state) {
   return {
-    sets: state.get('sets'),
-    effects: state.get('effects')
+    sets: state.get('sets').toJS(),
+    effects: state.get('effects').toJS()
   };
 }, function(dispatch) {
   return {

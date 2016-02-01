@@ -261,8 +261,8 @@ SetEditorSampler.propTypes = {
 
 export default connect(function(state) {
   return {
-    effects: state.get('sampler'),
-    effects: state.get('effects')
+    effects: state.get('sampler').toJS(),
+    effects: state.get('effects').toJS()
   };
 }, function(dispatch) {
   return {

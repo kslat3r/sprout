@@ -56,8 +56,8 @@ SetTrack.propTypes = {
 
 export default connect(function(state) {
   return {
-    sampler: state.get('sampler'),
-    routing: state.get('routing')
+    sampler: state.get('sampler').toJS(),
+    routing: state.get('routing').toJS()
   };
 }, function(dispatch) {
   return {};

@@ -60,9 +60,9 @@ class AddControl extends Component {
   render() {
     var addToExistingForm
 
-    if (this.props.sets.get('results').size) {
-      var options = this.props.sets.get('results').map(function(set, i) {
-        return <option value={set.get('_id')} key={i}>{set.get('name')}</option>;
+    if (this.props.sets.results.length) {
+      var options = this.props.sets.results.map(function(set, i) {
+        return <option value={set._id} key={i}>{set.name}</option>;
       });
 
       var addToExistingForm = (
@@ -98,7 +98,7 @@ AddControl.propTypes = {
 
 export default connect(function(state) {
   return {
-    sets: state.get('sets')
+    sets: state.get('sets').toJS()
   };
 }, function(dispatch) {
   return {

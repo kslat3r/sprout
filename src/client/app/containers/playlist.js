@@ -85,7 +85,7 @@ Playlist = AuthorisationRequired(Playlist);
 
 export default connect(function(state) {
   return {
-    playlist: state.get('playlist')
+    playlist: state.get('playlist').toJS()
   };
 }, function(dispatch) {
   return {

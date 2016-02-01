@@ -33,7 +33,7 @@ export function addToExistingSet(params) {
 
     var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
       body: JSON.stringify({
-        track: params.track
+        track: params.track.toJS()
       })
     });
 
@@ -53,7 +53,7 @@ export function addToNewSet(params) {
 
     var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
       body: JSON.stringify({
-        track: params.track,
+        track: params.track.toJS(),
         name: params.name
       })
     });

@@ -32,7 +32,7 @@ export function rewind() {
       setTimeout(() => {
         dispatch({
           type: PLAYER_PLAY,
-          track: state.player.track
+          track: state.player.get('track').toJS()
         });
       }, 1);
     }

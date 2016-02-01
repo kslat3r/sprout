@@ -3,10 +3,8 @@ import { Link } from 'react-router';
 
 export default class SetLink extends Component {
   render() {
-    var id = this.props.set.get('_id');
-
     return (
-      <Link to={`/sets/${id}`}>
+      <Link to={`/sets/${this.props.set._id}`}>
         {this.props.children}
       </Link>
     );

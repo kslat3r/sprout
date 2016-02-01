@@ -12,7 +12,7 @@ class Add extends Component {
   toggleControl(e) {
     e.preventDefault();
 
-    if (this.props.addControl.getIn(['track', 'id']) !== this.props.track.get('id')) {
+    if (this.props.addControl.track.id !== this.props.track.id) {
       this.props.addControlActions.open({
         track: this.props.track,
         context: this.props.context
@@ -27,7 +27,7 @@ class Add extends Component {
     var addControl;
     var className;
 
-    if (this.props.addControl.getIn(['track', 'id']) === this.props.track.get('id') && this.props.context === this.props.addControl.context) {
+    if (this.props.addControl.track.id === this.props.track.id && this.props.context === this.props.addControl.context) {
       addControl = <AddControl track={this.props.track} />
       className = 'open';
     }
@@ -50,7 +50,7 @@ Add.propTypes = {
 
 export default connect(function(state) {
   return {
-    addControl: state.get('addControl')
+    addControl: state.get('addControl').toJS()
   };
 }, function(dispatch) {
   return {

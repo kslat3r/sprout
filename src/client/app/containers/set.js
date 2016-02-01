@@ -89,7 +89,7 @@ Set = AuthorisationRequired(Set);
 
 export default connect(function(state) {
   return {
-    set: state.get('set')
+    set: state.get('set').toJS()
   };
 }, function(dispatch) {
   return {

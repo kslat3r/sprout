@@ -19,7 +19,7 @@ export default class ArtistLink extends Component {
         seperator = <span>,&nbsp;</span>;
       }
 
-      var children = artist.get('name');
+      var children = artist.name;
 
       if (this.props.children) {
         children = this.props.children;
@@ -27,7 +27,7 @@ export default class ArtistLink extends Component {
 
       return (
         <span key={i}>
-          <Link to={`/artists/${artist.get('id')}`}>
+          <Link to={`/artists/${artist.id}`}>
             {children}
           </Link>
           {seperator}

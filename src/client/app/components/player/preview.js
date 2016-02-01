@@ -23,8 +23,8 @@ class Preview extends Component {
   }
 
   render() {
-    if (this.props.track.get('preview_url')) {
-      if (this.props.player.getIn(['track', 'id']) === this.props.track.get('id') && this.props.player.get('isPlaying')) {
+    if (this.props.track.preview_url) {
+      if (this.props.player.track.id === this.props.track.id && this.props.player.isPlaying) {
         return (
           <span className="preview pause">
             <a href="#" onClick={this.pause}>
@@ -53,6 +53,6 @@ Preview.propTypes = {
 
 export default connect(function(state) {
   return {
-    player: state.get('player')
+    player: state.get('player').toJS()
   };
 }, PlayerActions)(Preview);
