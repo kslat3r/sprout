@@ -1,6 +1,7 @@
 import * as AlbumActionCreators from '../actions/album';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   result: {
     tracks: {
       href: null,
@@ -16,29 +17,29 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case AlbumActionCreators.ALBUM_RESET:
-      return Object.assign({}, state, initialState);
+      return state.merge(initialState);
 
     case AlbumActionCreators.ALBUM_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case AlbumActionCreators.ALBUM_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case AlbumActionCreators.ALBUM_SUCCESS:
-      return Object.assign({}, state, {result: action.response}, {
+      return state.merge({
         requesting: false,
         errored: false,
         exception: null

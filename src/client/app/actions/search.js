@@ -1,4 +1,3 @@
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const SEARCH_RESET = 'SEARCH_RESET';
@@ -33,7 +32,7 @@ export function request(params) {
     dispatch({type: SEARCH_REQUEST});
     dispatch(pushState(null, state.router.location.pathname, {term: state.search.term}));
 
-    return fetch(state.config.apiUrl + '/search?term=' + state.search.term, state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/search?term=' + state.search.term, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));
@@ -46,7 +45,7 @@ export function paging(params) {
 
     dispatch({type: SEARCH_REQUEST});
 
-    return fetch(state.config.apiUrl + '/search/' + params.type + '?term=' + state.search.term + '&offset=' + params.offset + '&limit=' + params.limit, state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/search/' + params.type + '?term=' + state.search.term + '&offset=' + params.offset + '&limit=' + params.limit, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(pagingSuccess(json)))
       .catch(exception => dispatch(failure(exception)));

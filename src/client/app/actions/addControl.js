@@ -1,4 +1,3 @@
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const ADD_CONTROL_RESET = 'ADD_CONTROL_RESET';

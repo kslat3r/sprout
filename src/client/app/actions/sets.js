@@ -1,4 +1,3 @@
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const SETS_REQUEST = 'SETS_REQUEST';
@@ -11,7 +10,7 @@ export function request() {
 
     dispatch({type: SETS_REQUEST});
 
-    return fetch(state.config.apiUrl + '/sets', state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/sets', state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));

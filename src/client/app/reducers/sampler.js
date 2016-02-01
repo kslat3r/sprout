@@ -1,4 +1,6 @@
-export const initialState = {
+import Immutable from 'immutable';
+
+export const initialState = Immutable.Map({
   wsOptions: {
     height: 100,
     progressColor: '#999',
@@ -12,8 +14,8 @@ export const initialState = {
     color: 'rgba(255, 203, 5, 0.4)'
   },
 
-  region: null,  
-};
+  region: null,
+});
 
 export default function() {
   return initialState;

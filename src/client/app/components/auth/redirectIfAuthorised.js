@@ -18,7 +18,7 @@ export default function(SubComponent) {
 
   return connect(function(state) {
     return {
-      user: state.auth.user
+      user: state.get('auth').user
     };
   })(RedirectIfAuthorised);
 };

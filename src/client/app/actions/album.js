@@ -1,4 +1,3 @@
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const ALBUM_RESET = 'ALBUM_RESET';
@@ -18,7 +17,7 @@ export function request(params) {
 
     dispatch({type: ALBUM_REQUEST});
 
-    return fetch(state.config.apiUrl + '/albums/' + params.id, state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/albums/' + params.id, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));

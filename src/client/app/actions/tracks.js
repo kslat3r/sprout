@@ -1,4 +1,3 @@
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const TRACKS_RESET = 'TRACKS_RESET';
@@ -19,7 +18,7 @@ export function request(params) {
 
     dispatch({type: TRACKS_REQUEST});
 
-    return fetch(state.config.apiUrl + '/tracks', state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/tracks', state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));
@@ -32,7 +31,7 @@ export function paging(params) {
 
     dispatch({type: TRACKS_REQUEST});
 
-    return fetch(state.config.apiUrl + '/tracks?offset=' + params.offset + '&limit=' + params.limit, state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/tracks?offset=' + params.offset + '&limit=' + params.limit, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(pagingSuccess(json)))
       .catch(exception => dispatch(failure(exception)));

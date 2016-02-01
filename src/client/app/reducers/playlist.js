@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import * as PlaylistActionCreators from '../actions/playlist';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   result: {
     tracks: {
       items: [],
@@ -11,29 +12,30 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case PlaylistActionCreators.PLAYLIST_RESET:
-      return Object.assign({}, state, initialState);
+      return state.merge(initialState);
 
     case PlaylistActionCreators.PLAYLIST_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case PlaylistActionCreators.PLAYLIST_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case PlaylistActionCreators.PLAYLIST_SUCCESS:
-      return Object.assign({}, state, {result: action.response}, {
+      return state.merge({
+        result: action.response,
         requesting: false,
         errored: false,
         exception: null
@@ -47,11 +49,12 @@ export default function(state = initialState, action) {
       pagingState.result.tracks = action.response.tracks;
       pagingState.result.tracks.items = state.result.tracks.items.concat(action.response.tracks.items);
 
-      return Object.assign({}, state, {
+      return state.merge({
+        result: pagingState.result,
         requesting: false,
         errored: false,
         exception: null
-      }, pagingState);
+      });
 
     default:
       return state;

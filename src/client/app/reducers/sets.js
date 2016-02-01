@@ -1,31 +1,33 @@
 import * as SetsActionCreators from '../actions/sets';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   results: [],
 
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case SetsActionCreators.SETS_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case SetsActionCreators.SETS_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case SetsActionCreators.SETS_SUCCESS:
-      return Object.assign({}, state, {results: action.response}, {
+      return state.merge({
+        results: action.response,
         requesting: false,
         errored: false,
         exception: null

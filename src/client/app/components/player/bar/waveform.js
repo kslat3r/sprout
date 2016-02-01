@@ -21,7 +21,7 @@ export default class PlayerBarWaveform extends Component {
       cursorColor: '#FFCB05'
     });
 
-    this.ws.load(this.props.track.preview_url);
+    this.ws.load(this.props.track.get('preview_url'));
 
     this.ws.on('ready', () => {
       this.ws.play();
@@ -38,19 +38,19 @@ export default class PlayerBarWaveform extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.track.id !== nextProps.track.id) {
-      this.ws.load(nextProps.track.preview_url);
+    if (this.props.track.get('id') !== nextProps.track.get('id')) {
+      this.ws.load(nextProps.track.get('preview_url'));
     }
 
-    if (nextProps.player.isPaused) {
+    if (nextProps.player.get('isPaused')) {
       this.ws.pause();
     }
-    else if (nextProps.player.isPlaying) {
-      if (this.props.track.id === nextProps.track.id) {
+    else if (nextProps.player.get('isPlaying')) {
+      if (this.props.track.get('id') === nextProps.track.get('id')) {
         this.ws.play();
       }
     }
-    else if (nextProps.player.isStopped) {
+    else if (nextProps.player.get('isStopped')) {
       this.ws.stop();
     }
   }
@@ -68,7 +68,7 @@ PlayerBarWaveform.propTypes = {
 
 export default connect(function(state) {
   return {
-    player: state.player
+    player: state.getIn(['player'])
   };
 }, function(dispatch) {
   return {

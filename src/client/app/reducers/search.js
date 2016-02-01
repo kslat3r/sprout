@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import * as SearchActionCreators from '../actions/search';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   term: '',
   results: {
     albums: {
@@ -37,36 +38,37 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case SearchActionCreators.SEARCH_RESET:
-      return Object.assign({}, state, {
+      return state.merge({
         results: initialState.results
       });
 
     case SearchActionCreators.SEARCH_UPDATE:
-      return Object.assign({}, state, {
+      return state.merge({
         term: action.term
       });
 
     case SearchActionCreators.SEARCH_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case SearchActionCreators.SEARCH_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case SearchActionCreators.SEARCH_SUCCESS:
-      return Object.assign({}, state, {results: action.response}, {
+      return state.merge({
+        results: action.response,
         requesting: false,
         errored: false,
         exception: null
@@ -95,7 +97,7 @@ export default function(state = initialState, action) {
         pagingState.results.tracks.items = state.results.tracks.items.concat(action.response.tracks.items);
       }
 
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: false,
         exception: null

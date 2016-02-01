@@ -1,8 +1,9 @@
 import * as SetActionCreators from '../actions/set';
 import * as TrackActionCreators from '../actions/track';
 import * as EffectsReducer from './effects';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   result: {
     tracks: []
   },
@@ -12,9 +13,9 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
-export const initialTrackState = {
+export const initialTrackState = Immutable.Map({
   name: null,
 
   isPlaying: false,
@@ -27,26 +28,27 @@ export const initialTrackState = {
   endPosition: null,
 
   effects: EffectsReducer.initialState
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case SetActionCreators.SET_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case SetActionCreators.SET_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case SetActionCreators.SET_SUCCESS:
-      var newState = Object.assign({}, state, {result: action.response}, {
+      var newState = Object.assign({}, {result: action.response}, {
+        meta: {},
         requesting: false,
         errored: false,
         exception: null
@@ -64,71 +66,87 @@ export default function(state = initialState, action) {
         });
       });
 
-      return newState;
+      return state.merge(newState);
 
     case TrackActionCreators.TRACK_HAS_LOADED:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].hasLoaded = true;
-
-      return newState;
+      return state.merge({
+        meta: {
+          [action.id]: {
+            hasLoaded: true
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_PLAY:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].isPlaying = true;
-      newState.meta[action.id].isPaused = false;
-      newState.meta[action.id].isStopped = false;
-
-      return newState;
+      return state.merge({
+        meta: {
+          [action.id]: {
+            isPlaying: true,
+            isPaused: false,
+            isStopped: false
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_PAUSE:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].isPlaying = false;
-      newState.meta[action.id].isPaused = true;
-      newState.meta[action.id].isStopped = false;
-
-      return newState;
+      return state.merge({
+        meta: {
+          [action.id]: {
+            isPlaying: false,
+            isPaused: true,
+            isStopped: false
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_STOP:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].isPlaying = false;
-      newState.meta[action.id].isPaused = false;
-      newState.meta[action.id].isStopped = true;
-
-      return newState;
+      return state.merge({
+        meta: {
+          [action.id]: {
+            isPlaying: false,
+            isPaused: false,
+            isStopped: true
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_TOGGLE_LOOP:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].isLooped = !newState.meta[action.id].isLooped;
-
-      return newState;
+      return state.merge({
+        meta: {
+          [action.id]: {
+            isLooped: !state.meta[action.id].isLooped
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_SET_REGION:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].startPosition = action.params.startPosition;
-      newState.meta[action.id].endPosition = action.params.endPosition;
-
-      return newState
+      return state.merge({
+        meta: {
+          [action.id]: {
+            startPosition: action.params.startPosition,
+            endPosition: action.params.endPosition
+          }
+        }
+      });
 
     case TrackActionCreators.TRACK_CLEAR_REGION:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].startPosition = null;
-      newState.meta[action.id].endPosition = null;
-
-      return newState
+    return state.merge({
+      meta: {
+        [action.id]: {
+          startPosition: null,
+          endPosition: null
+        }
+      }
+    });
 
     case TrackActionCreators.TRACK_SET_EFFECTS:
-      var newState = Object.assign({}, state);
-
-      newState.meta[action.id].effects = action.effects;
-
-      return newState;
+    return state.merge({
+      meta: {
+        [action.id]: {
+          effects: action.effects
+        }
+      }
+    });
 
     default:
       return state;

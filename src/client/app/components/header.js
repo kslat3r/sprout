@@ -16,9 +16,9 @@ export default class Header extends Component {
       searchTerm: ''
     });
 
-    if (this.props.router.location.query.term) {
+    if (this.props.location.query.term) {
       this.setState({
-        searchTerm: this.props.router.location.query.term
+        searchTerm: this.props.location.query.term
       });
     }
   }
@@ -51,7 +51,7 @@ export default class Header extends Component {
       tracksClass,
       seperator;
 
-    switch (this.props.router.routes[this.props.router.routes.length - 1].name) {
+    switch (this.props.routes[this.props.routes.length - 1].name) {
       case 'sets':
       case 'set':
         setsClass += ' active';
@@ -73,7 +73,7 @@ export default class Header extends Component {
       break;
     }
 
-    if (this.props.sets.results.length) {
+    if (this.props.sets.get('results').size) {
       seperator = <li role="separator" className="divider"></li>;
     }
 
@@ -98,11 +98,11 @@ export default class Header extends Component {
                   Sets <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
-                  {this.props.sets.results.map((set, i) => {
+                  {this.props.sets.get('results').map((set, i) => {
                     return (
                       <li key={i}>
                         <SetLink set={set}>
-                          {set.name}
+                          {set.get('name')}
                         </SetLink>
                       </li>
                     );
@@ -136,8 +136,8 @@ export default class Header extends Component {
 
 export default connect(function(state) {
   return {
-    sets: state.sets,
-    router: state.router
+    sets: state.get('sets'),
+    effects: state.get('effects')
   };
 }, function(dispatch) {
   return {

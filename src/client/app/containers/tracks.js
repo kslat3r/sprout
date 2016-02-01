@@ -73,7 +73,7 @@ Tracks = AuthorisationRequired(Tracks);
 
 export default connect(function(state) {
   return {
-    tracks: state.tracks,
+    tracks: state.get('tracks'),
   };
 }, function(dispatch) {
   return {

@@ -91,8 +91,8 @@ Search = AuthorisationRequired(Search);
 
 export default connect(function(state) {
   return {
-    search: state.search,
-    router: state.router
+    search: state.get('search'),
+    routing: state.get('routing')
   };
 }, function(dispatch) {
   return {

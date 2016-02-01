@@ -73,7 +73,7 @@ Artists = AuthorisationRequired(Artists);
 
 export default connect(function(state) {
   return {
-    artists: state.artists
+    artists: state.get('artists')
   };
 }, function(dispatch) {
   return {

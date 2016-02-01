@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { pushState } from 'redux-router';
 import fetch from 'isomorphic-fetch';
 
 export const SET_REQUEST = 'SET_REQUEST';
@@ -12,7 +11,7 @@ export function request(params) {
 
     dispatch({type: SET_REQUEST});
 
-    return fetch(state.config.apiUrl + '/sets/' + params.id, state.config.fetch)
+    return fetch(state.get('config').apiUrl + '/sets/' + params.id, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .catch(exception => dispatch(failure(exception)));

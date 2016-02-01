@@ -65,9 +65,10 @@ class SetEditorSampler extends Component {
 
     //effects
 
-    if (this.tuna && !_.isEqual(this.props.meta.effects, nextProps.meta.effects)) {
+    console.log(this.props.meta.effects.chorus);
+    console.log(nextProps.meta.effects.chorus);
 
-      console.log(true);
+    if (this.tuna && !_.isEqual(this.props.meta.effects, nextProps.meta.effects)) {
 
       //single effects
 
@@ -260,8 +261,8 @@ SetEditorSampler.propTypes = {
 
 export default connect(function(state) {
   return {
-    sampler: state.sampler,
-    effects: state.effects
+    effects: state.get('sampler'),
+    effects: state.get('effects')
   };
 }, function(dispatch) {
   return {

@@ -18,6 +18,6 @@ Home = RedirectIfAuthorised(Home);
 
 export default connect(function(state) {
   return {
-    config: state.config
+    config: state.get('config')
   };
 })(Home);

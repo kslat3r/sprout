@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { routerStateReducer } from 'redux-router';
+import { combineReducers } from 'redux-immutable';
+import routeReducer from './route';
 import configReducer from './config';
 import authReducer from './auth';
 import searchReducer from './search';
@@ -18,7 +18,7 @@ import samplerReducer from './sampler';
 import effectsReducer from './effects';
 
 export default combineReducers({
-  router: routerStateReducer,
+  routing: routeReducer,
   config: configReducer,
   auth: authReducer,
   search: searchReducer,

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import * as ArtistsActionCreators from '../actions/artists';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   result: {
     artists: {
       href: null,
@@ -19,31 +20,32 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ArtistsActionCreators.ARTISTS_RESET:
-      return Object.assign({}, state, {
+      return state.merge({
         result: initialState.result
       });
 
     case ArtistsActionCreators.ARTISTS_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case ArtistsActionCreators.ARTISTS_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case ArtistsActionCreators.ARTISTS_SUCCESS:
-      return Object.assign({}, state, {result: action.response}, {
+      return state.merge({
+        result: action.response,
         requesting: false,
         errored: false,
         exception: null
@@ -57,11 +59,12 @@ export default function(state = initialState, action) {
       pagingState.result.artists = action.response.artists;
       pagingState.result.artists.items = state.result.artists.items.concat(action.response.artists.items);
 
-      return Object.assign({}, state, {
+      return state.merge({
+        result: pagingState.result,
         requesting: false,
         errored: false,
         exception: null
-      }, pagingState);
+      });
 
     default:
       return state;

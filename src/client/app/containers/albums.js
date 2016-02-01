@@ -73,7 +73,7 @@ Albums = AuthorisationRequired(Albums);
 
 export default connect(function(state) {
   return {
-    albums: state.albums
+    albums: state.get('albums')
   };
 }, function(dispatch) {
   return {

@@ -1,16 +1,17 @@
 import * as PlayerActionCreators from '../actions/player';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   isPlaying: false,
   isPaused: false,
   isStopped: true,
   track: {}
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case PlayerActionCreators.PLAYER_PLAY:
-      return Object.assign({}, state, {
+      return state.merge({
         isPlaying: true,
         isPaused: false,
         isStopped: false,
@@ -18,21 +19,21 @@ export default function(state = initialState, action) {
       });
 
     case PlayerActionCreators.PLAYER_PAUSE:
-      return Object.assign({}, state, {
+      return state.merge({
         isPlaying: false,
         isPaused: true,
         isStopped: false
       });
 
     case PlayerActionCreators.PLAYER_STOP:
-      return Object.assign({}, state, {
+      return state.merge({
         isPlaying: false,
         isPaused: false,
         isStopped: true
       });
 
     case PlayerActionCreators.PLAYER_RESET:
-      return Object.assign({}, state, initialState);
+      return state.merge(initialState);
 
     default:
       return state;

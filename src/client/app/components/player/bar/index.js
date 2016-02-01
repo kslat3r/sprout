@@ -41,7 +41,7 @@ class PlayerBar extends Component {
   render() {
     var pauseOrPlay;
 
-    if (this.props.player.isPlaying) {
+    if (this.props.player.get('isPlaying')) {
       pauseOrPlay = (
         <span className="pause">
           <a href="#" onClick={this.pause}>
@@ -60,11 +60,11 @@ class PlayerBar extends Component {
       );
     }
 
-    if (this.props.player.track.id) {
+    if (this.props.player.getIn(['track', 'id'])) {
       return (
         <nav className="navbar navbar-default navbar-fixed-bottom playbar">
           <div className="container-fluid">
-            <Waveform track={this.props.player.track} />
+            <Waveform track={this.props.player.get('track')} />
             <div className="controls">
               <span className="rewind">
                 <a href="#" onClick={this.rewind}>
@@ -77,14 +77,14 @@ class PlayerBar extends Component {
                   <i className="fa fa-stop" />
                 </a>
               </span>
-              <Add track={this.props.player.track} context="bar" />
+              <Add track={this.props.player.get('track')} context="bar" />
             </div>
             <div className="track-info">
               <span>
-                {this.props.player.track.name}
+                {this.props.player.getIn(['track', 'name'])}
               </span>
               <span>&nbsp;-&nbsp;</span>
-              <ArtistLink artists={this.props.player.track.artists} />
+              <ArtistLink artists={this.props.player.getIn(['track', 'artists']).toArray()} />
             </div>
           </div>
         </nav>
@@ -99,7 +99,7 @@ PlayerBar.propTypes = {};
 
 export default connect(function(state) {
   return {
-    player: state.player
+    player: state.get('player')
   };
 }, function(dispatch) {
   return {

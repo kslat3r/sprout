@@ -45,7 +45,7 @@ SetEditorEffectControls.propTypes = {
 
 export default connect(function(state) {
   return {
-    effects: state.effects
+    effects: state.get('effects')
   };
 }, function(dispatch) {
   return {

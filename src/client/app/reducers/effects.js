@@ -1,7 +1,8 @@
 import { readdirSync } from 'fs';
 import { defaultState } from '../../../common/models/effects.js';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   single: ['chorus', 'delay', 'phaser', 'overdrive', 'compressor', 'convolver', 'tremolo', 'wahWah', 'bitcrusher', 'pingPongDelay'],
   multiple: ['filters'],
 
@@ -345,7 +346,7 @@ export const initialState = {
       ]
     }
   }
-};
+});
 
 export default function() {
   return initialState;

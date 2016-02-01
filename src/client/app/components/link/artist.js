@@ -15,11 +15,11 @@ export default class ArtistLink extends Component {
     var links = artists.map(function(artist, i) {
       var seperator;
 
-      if (i < artists.length - 1) {
+      if (i < artists.size - 1) {
         seperator = <span>,&nbsp;</span>;
       }
 
-      var children = artist.name;
+      var children = artist.get('name');
 
       if (this.props.children) {
         children = this.props.children;
@@ -27,7 +27,7 @@ export default class ArtistLink extends Component {
 
       return (
         <span key={i}>
-          <Link to={`/artists/${artist.id}`}>
+          <Link to={`/artists/${artist.get('id')}`}>
             {children}
           </Link>
           {seperator}

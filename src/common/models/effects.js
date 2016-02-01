@@ -3,7 +3,7 @@ export const defaultState = {
     rate: 1.5,
     feedback: 0.2,
     delay: 0.0045,
-    bypass: 1
+    bypass: true
   },
   delay: {
     feedback: 0.45,
@@ -11,7 +11,7 @@ export const defaultState = {
     wetLevel: 0.25,
     dryLevel: 1,
     cutoff: 2000,
-    bypass: 1
+    bypass: true
   },
   phaser: {
     rate: 1.2,
@@ -19,14 +19,14 @@ export const defaultState = {
     feedback: 0.2,
     stereoPhase: 30,
     baseModulationFrequency: 700,
-    bypass: 1
+    bypass: true
   },
   overdrive: {
     outputGain: 0.5,
     drive: 0.7,
     curveAmount: 1,
     algorithmIndex: 0,
-    bypass: 1
+    bypass: true
   },
   compressor: {
     threshold: 0.5,
@@ -36,7 +36,7 @@ export const defaultState = {
     ratio: 4,
     knee: 5,
     automakeup: true,
-    bypass: 1
+    bypass: true
   },
   convolver: {
     highCut: 22050,
@@ -45,10 +45,10 @@ export const defaultState = {
     wetLevel: 1,
     level: 1,
     impulse: 'Block Inside.wav',
-    bypass: 1
+    bypass: true
   },
   filters: {
-    bypass: 1,
+    bypass: true,
     items: [
       {
         frequency: 32,
@@ -126,7 +126,7 @@ export const defaultState = {
     intensity: 0.3,
     rate: 4,
     stereoPhase: 0,
-    bypass: 1
+    bypass: true
   },
   wahWah: {
     automode: true,
@@ -135,19 +135,19 @@ export const defaultState = {
     sweep: 0.2,
     resonance: 10,
     sensitivity: 0.5,
-    bypass: 1
+    bypass: true
   },
   bitcrusher: {
     bits: 4,
     normfreq: 0.1,
     bufferSize: 4096,
-    bypass: 1
+    bypass: true
   },
   pingPongDelay: {
     wetLevel: 0.5,
     feedback: 0.3,
     delayTimeLeft: 150,
     delayTimeRight: 200,
-    bypass: 1
+    bypass: true
   }
 };

@@ -33,7 +33,7 @@ class Sets extends Component {
   }
 
   sets() {
-    var sets = this.props.sets.results;
+    var sets = this.props.sets.get('results');
 
     if (!this.props.sets.requesting && !this.props.sets.errored) {
       return (
@@ -66,7 +66,7 @@ Sets = AuthorisationRequired(Sets);
 
 export default connect(function(state) {
   return {
-    sets: state.sets
+    sets: state.get('sets')
   };
 }, function(dispatch) {
   return {

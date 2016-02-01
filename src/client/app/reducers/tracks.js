@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import * as TracksActionCreators from '../actions/tracks';
+import Immutable from 'immutable';
 
-export const initialState = {
+export const initialState = Immutable.Map({
   result: {
     tracks: {
       href: null,
@@ -17,31 +18,32 @@ export const initialState = {
   requesting: false,
   errored: false,
   exception: null
-};
+});
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case TracksActionCreators.TRACKS_RESET:
-      return Object.assign({}, state, {
+      return state.merge({
         result: initialState.result
       });
 
     case TracksActionCreators.TRACKS_REQUEST:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: true,
         errored: false,
         exception: null
       });
 
     case TracksActionCreators.TRACKS_FAILURE:
-      return Object.assign({}, state, {
+      return state.merge({
         requesting: false,
         errored: true,
         exception: action.exception
       });
 
     case TracksActionCreators.TRACKS_SUCCESS:
-      return Object.assign({}, state, {result: action.response}, {
+      return state.merge({
+        result: action.response,
         requesting: false,
         errored: false,
         exception: null
@@ -55,11 +57,12 @@ export default function(state = initialState, action) {
       pagingState.result.tracks = action.response.tracks;
       pagingState.result.tracks.items = state.result.tracks.items.concat(action.response.tracks.items);
 
-      return Object.assign({}, state, {
+      return state.merge({
+        result: pagingState.result,
         requesting: false,
         errored: false,
         exception: null
-      }, pagingState);
+      });
 
     default:
       return state;
