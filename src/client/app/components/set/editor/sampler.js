@@ -65,9 +65,6 @@ class SetEditorSampler extends Component {
 
     //effects
 
-    console.log(this.props.meta.effects.chorus);
-    console.log(nextProps.meta.effects.chorus);
-
     if (this.tuna && !_.isEqual(this.props.meta.effects, nextProps.meta.effects)) {
 
       //single effects

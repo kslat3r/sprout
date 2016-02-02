@@ -43,9 +43,7 @@ export const initialState = Immutable.Map({
 export default function(state = initialState, action) {
   switch (action.type) {
     case SearchActionCreators.SEARCH_RESET:
-      return state.merge({
-        results: initialState.results
-      });
+      return state.merge(initialState);
 
     case SearchActionCreators.SEARCH_UPDATE:
       return state.merge({
@@ -75,33 +73,29 @@ export default function(state = initialState, action) {
       });
 
     case SearchActionCreators.SEARCH_PAGING_SUCCESS:
-      var pagingState = {
-        results: {
-          artists: state.results.artists,
-          albums: state.results.albums,
-          tracks: state.results.tracks,
-          length: state.results.length + action.response.length
-        }
-      };
+      var initialState = state.toJS();
+      var pagingState = state.toJS();
 
       if (action.response.artists) {
         pagingState.results.artists = action.response.artists;
-        pagingState.results.artists.items = state.results.artists.items.concat(action.response.artists.items);
+        pagingState.results.artists.items = initialState.results.artists.items.concat(action.response.artists.items);
       }
       else if (action.response.albums) {
         pagingState.results.albums = action.response.albums;
-        pagingState.results.albums.items = state.results.albums.items.concat(action.response.albums.items);
+        pagingState.results.albums.items = initialState.results.albums.items.concat(action.response.albums.items);
       }
       else if (action.response.tracks) {
         pagingState.results.tracks = action.response.tracks;
-        pagingState.results.tracks.items = state.results.tracks.items.concat(action.response.tracks.items);
+        pagingState.results.tracks.items = initialState.results.tracks.items.concat(action.response.tracks.items);
       }
+
+      state = state.merge(pagingState);
 
       return state.merge({
         requesting: false,
         errored: false,
         exception: null
-      }, pagingState);
+      });
 
     default:
       return state;

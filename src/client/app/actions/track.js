@@ -31,13 +31,13 @@ export function addToExistingSet(params) {
 
     dispatch({type: TRACK_REQUEST});
 
-    var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
+    var fetchParams = _.extend(_.clone(state.get('config').fetch), getPOSTParams(), {
       body: JSON.stringify({
         track: params.track
       })
     });
 
-    return fetch(state.getIn(['config', 'apiUrl']) + '/sets/' + params.id, fetchParams)
+    return fetch(state.get('config').apiUrl + '/sets/' + params.id, fetchParams)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .then(() => dispatch(SetsActions.request()))
@@ -51,14 +51,14 @@ export function addToNewSet(params) {
 
     dispatch({type: TRACK_REQUEST});
 
-    var fetchParams = _.extend(state.get('config').fetch, getPOSTParams(), {
+    var fetchParams = _.extend(_.clone(state.get('config').fetch), getPOSTParams(), {
       body: JSON.stringify({
         track: params.track,
         name: params.name
       })
     });
 
-    return fetch(state.getIn(['config', 'apiUrl']) + '/sets', fetchParams)
+    return fetch(state.get('config').apiUrl + '/sets', fetchParams)
       .then(response => response.json())
       .then(json => dispatch(success(json)))
       .then(() => dispatch(SetsActions.request()))
@@ -70,7 +70,7 @@ export function updateInSet(id, params) {
   return function(dispatch, getState) {
     let state = getState();
 
-    var fetchParams = _.extend(state.get('config').fetch, {
+    var fetchParams = _.extend(_.clone(state.get('config').fetch), {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
@@ -89,7 +89,7 @@ export function deleteFromSet(id) {
   return function(dispatch, getState) {
     let state = getState();
 
-    var fetchParams = _.extend(state.get('config').fetch, {
+    var fetchParams = _.extend(_.clone(state.get('config').fetch), {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',

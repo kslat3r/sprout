@@ -15,7 +15,7 @@ export default class ArtistLink extends Component {
     var links = artists.map(function(artist, i) {
       var seperator;
 
-      if (i < artists.size - 1) {
+      if (i < artists.length - 1) {
         seperator = <span>,&nbsp;</span>;
       }
 

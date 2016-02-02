@@ -27,8 +27,6 @@ class Add extends Component {
     var addControl;
     var className;
 
-    console.log(this.props);
-
     if (this.props.addControl.track.id === this.props.track.id && this.props.context === this.props.addControl.context) {
       addControl = <AddControl track={this.props.track} />
       className = 'open';

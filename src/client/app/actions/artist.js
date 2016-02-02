@@ -31,7 +31,7 @@ export function paging(params) {
 
     dispatch({type: ARTIST_REQUEST});
 
-    return fetch(state.getIn('config').apiUrl + '/artists/' + params.id + '?offset=' + params.offset + '&limit=' + params.limit, state.get('config').fetch)
+    return fetch(state.get('config').apiUrl + '/artists/' + params.id + '?offset=' + params.offset + '&limit=' + params.limit, state.get('config').fetch)
       .then(response => response.json())
       .then(json => dispatch(pagingSuccess(json)))
       .catch(exception => dispatch(failure(exception)));

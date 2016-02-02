@@ -13,12 +13,13 @@ class Search extends Component {
     this.albumsPaging = this.props.searchActions.paging.bind(this);
     this.tracksPaging = this.props.searchActions.paging.bind(this);
 
-    if (this.props.router.location.query.term) {
+    if (this.props.location.query.term) {
       this.props.searchActions.update({
-        term: this.props.router.location.query.term
+        term: this.props.location.query.term
       });
 
       this.props.searchActions.request();
+      this.props.history.pushState(null, this.props.location.pathname, {term: this.props.location.query.term});
     }
   }
 

@@ -51,12 +51,13 @@ export default function(state = initialState, action) {
       });
 
     case ArtistActionCreators.ARTIST_PAGING_SUCCESS:
-      var pagingState = {
-        result: _.extend({}, state.result)
-      };
+      var initialState = state.toJS();
+      var pagingState = state.toJS();
 
       pagingState.result.albums = action.response.albums;
-      pagingState.result.albums.items = state.result.albums.items.concat(action.response.albums.items);
+      pagingState.result.albums.items = initialState.result.albums.items.concat(action.response.albums.items);
+
+      state = state.merge(pagingState);
 
       return state.merge({
         result: pagingState.result,

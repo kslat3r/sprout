@@ -25,9 +25,7 @@ export const initialState = Immutable.Map({
 export default function(state = initialState, action) {
   switch (action.type) {
     case ArtistsActionCreators.ARTISTS_RESET:
-      return state.merge({
-        result: initialState.result
-      });
+      return state.merge(initialState);
 
     case ArtistsActionCreators.ARTISTS_REQUEST:
       return state.merge({
@@ -52,12 +50,13 @@ export default function(state = initialState, action) {
       });
 
     case ArtistsActionCreators.ARTISTS_PAGING_SUCCESS:
-      var pagingState = {
-        result: _.extend({}, state.result)
-      };
+      var initialState = state.toJS();
+      var pagingState = state.toJS();
 
       pagingState.result.artists = action.response.artists;
-      pagingState.result.artists.items = state.result.artists.items.concat(action.response.artists.items);
+      pagingState.result.artists.items = initialState.result.artists.items.concat(action.response.artists.items);
+
+      state = state.merge(pagingState);
 
       return state.merge({
         result: pagingState.result,

@@ -42,12 +42,13 @@ export default function(state = initialState, action) {
       });
 
     case PlaylistActionCreators.PLAYLIST_PAGING_SUCCESS:
-      var pagingState = {
-        result: _.extend({}, state.result)
-      };
+      var initialState = state.toJS();
+      var pagingState = state.toJS();
 
       pagingState.result.tracks = action.response.tracks;
-      pagingState.result.tracks.items = state.result.tracks.items.concat(action.response.tracks.items);
+      pagingState.result.tracks.items = initialState.result.tracks.items.concat(action.response.tracks.items);
+
+      state = state.merge(pagingState);
 
       return state.merge({
         result: pagingState.result,
