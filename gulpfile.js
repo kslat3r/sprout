@@ -94,7 +94,7 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'impulses', 'images', 'html'], 'serve:client');
+  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'images', 'html'], 'serve:client');
 });
 
 gulp.on('err', function(err) {
