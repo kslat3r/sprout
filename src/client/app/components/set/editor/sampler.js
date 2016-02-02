@@ -1,13 +1,10 @@
 import _ from 'lodash';
-import lodashInflection from 'lodash-inflection';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Tuna from 'tunajs';
 import * as TrackActions from '../../../actions/track';
 import SetEditorSamplerControls from './samplerControls';
-
-_.mixin(lodashInflection);
+import diff from 'immutablediff';
 
 class SetEditorSampler extends Component {
   constructor(props) {
@@ -18,20 +15,10 @@ class SetEditorSampler extends Component {
     }
 
     this.ws = Object.create(WaveSurfer);
-    this.tuna = null;
 
     this.state = {
-      chorus: null,
-      delay: null,
-      phaser: null,
-      overdrive: null,
-      compressor: null,
-      convolver: null,
-      filters: null,
-      tremolo: null,
-      wahWah: null,
-      bitcrusher: null,
-      pingPongDelay: null
+      region: null,
+      eqInit: false,
     };
   }
 
@@ -56,90 +43,59 @@ class SetEditorSampler extends Component {
 
     //region
 
-    if (this.props.meta.region && nextProps.meta.startPosition === null && nextProps.meta.endPosition === null) {
-      this.props.meta.region.remove();
-      this.props.meta.region = null;
-
-      return;
+    if (nextProps.meta.get('startPosition') === null || nextProps.meta.get('endPosition') === null) {
+      if (this.state.region) {
+        this.state.region.remove();
+        this.state.region = null;
+      }
     }
 
-    //effects
+    //eq
 
-    if (this.tuna && !_.isEqual(this.props.meta.effects, nextProps.meta.effects)) {
+    if (!this.state.eqInit || diff(this.props.meta.get('eq'), nextProps.meta.get('eq')).length > 0) {
+      this.ws.backend.setFilters(nextProps.meta.get('eq').toArray().map((band) => {
+        var filter = this.ws.backend.ac.createBiquadFilter();
 
-      //single effects
+        filter.type = band.get('filterType');
+        filter.gain.value = band.get('gain');
+        filter.Q.value = band.get('Q');
+        filter.frequency.value = band.get('frequency');
 
-      /*nextProps.effects.single.forEach((effect) => {
-        if (!this.state[effect]) {
-          if (!nextProps.meta.effects[effect].bypass) {
-            this.state[effect] = new this.tuna[_.capitalize(effect)](nextProps.meta.effects[effect]);
-          }
-        }
-        else {
-          if (!nextProps.meta.effects[effect].bypass) {
-            Object.keys(nextProps.meta.effects[effect]).forEach((key) => {
-              this.state[effect][key] = nextProps.meta.effects[effect][key];
-            }.bind(this));
-          }
-          else {
-            this.state[effect].bypass = nextProps.meta.effects[effect].bypass;
-          }
-        }
-      }.bind(this));*/
+        return filter;
+      }.bind(this)));
 
-      //array effects
-
-      /*nextProps.effects.multiple.forEach((effect) => {
-        if (!this.state[effect]) {
-          this.state[effect] = [];
-
-          if (!nextProps.meta.effects[effect].bypass) {
-            nextProps.meta.effects[effect].items.forEach((item) => {
-              this.state[effect].push(new this.tuna[_.capitalize(_.singularize(effect))](item));
-            }.bind(this));
-          }
-        }
-        else {
-          if (!nextProps.meta.effects[effect].bypass) {
-            this.state[effect].forEach((item, i) => {
-              Object.keys(nextProps.meta.effects[effect][i]).forEach((key) => {
-                item[key] = nextProps.meta.effects[effect][i][key];
-              });
-            });
-          }
-          else {
-            this.state[effect].forEach((item, i) => {
-              item.bypass = nextProps.meta.effects[effect].bypass;
-            });
-          }
-        }
-      }.bind(this));*/
+      this.state.eqInit = true;
 
       return;
     }
 
     //control state
 
-    if (nextProps.meta.isPlaying) {
-      if (this.props.meta.region) {
-        this.seekToRegion(this.props.meta.region);
-      }
+    if (nextProps.meta.get('isPlaying')) {
+      if (this.state.region) {
+        this.seekToRegion(this.state.region);
 
-      this.ws.play();
+        setTimeout(() => {
+          this.ws.play();
+        }.bind(this), 10);
+      }
+      else {
+        this.ws.play();
+      }
     }
-    else if (nextProps.meta.isStopped) {
+    else if (nextProps.meta.get('isStopped')) {
       if (this.ws.isPlaying()) {
         this.ws.stop();
       }
 
-      if (this.props.meta.region) {
-        this.ws.seekTo(this.props.meta.region.start / this.ws.getDuration());
+      if (nextProps.meta.get('startPosition') && nextProps.meta.get('endPosition')) {
+        this.ws.seekTo(nextProps.meta.get('startPosition') / this.ws.getDuration());
       }
       else {
         this.ws.seekTo(0);
       }
     }
-    else if (nextProps.meta.isPaused) {
+    else if (nextProps.meta.get('isPaused')) {
       this.ws.pause();
     }
   }
@@ -153,40 +109,36 @@ class SetEditorSampler extends Component {
   onReady() {
     this.props.trackActions.hasLoaded(this.props.track.id);
 
-    //tuna
-
-    this.tuna = new Tuna(this.ws.backend.ac);
-
     //region
 
-    if (this.props.meta.startPosition && this.props.meta.endPosition) {
+    if (this.props.meta.get('startPosition') && this.props.meta.get('endPosition')) {
       var Region = this.ws.addRegion({
-        start: this.props.meta.startPosition,
-        end: this.props.meta.endPosition,
+        start: this.props.meta.get('startPosition'),
+        end: this.props.meta.get('endPosition'),
         color: this.props.sampler.dragOptions.color
       });
 
       this.onRegionOut(Region);
       this.seekToRegion(Region);
 
-      this.props.meta.region = Region;
+      this.state.region = Region;
     }
   }
 
   onFinish() {
     this.props.trackActions.stop(this.props.track.id);
 
-    if (this.props.meta.isLooped) {
+    if (this.props.meta.get('isLooped')) {
       this.props.trackActions.play(this.props.track.id);
     }
   }
 
   onRegionUpdated(Region, e) {
-    if (this.props.meta.region && e.toElement.className !== 'wavesurfer-region') {
-      this.props.meta.region.remove();
+    if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
+      this.state.region.remove();
     }
 
-    this.props.meta.region = Region;
+    this.state.region = Region;
 
     var regionParams = {
       startPosition: Region.start,
@@ -202,11 +154,11 @@ class SetEditorSampler extends Component {
 
   onRegionOut(Region) {
     Region.on('out', () => {
-      if (this.props.meta.isLooped) {
-        this.props.trackActions.play(this.props.track.id);
-      }
-      else if (this.props.meta.isPlaying) {
+      if (!this.props.meta.get('isLooped')) {
         this.props.trackActions.stop(this.props.track.id);
+      }
+      else {
+        this.ws.seekTo(this.props.meta.get('startPosition') / this.ws.getDuration())
       }
     }.bind(this));
   }
@@ -221,11 +173,11 @@ class SetEditorSampler extends Component {
     var controls;
     var throbber;
 
-    if (this.props.meta.hasLoaded) {
+    if (this.props.meta.get('hasLoaded')) {
       controls = <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />;
     }
 
-    if (!this.props.meta.hasLoaded) {
+    if (!this.props.meta.get('hasLoaded')) {
       throbber = (
         <div className="row">
           <div className="loading col-xs-12">
@@ -258,8 +210,7 @@ SetEditorSampler.propTypes = {
 
 export default connect(function(state) {
   return {
-    effects: state.get('sampler').toJS(),
-    effects: state.get('effects').toJS()
+    sampler: state.get('sampler').toJS()
   };
 }, function(dispatch) {
   return {

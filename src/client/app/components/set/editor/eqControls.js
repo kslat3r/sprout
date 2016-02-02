@@ -1,10 +1,9 @@
-import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 
-export default class SetEditorEffectControls extends Component {
+class SetEditorEQControls extends Component {
   constructor(props) {
     super(props);
 
@@ -12,14 +11,10 @@ export default class SetEditorEffectControls extends Component {
   }
 
   reset() {
-    var newEffect = {};
-    newEffect[this.props.effect] = _.cloneDeep(this.props.effects.default[this.props.effect]);
-    newEffect[this.props.effect].bypass = this.props.meta.effects[this.props.effect].bypass;
+    var newEQState = this.props.meta.set('eq', this.props.meta.get('defaultEQ'));
 
-    var newEffects = _.extend(this.props.meta.effects, newEffect);
-
-    this.props.trackActions.updateInSet(this.props.track.id, {effects: newEffects});
-    this.props.trackActions.setEffects(this.props.track.id, newEffects);
+    this.props.trackActions.setEQ(this.props.track.id, newEQState.get('eq'));
+    this.props.trackActions.updateInSet(this.props.track.id, {eq: newEQState.get('eq').toJS()});
   }
 
   render() {
@@ -37,15 +32,13 @@ export default class SetEditorEffectControls extends Component {
   }
 }
 
-SetEditorEffectControls.propTypes = {
+SetEditorEQControls.propTypes = {
   track: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired,
-  effect: PropTypes.string.isRequired
+  meta: PropTypes.object.isRequired
 };
 
 export default connect(function(state) {
   return {
-    effects: state.get('effects')
   };
 }, function(dispatch) {
   return {
@@ -53,4 +46,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorEffectControls);
+})(SetEditorEQControls);

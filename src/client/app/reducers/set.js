@@ -1,6 +1,6 @@
 import * as SetActionCreators from '../actions/set';
 import * as TrackActionCreators from '../actions/track';
-import * as EffectsReducer from './effects';
+import * as commonEQModel from '../../../common/models/eq';
 import Immutable from 'immutable';
 
 export const initialState = Immutable.Map({
@@ -15,7 +15,7 @@ export const initialState = Immutable.Map({
   exception: null
 });
 
-export const initialTrackState = Immutable.Map({
+export const initialTrackState = {
   name: null,
 
   isPlaying: false,
@@ -27,10 +27,13 @@ export const initialTrackState = Immutable.Map({
   startPosition: null,
   endPosition: null,
 
-  effects: EffectsReducer.initialState
-});
+  eq: commonEQModel.defaultState,
+  defaultEQ: commonEQModel.defaultState
+};
 
 export default function(state = initialState, action) {
+  var mergeState = state.toJS();
+
   switch (action.type) {
     case SetActionCreators.SET_REQUEST:
       return state.merge({
@@ -62,91 +65,59 @@ export default function(state = initialState, action) {
           endPosition: action.response.tracksMeta[track.id].endPosition,
           isLooped: action.response.tracksMeta[track.id].isLooped,
 
-          effects: action.response.tracksMeta[track.id].effects
+          eq: action.response.tracksMeta[track.id].eq
         });
       });
 
       return state.merge(newState);
 
     case TrackActionCreators.TRACK_HAS_LOADED:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            hasLoaded: true
-          }
-        }
-      });
+      mergeState.meta[action.id].hasLoaded = true;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_PLAY:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            isPlaying: true,
-            isPaused: false,
-            isStopped: false
-          }
-        }
-      });
+      mergeState.meta[action.id].isPlaying = true;
+      mergeState.meta[action.id].isPaused = false;
+      mergeState.meta[action.id].isStopped = false;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_PAUSE:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            isPlaying: false,
-            isPaused: true,
-            isStopped: false
-          }
-        }
-      });
+      mergeState.meta[action.id].isPlaying = false;
+      mergeState.meta[action.id].isPaused = true;
+      mergeState.meta[action.id].isStopped = false;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_STOP:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            isPlaying: false,
-            isPaused: false,
-            isStopped: true
-          }
-        }
-      });
+      mergeState.meta[action.id].isPlaying = false;
+      mergeState.meta[action.id].isPaused = false;
+      mergeState.meta[action.id].isStopped = true;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_TOGGLE_LOOP:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            isLooped: !state.meta[action.id].isLooped
-          }
-        }
-      });
+      mergeState.meta[action.id].isLooped = !mergeState.meta[action.id].isLooped;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_REGION:
-      return state.merge({
-        meta: {
-          [action.id]: {
-            startPosition: action.params.startPosition,
-            endPosition: action.params.endPosition
-          }
-        }
-      });
+      mergeState.meta[action.id].startPosition = action.params.startPosition;
+      mergeState.meta[action.id].endPosition = action.params.endPosition;
+
+      return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_CLEAR_REGION:
-    return state.merge({
-      meta: {
-        [action.id]: {
-          startPosition: null,
-          endPosition: null
-        }
-      }
-    });
+      mergeState.meta[action.id].startPosition = null;
+      mergeState.meta[action.id].endPosition = null;
 
-    case TrackActionCreators.TRACK_SET_EFFECTS:
-    return state.merge({
-      meta: {
-        [action.id]: {
-          effects: action.effects
-        }
-      }
-    });
+      return state.merge(mergeState);
+
+    case TrackActionCreators.TRACK_SET_EQ:
+      mergeState.meta[action.id].eq = action.eq;
+
+      return state.merge(mergeState);
 
     default:
       return state;

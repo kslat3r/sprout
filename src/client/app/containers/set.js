@@ -24,7 +24,7 @@ class Set extends Component {
   }
 
   requesting() {
-    if (this.props.set.requesting) {
+    if (this.props.set.toJS().requesting) {
       return (
         <div className="loading">
           <i className="fa fa-spinner fa-spin"></i>
@@ -36,11 +36,11 @@ class Set extends Component {
   }
 
   errored() {
-    if (this.props.set.errored) {
+    if (this.props.set.toJS().errored) {
       return (
         <div className="row">
           <div className="col-xs-12">
-            {this.props.set.exception.message}
+            {this.props.set.toJS().exception.message}
           </div>
         </div>
       );
@@ -52,19 +52,23 @@ class Set extends Component {
   set() {
     var tracks;
 
-    if (this.props.set.result.tracks.length) {
-      tracks = this.props.set.result.tracks.map((track, i) => {
-        return (
-          <SetEditorTrack track={track} meta={this.props.set.meta[track.id]} index={i} key={i} />
-        );
-      });
+    if (this.props.set.toJS().result.tracks.length) {
+      tracks = this.props.set.toJS().result.tracks.map((track, i) => {
+        if (this.props.set.toJS().meta[track.id]) {
+          return (
+            <SetEditorTrack track={track} meta={this.props.set.getIn(['meta', track.id])} index={i} key={i} />
+          );
+        }
+
+        return false;
+      }.bind(this));
     }
 
     if (!this.props.set.requesting && !this.props.set.errored) {
       return (
         <div className="set">
           <div className="row">
-            <h2>{this.props.set.result.name}</h2>
+            <h2>{this.props.set.toJS().result.name}</h2>
           </div>
           {tracks}
         </div>
@@ -89,7 +93,7 @@ Set = AuthorisationRequired(Set);
 
 export default connect(function(state) {
   return {
-    set: state.get('set').toJS()
+    set: state.get('set')
   };
 }, function(dispatch) {
   return {

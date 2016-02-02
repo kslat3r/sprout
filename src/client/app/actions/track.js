@@ -10,7 +10,7 @@ export const TRACK_STOP = 'TRACK_STOP';
 export const TRACK_TOGGLE_LOOP = 'TRACK_TOGGLE_LOOP';
 export const TRACK_SET_REGION = 'TRACK_SET_REGION';
 export const TRACK_CLEAR_REGION = 'TRACK_CLEAR_REGION';
-export const TRACK_SET_EFFECTS = 'TRACK_SET_EFFECTS';
+export const TRACK_SET_EQ = 'TRACK_SET_EQ';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
 export const TRACK_SUCCESS = 'TRACK_SUCCESS';
@@ -80,7 +80,7 @@ export function updateInSet(id, params) {
       body: JSON.stringify(params)
     });
 
-    return fetch(state.get('config').apiUrl + '/sets/' + state.set.result._id + '/tracks/' + id, fetchParams)
+    return fetch(state.get('config').apiUrl + '/sets/' + state.toJS().set.result._id + '/tracks/' + id, fetchParams)
       .catch(exception => dispatch(failure(exception)));
   };
 };
@@ -97,7 +97,7 @@ export function deleteFromSet(id) {
       }
     });
 
-    return fetch(state.get('config').apiUrl + '/sets/' + state.set.result._id + '/tracks/' + id, fetchParams)
+    return fetch(state.get('config').apiUrl + '/sets/' + state.toJS().set.result._id + '/tracks/' + id, fetchParams)
       .then(() => {
         dispatch(SetActions.request({
           id: state.set.toJS().result._id
@@ -157,11 +157,11 @@ export function clearRegion(id) {
   };
 };
 
-export function setEffects(id, effects) {
+export function setEQ(id, eq) {
   return {
-    type: TRACK_SET_EFFECTS,
+    type: TRACK_SET_EQ,
     id,
-    effects
+    eq
   };
 };
 

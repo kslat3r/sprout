@@ -48,7 +48,7 @@ class SetEditorSamplerControls extends Component {
   }
 
   rewind() {
-    var shouldPlay = this.props.meta.isPlaying;
+    var shouldPlay = this.props.meta.get('isPlaying');
 
     this.stop();
 
@@ -61,7 +61,7 @@ class SetEditorSamplerControls extends Component {
 
   toggleLoop() {
     this.props.trackActions.updateInSet(this.props.track.id, {
-      loop: !this.props.meta.isLooped
+      isLooped: !this.props.meta.get('isLooped')
     });
 
     this.props.trackActions.toggleLoop(this.props.track.id);
@@ -88,7 +88,7 @@ class SetEditorSamplerControls extends Component {
     var pauseOrPlay;
     var loopOrEnd;
 
-    if (this.props.meta.isPlaying) {
+    if (this.props.meta.get('isPlaying')) {
       pauseOrPlay = (
         <span className="pause">
           <a href="#" onClick={this.pause}>
@@ -107,7 +107,7 @@ class SetEditorSamplerControls extends Component {
       );
     }
 
-    if (this.props.meta.isLooped) {
+    if (this.props.meta.get('isLooped')) {
       loopOrEnd = (
         <span className="loop">
           <a href="#" onClick={this.toggleLoop}>

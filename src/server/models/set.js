@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var commonEffectsModel = require('../../common/models/effects.js');
+var commonEQModel = require('../../common/models/eq');
 
 var setSchema = mongoose.Schema({
   name: String,
@@ -14,7 +14,7 @@ setSchema.statics.defaultTrackMeta = {
   endPosition: null,
   isLooped: false,
   hasLoaded: false,
-  effects: commonEffectsModel.defaultState
+  eq: commonEQModel.defaultState
 };
 
 module.exports = mongoose.model('Set', setSchema);

@@ -136,8 +136,7 @@ export default class Header extends Component {
 
 export default connect(function(state) {
   return {
-    sets: state.get('sets').toJS(),
-    effects: state.get('effects').toJS()
+    sets: state.get('sets').toJS()
   };
 }, function(dispatch) {
   return {
