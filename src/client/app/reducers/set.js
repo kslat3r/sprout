@@ -16,7 +16,7 @@ export const initialState = Immutable.Map({
 });
 
 export const initialTrackState = {
-  name: null,
+  name: 'Untitled',
 
   isPlaying: false,
   isPaused: false,
@@ -78,6 +78,11 @@ export default function(state = initialState, action) {
 
     case TrackActionCreators.TRACK_HAS_LOADED:
       mergeState.meta[action.id].hasLoaded = true;
+
+      return state.merge(mergeState);
+
+    case TrackActionCreators.TRACK_SET_NAME:
+      mergeState.meta[action.id].name = action.name;
 
       return state.merge(mergeState);
 

@@ -9,13 +9,13 @@ var setSchema = mongoose.Schema({
 });
 
 setSchema.statics.defaultTrackMeta = {
-  name: null,
+  name: 'Untitled',
   hasLoaded: false,
 
   startPosition: null,
   endPosition: null,
   isLooped: false,
-  
+
   volume: 100,
   pan: 0,
 

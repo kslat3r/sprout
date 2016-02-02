@@ -4,6 +4,7 @@ import * as SetsActions from './sets';
 import * as SetActions from './set';
 
 export const TRACK_HAS_LOADED = 'TRACK_HAS_LOADED';
+export const TRACK_SET_NAME = 'TRACK_SET_NAME';
 export const TRACK_PLAY = 'TRACK_PLAY';
 export const TRACK_PAUSE = 'TRACK_PAUSE';
 export const TRACK_STOP = 'TRACK_STOP';
@@ -113,6 +114,14 @@ export function hasLoaded(id) {
   return {
     type: TRACK_HAS_LOADED,
     id
+  };
+}
+
+export function setName(id, name) {
+  return {
+    type: TRACK_SET_NAME,
+    id,
+    name
   };
 }
 
