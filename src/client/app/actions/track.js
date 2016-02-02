@@ -10,6 +10,8 @@ export const TRACK_STOP = 'TRACK_STOP';
 export const TRACK_TOGGLE_LOOP = 'TRACK_TOGGLE_LOOP';
 export const TRACK_SET_REGION = 'TRACK_SET_REGION';
 export const TRACK_CLEAR_REGION = 'TRACK_CLEAR_REGION';
+export const TRACK_SET_PAN = 'TRACK_SET_PAN';
+export const TRACK_SET_VOLUME = 'TRACK_SET_VOLUME';
 export const TRACK_SET_EQ = 'TRACK_SET_EQ';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
@@ -154,6 +156,22 @@ export function clearRegion(id) {
   return {
     type: TRACK_CLEAR_REGION,
     id
+  };
+};
+
+export function setPan(id, pan) {
+  return {
+    type: TRACK_SET_PAN,
+    id,
+    pan
+  };
+};
+
+export function setVolume(id, volume) {
+  return {
+    type: TRACK_SET_VOLUME,
+    id,
+    volume
   };
 };
 

@@ -18,7 +18,7 @@ class SetEditorSampler extends Component {
 
     this.state = {
       region: null,
-      eqInit: false,
+      panner: null,
     };
   }
 
@@ -50,10 +50,29 @@ class SetEditorSampler extends Component {
       }
     }
 
-    //eq
+    //meta
 
-    if (!this.state.eqInit || diff(this.props.meta.get('eq'), nextProps.meta.get('eq')).length > 0) {
-      this.ws.backend.setFilters(nextProps.meta.get('eq').toArray().map((band) => {
+    if (diff(this.props.meta, nextProps.meta).size > 0) {
+      var filters = [];
+
+      //panner
+
+      if (!this.state.panner) {
+        this.state.panner = this.ws.backend.ac.createPanner();
+      }
+
+      var x = Math.sin(nextProps.meta.get('pan') * (Math.PI / 180));
+      this.state.panner.setPosition(x, 0, 0);
+
+      filters.push(this.state.panner);
+
+      //volume
+
+      this.ws.setVolume(nextProps.meta.get('volume') / 100);
+
+      //eq
+
+      nextProps.meta.get('eq').toArray().forEach((band) => {
         var filter = this.ws.backend.ac.createBiquadFilter();
 
         filter.type = band.get('filterType');
@@ -61,15 +80,16 @@ class SetEditorSampler extends Component {
         filter.Q.value = band.get('Q');
         filter.frequency.value = band.get('frequency');
 
-        return filter;
-      }.bind(this)));
+        filters.push(filter);
+      }.bind(this));
 
-      this.state.eqInit = true;
+      //add to ws
 
+      this.ws.backend.setFilters(filters);
       return;
     }
 
-    //control state
+    //control
 
     if (nextProps.meta.get('isPlaying')) {
       if (this.state.region) {

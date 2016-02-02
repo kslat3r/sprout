@@ -23,8 +23,6 @@ class SetEditorEQ extends Component {
 
     this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {eq: newEQState.get('eq').toJS()}]), 500);
     this.props.trackActions.setEQ(this.props.track.id, newEQState.get('eq'));
-
-    this.forceUpdate();
   }
 
   render() {

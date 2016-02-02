@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ArtistLink from '../../link/artist';
 import SetEditorSampler from './sampler';
+import SetEditorPan from './pan';
+import SetEditorVolume from './volume';
 import SetEditorEQ from './eq';
 
 class SetTrack extends Component {
@@ -11,6 +13,8 @@ class SetTrack extends Component {
     var track = this.props.track;
     var meta = this.props.meta;
     var imageSrc = '/images/thumbnail-placeholder.png';
+    var pan;
+    var volume;
     var eq;
 
     if (track.album.images[track.album.images.length - 2] && track.album.images[track.album.images.length - 2].url) {
@@ -18,9 +22,9 @@ class SetTrack extends Component {
     }
 
     if (meta.get('hasLoaded')) {
-      eq = (
-        <SetEditorEQ track={track} meta={meta} />
-      );
+      pan = <SetEditorPan track={track} meta={meta} />;
+      volume = <SetEditorVolume track={track} meta={meta} />;
+      eq = <SetEditorEQ track={track} meta={meta} />;
     }
 
     return (
@@ -29,13 +33,19 @@ class SetTrack extends Component {
           <div className="col-xs-1 no-padding">
             <img src={imageSrc} className="img-responsive" />
           </div>
-          <div className="col-xs-11">
+          <div className="col-xs-8">
             <h3>
               {track.name}
             </h3>
             <h4>
               <ArtistLink artists={track.artists} />
             </h4>
+          </div>
+          <div className="col-xs-2">
+            {pan}
+          </div>
+          <div className="col-xs-2">
+            {volume}
           </div>
         </div>
         <div className="row">

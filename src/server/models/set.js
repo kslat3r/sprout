@@ -10,10 +10,15 @@ var setSchema = mongoose.Schema({
 
 setSchema.statics.defaultTrackMeta = {
   name: null,
+  hasLoaded: false,
+
   startPosition: null,
   endPosition: null,
   isLooped: false,
-  hasLoaded: false,
+  
+  volume: 100,
+  pan: 0,
+
   eq: commonEQModel.defaultState
 };
 

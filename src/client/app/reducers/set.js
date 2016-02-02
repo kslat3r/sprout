@@ -27,6 +27,9 @@ export const initialTrackState = {
   startPosition: null,
   endPosition: null,
 
+  volume: 100,
+  pan: 0,
+
   eq: commonEQModel.defaultState,
   defaultEQ: commonEQModel.defaultState
 };
@@ -65,6 +68,8 @@ export default function(state = initialState, action) {
           endPosition: action.response.tracksMeta[track.id].endPosition,
           isLooped: action.response.tracksMeta[track.id].isLooped,
 
+          pan: action.response.tracksMeta[track.id].pan,
+          volume: action.response.tracksMeta[track.id].volume,
           eq: action.response.tracksMeta[track.id].eq
         });
       });
@@ -111,6 +116,16 @@ export default function(state = initialState, action) {
     case TrackActionCreators.TRACK_CLEAR_REGION:
       mergeState.meta[action.id].startPosition = null;
       mergeState.meta[action.id].endPosition = null;
+
+      return state.merge(mergeState);
+
+    case TrackActionCreators.TRACK_SET_PAN:
+      mergeState.meta[action.id].pan = action.pan;
+
+      return state.merge(mergeState);
+
+    case TrackActionCreators.TRACK_SET_VOLUME:
+      mergeState.meta[action.id].volume = action.volume;
 
       return state.merge(mergeState);
 
