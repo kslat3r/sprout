@@ -3,9 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
-import SetEditorEQControls from './eqControls';
+import SetTrackEQControls from './controls/eq';
 
-class SetEditorEQ extends Component {
+class SetTrackEQ extends Component {
   constructor(props) {
     super(props);
 
@@ -42,7 +42,7 @@ class SetEditorEQ extends Component {
               }.bind(this))}
             </div>
             <div className="col-xs-1">
-              <SetEditorEQControls track={this.props.track} meta={this.props.meta} />
+              <SetTrackEQControls track={this.props.track} meta={this.props.meta} />
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@ class SetEditorEQ extends Component {
   }
 }
 
-SetEditorEQ.propTypes = {
+SetTrackEQ.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -65,4 +65,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorEQ);
+})(SetTrackEQ);

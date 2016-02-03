@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 
-class SetEditorPan extends Component {
+class SetTrackPan extends Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ class SetEditorPan extends Component {
   }
 }
 
-SetEditorPan.propTypes = {
+SetTrackPan.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -51,4 +51,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorPan);
+})(SetTrackPan);

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../actions/track';
+import * as TrackActions from '../../../../actions/track';
 import { Modal, Button } from 'react-bootstrap';
 
-class SetEditorSamplerControls extends Component {
+class SetTrackWaveformControls extends Component {
   constructor(props) {
     super(props);
 
@@ -168,7 +168,7 @@ class SetEditorSamplerControls extends Component {
   }
 }
 
-SetEditorSamplerControls.propTypes = {
+SetTrackWaveformControls.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -182,4 +182,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorSamplerControls);
+})(SetTrackWaveformControls);

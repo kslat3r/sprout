@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import ArtistLink from '../../link/artist';
-import SetEditorSampler from './sampler';
-import SetEditorPan from './pan';
-import SetEditorVolume from './volume';
-import SetEditorEQ from './eq';
+import SetTrackWaveform from './waveform';
+import SetTrackPan from './pan';
+import SetTrackVolume from './volume';
+import SetTrackEQ from './eq';
+import SetTrackCompressor from './compressor';
 
 class SetTrack extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class SetTrack extends Component {
     var pan;
     var volume;
     var eq;
+    var compressor;
 
     if (track.album.images[track.album.images.length - 2] && track.album.images[track.album.images.length - 2].url) {
       imageSrc = track.album.images[track.album.images.length - 2].url;
@@ -82,9 +84,10 @@ class SetTrack extends Component {
     }
 
     if (meta.get('hasLoaded')) {
-      pan = <SetEditorPan track={track} meta={meta} />;
-      volume = <SetEditorVolume track={track} meta={meta} />;
-      eq = <SetEditorEQ track={track} meta={meta} />;
+      pan = <SetTrackPan track={track} meta={meta} />;
+      volume = <SetTrackVolume track={track} meta={meta} />;
+      eq = <SetTrackEQ track={track} meta={meta} />;
+      compressor = <SetTrackCompressor track={track} meta={meta} />;
     }
 
     return (
@@ -111,8 +114,9 @@ class SetTrack extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <SetEditorSampler track={track} meta={meta} />
+            <SetTrackWaveform track={track} meta={meta} />
             {eq}
+            {compressor}
           </div>
         </div>
       </div>

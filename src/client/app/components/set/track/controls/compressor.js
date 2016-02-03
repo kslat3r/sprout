@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../actions/track';
+import * as TrackActions from '../../../../actions/track';
 
-class SetEditorEQControls extends Component {
+class SetTrackCompressorControls extends Component {
   constructor(props) {
     super(props);
 
@@ -11,10 +11,10 @@ class SetEditorEQControls extends Component {
   }
 
   reset() {
-    var newEQState = this.props.meta.set('eq', this.props.meta.get('defaultEQ'));
+    var newCompressorState = this.props.meta.set('compressor', this.props.meta.get('defaultCompressor'));
 
-    this.props.trackActions.setEQ(this.props.track.id, newEQState.get('eq'));
-    this.props.trackActions.updateInSet(this.props.track.id, {eq: newEQState.get('eq').toJS()});
+    this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.get('compressor'));
+    this.props.trackActions.updateInSet(this.props.track.id, {compressor: newCompressorState.get('compressor').toJS()});
   }
 
   render() {
@@ -32,7 +32,7 @@ class SetEditorEQControls extends Component {
   }
 }
 
-SetEditorEQControls.propTypes = {
+SetTrackCompressorControls.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -46,4 +46,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorEQControls);
+})(SetTrackCompressorControls);

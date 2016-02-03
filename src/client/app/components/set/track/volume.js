@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 
-class SetEditorVolume extends Component {
+class SetTrackVolume extends Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ class SetEditorVolume extends Component {
   }
 }
 
-SetEditorVolume.propTypes = {
+SetTrackVolume.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -51,4 +51,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorVolume);
+})(SetTrackVolume);

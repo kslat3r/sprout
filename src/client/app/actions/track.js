@@ -14,6 +14,7 @@ export const TRACK_CLEAR_REGION = 'TRACK_CLEAR_REGION';
 export const TRACK_SET_PAN = 'TRACK_SET_PAN';
 export const TRACK_SET_VOLUME = 'TRACK_SET_VOLUME';
 export const TRACK_SET_EQ = 'TRACK_SET_EQ';
+export const TRACK_SET_COMPRESSOR = 'TRACK_SET_COMPRESSOR';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
 export const TRACK_SUCCESS = 'TRACK_SUCCESS';
@@ -189,6 +190,14 @@ export function setEQ(id, eq) {
     type: TRACK_SET_EQ,
     id,
     eq
+  };
+};
+
+export function setCompressor(id, compressor) {
+  return {
+    type: TRACK_SET_COMPRESSOR,
+    id,
+    compressor
   };
 };
 

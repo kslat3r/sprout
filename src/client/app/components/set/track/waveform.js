@@ -3,10 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
-import SetEditorSamplerControls from './samplerControls';
+import SetTrackWaveformControls from './controls/waveform';
 import diff from 'immutablediff';
 
-class SetEditorSampler extends Component {
+class SetTrackWaveform extends Component {
   constructor(props) {
     super(props);
 
@@ -61,7 +61,13 @@ class SetEditorSampler extends Component {
         this.state.panner = this.ws.backend.ac.createPanner();
       }
 
-      var x = Math.sin(nextProps.meta.get('pan') * (Math.PI / 180));
+      if (nextProps.meta.get('pan') !== 0) {
+        var x = Math.sin(nextProps.meta.get('pan') * (Math.PI / 180));
+      }
+      else {
+        var x = 0;
+      }
+
       this.state.panner.setPosition(x, 0, 0);
 
       filters.push(this.state.panner);
@@ -82,6 +88,16 @@ class SetEditorSampler extends Component {
 
         filters.push(filter);
       }.bind(this));
+
+      //compressor
+
+      var compressor = this.ws.backend.ac.createDynamicsCompressor();
+
+      Object.keys(nextProps.meta.get('compressor').toObject()).map((key) => {
+        compressor[key].value = nextProps.meta.getIn(['compressor', key]);
+      });
+
+      filters.push(compressor);
 
       //add to ws
 
@@ -194,7 +210,7 @@ class SetEditorSampler extends Component {
     var throbber;
 
     if (this.props.meta.get('hasLoaded')) {
-      controls = <SetEditorSamplerControls track={this.props.track} meta={this.props.meta} />;
+      controls = <SetTrackWaveformControls track={this.props.track} meta={this.props.meta} />;
     }
 
     if (!this.props.meta.get('hasLoaded')) {
@@ -223,7 +239,7 @@ class SetEditorSampler extends Component {
   }
 }
 
-SetEditorSampler.propTypes = {
+SetTrackWaveform.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -238,4 +254,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetEditorSampler);
+})(SetTrackWaveform);

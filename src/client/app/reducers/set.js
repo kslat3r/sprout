@@ -1,6 +1,7 @@
 import * as SetActionCreators from '../actions/set';
 import * as TrackActionCreators from '../actions/track';
 import * as commonEQModel from '../../../common/models/eq';
+import * as commonCompressorModel from '../../../common/models/compressor';
 import Immutable from 'immutable';
 
 export const initialState = Immutable.Map({
@@ -31,7 +32,10 @@ export const initialTrackState = {
   pan: 0,
 
   eq: commonEQModel.defaultState,
-  defaultEQ: commonEQModel.defaultState
+  defaultEQ: commonEQModel.defaultState,
+
+  compressor: commonCompressorModel.defaultState,
+  defaultCompressor: commonCompressorModel.defaultState
 };
 
 export default function(state = initialState, action) {
@@ -70,7 +74,8 @@ export default function(state = initialState, action) {
 
           pan: action.response.tracksMeta[track.id].pan,
           volume: action.response.tracksMeta[track.id].volume,
-          eq: action.response.tracksMeta[track.id].eq
+          eq: action.response.tracksMeta[track.id].eq,
+          compressor: action.response.tracksMeta[track.id].compressor
         });
       });
 
@@ -138,6 +143,11 @@ export default function(state = initialState, action) {
       mergeState.meta[action.id].eq = action.eq;
 
       return state.merge(mergeState);
+
+      case TrackActionCreators.TRACK_SET_COMPRESSOR:
+        mergeState.meta[action.id].compressor = action.compressor;
+
+        return state.merge(mergeState);
 
     default:
       return state;

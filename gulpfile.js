@@ -70,7 +70,8 @@ var opts = {
     buildDir: __dirname + '/build',
     script: __dirname + '/src/server',
     watch: [
-      __dirname + '/src/server'
+      __dirname + '/src/server',
+      __dirname + '/src/common'
     ]
   },
 

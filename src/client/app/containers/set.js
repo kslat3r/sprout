@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
 import * as PlayerActions from '../actions/player';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
-import SetEditorTrack from '../components/set/editor/track';
+import SetEditorTrack from '../components/set/track';
 
 class Set extends Component {
   componentDidMount() {

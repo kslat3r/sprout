@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var commonEQModel = require('../../common/models/eq');
+var commonCompressorModel = require('../../common/models/compressor');
 
 var setSchema = mongoose.Schema({
   name: String,
@@ -19,7 +20,8 @@ setSchema.statics.defaultTrackMeta = {
   volume: 100,
   pan: 0,
 
-  eq: commonEQModel.defaultState
+  eq: commonEQModel.defaultState,
+  compressor: commonCompressorModel.defaultState
 };
 
 module.exports = mongoose.model('Set', setSchema);
