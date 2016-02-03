@@ -90,13 +90,13 @@ class SetTrackWaveform extends Component {
 
       //compressor
 
-      var compressor = this.ws.backend.ac.createDynamicsCompressor();
+      /*var compressor = this.ws.backend.ac.createDynamicsCompressor();
 
       Object.keys(nextProps.meta.get('compressor').toObject()).map((key) => {
         compressor[key].value = nextProps.meta.getIn(['compressor', key]);
       });
 
-      filters.push(compressor);
+      filters.push(compressor);*/
 
       //add to ws
 

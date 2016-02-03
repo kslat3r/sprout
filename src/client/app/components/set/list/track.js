@@ -16,13 +16,15 @@ export default class SetListTrack extends Component {
       <div className="thumbnail track">
         <div className="thumbnail-image">
           <img src={imageSrc} />
+          <Preview track={track} />
         </div>
-        <Preview track={track} />
+        <span className="name">{this.props.meta.name}</span>
       </div>
     );
   }
 };
 
 SetListTrack.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired
 };

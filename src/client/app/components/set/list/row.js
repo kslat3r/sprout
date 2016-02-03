@@ -19,7 +19,7 @@ export default class SetListRow extends Component {
           <div className="set-row-inner" style={innerStyle}>
             {this.props.set.tracks.map((track, i) => {
               return (
-                <SetTrack key={i} track={track} />
+                <SetTrack key={i} track={track} meta={this.props.set.tracksMeta[track.id]} />
               );
             })}
           </div>

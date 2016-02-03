@@ -11,11 +11,18 @@
       margin-right: 10px;
       margin-bottom: 0;
       padding: 1px;
-      position: relative;
       margin-bottom: 10px;
 
       .thumbnail-image {
         min-height: 0;
+        position: relative;
+      }
+
+      .name {
+        color: #333;
+        display: block;
+        padding: 2px 2px;
+        padding-bottom: 1px;
       }
 
       .preview {
