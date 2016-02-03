@@ -64,13 +64,12 @@ class SetTrackWaveform extends Component {
       if (nextProps.meta.get('pan') !== 0) {
         var x = Math.sin(nextProps.meta.get('pan') * (Math.PI / 180));
       }
-      else {
-        var x = 0;
-      }
 
       this.state.panner.setPosition(x, 0, 0);
 
-      filters.push(this.state.panner);
+      if (x !== 0) {
+        filters.push(this.state.panner);
+      }
 
       //volume
 
