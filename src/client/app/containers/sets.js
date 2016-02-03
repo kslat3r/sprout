@@ -6,6 +6,10 @@ import SetRow from '../components/set/list/row';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Sets extends Component {
+  componentWillMount() {
+    this.props.setsActions.request();
+  }
+
   requesting() {
     if (this.props.sets.requesting) {
       return (
