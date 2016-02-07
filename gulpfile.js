@@ -75,6 +75,11 @@ var opts = {
     ]
   },
 
+  electron: {
+    srcFile: __dirname + '/src/main.js',
+    buildDir: __dirname + '/build'
+  },
+
   watch: {
     js: [
       __dirname + '/src/client/**/*.js'
@@ -95,7 +100,7 @@ wrench.readdirSyncRecursive('./tasks').filter(function(file) {
 
 gulp.task('default', function(callback) {
   setupConfig('development');
-  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'images', 'html'], 'serve:client');
+  runSequence('serve:server', 'watch', ['scripts', 'scripts:vendor', 'styles', 'fonts', 'images', 'html', 'electron'], 'serve:client');
 });
 
 gulp.on('err', function(err) {

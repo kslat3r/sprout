@@ -16,22 +16,22 @@ class SetTrackPan extends Component {
   }
 
   onPanChange(e) {
-    var newPanState = this.props.meta.set('pan', e.target.value)
+    var newPanState = this.props.meta.setIn(['sample', 'pan'], e.target.value)
 
     if (this.state.updateTimeout) {
       clearInterval(this.state.updateTimeout);
     }
 
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {pan: newPanState.get('pan')}]), 500);
-    this.props.trackActions.setPan(this.props.track.id, newPanState.get('pan'));
+    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {pan: newPanState.getIn(['sample', 'pan'])}]), 500);
+    this.props.trackActions.setPan(this.props.track.id, newPanState.getIn(['sample', 'pan']));
   }
 
   render() {
     return (
       <div className="pan">
         <span>Pan</span>
-        <input type="range" min="-45" max="45" value={this.props.meta.get('pan')} title="Pan" orient="horizontal" onChange={this.onPanChange} />
-        <span>{((this.props.meta.get('pan') / 45 ) * 100).toPrecision(3)}</span>
+        <input type="range" min="-45" max="45" value={this.props.meta.getIn(['sample', 'pan'])} title="Pan" orient="horizontal" onChange={this.onPanChange} />
+        <span>{((this.props.meta.getIn(['sample', 'pan']) / 45 ) * 100).toPrecision(3)}</span>
       </div>
     );
   }

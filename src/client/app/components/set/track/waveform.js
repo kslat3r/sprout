@@ -19,6 +19,7 @@ class SetTrackWaveform extends Component {
     this.state = {
       region: null,
       panner: null,
+      setFiltersTimeout: null
     };
   }
 
@@ -52,7 +53,7 @@ class SetTrackWaveform extends Component {
 
     //meta
 
-    if (diff(this.props.meta, nextProps.meta).size > 0) {
+    if (diff(this.props.meta.get('sample'), nextProps.meta.get('sample')).size > 0) {
       var filters = [];
 
       //panner
@@ -61,8 +62,8 @@ class SetTrackWaveform extends Component {
         this.state.panner = this.ws.backend.ac.createPanner();
       }
 
-      if (nextProps.meta.get('pan') !== 0) {
-        var x = Math.sin(nextProps.meta.get('pan') * (Math.PI / 180));
+      if (nextProps.meta.getIn(['sample', 'pan']) !== 0) {
+        var x = Math.sin(nextProps.meta.getIn(['sample', 'pan']) * (Math.PI / 180));
       }
 
       this.state.panner.setPosition(x, 0, 0);
@@ -73,11 +74,11 @@ class SetTrackWaveform extends Component {
 
       //volume
 
-      this.ws.setVolume(nextProps.meta.get('volume') / 100);
+      this.ws.setVolume(nextProps.meta.getIn(['sample', 'volume']) / 100);
 
       //eq
 
-      nextProps.meta.get('eq').toArray().forEach((band) => {
+      nextProps.meta.getIn(['sample', 'eq']).toArray().forEach((band) => {
         var filter = this.ws.backend.ac.createBiquadFilter();
 
         filter.type = band.get('filterType');
@@ -90,17 +91,21 @@ class SetTrackWaveform extends Component {
 
       //compressor
 
-      /*var compressor = this.ws.backend.ac.createDynamicsCompressor();
+      var compressor = this.ws.backend.ac.createDynamicsCompressor();
 
-      Object.keys(nextProps.meta.get('compressor').toObject()).map((key) => {
-        compressor[key].value = nextProps.meta.getIn(['compressor', key]);
+      Object.keys(nextProps.meta.getIn(['sample', 'compressor']).toObject()).map((key) => {
+        compressor[key].value = nextProps.meta.getIn(['sample', 'compressor', key]);
       });
 
-      filters.push(compressor);*/
+      filters.push(compressor);
 
       //add to ws
 
-      this.ws.backend.setFilters(filters);
+      if (this.state.setFiltersTimeout) {
+        clearTimeout(this.state.setFiltersTimeout);
+      }
+
+      this.state.setFiltersTimeout = setTimeout(() => this.ws.backend.setFilters.apply(this.ws.backend, [filters]), 500);
       return;
     }
 
@@ -123,8 +128,8 @@ class SetTrackWaveform extends Component {
         this.ws.stop();
       }
 
-      if (nextProps.meta.get('startPosition') && nextProps.meta.get('endPosition')) {
-        this.ws.seekTo(nextProps.meta.get('startPosition') / this.ws.getDuration());
+      if (nextProps.meta.getIn(['sample', 'startPosition']) && nextProps.meta.getIn(['sample', 'endPosition'])) {
+        this.ws.seekTo(nextProps.meta.getIn(['sample', 'startPosition']) / this.ws.getDuration());
       }
       else {
         this.ws.seekTo(0);
@@ -146,10 +151,10 @@ class SetTrackWaveform extends Component {
 
     //region
 
-    if (this.props.meta.get('startPosition') && this.props.meta.get('endPosition')) {
+    if (this.props.meta.getIn(['sample', 'startPosition']) && this.props.meta.getIn(['sample', 'endPosition'])) {
       var Region = this.ws.addRegion({
-        start: this.props.meta.get('startPosition'),
-        end: this.props.meta.get('endPosition'),
+        start: this.props.meta.getIn(['sample', 'startPosition']),
+        end: this.props.meta.getIn(['sample', 'endPosition']),
         color: this.props.sampler.dragOptions.color
       });
 
@@ -193,7 +198,7 @@ class SetTrackWaveform extends Component {
         this.props.trackActions.stop(this.props.track.id);
       }
       else {
-        this.ws.seekTo(this.props.meta.get('startPosition') / this.ws.getDuration())
+        this.ws.seekTo(this.props.meta.getIn(['sample', 'startPosition']) / this.ws.getDuration())
       }
     }.bind(this));
   }

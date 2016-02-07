@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute } from 'react-router';
-import { createHistory } from 'history';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { createHashHistory } from 'history';
 import { syncHistory } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
@@ -23,7 +23,7 @@ import Tracks from './containers/tracks';
 
 import reducers from './reducers';
 
-const history = createHistory();
+const history = createHashHistory();
 const historyMiddleware = syncHistory(history);
 
 const createStoreWithMiddleware = compose(

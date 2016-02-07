@@ -36,14 +36,14 @@ class SetTrackCompressor extends Component {
   }
 
   onParamChange(param, e) {
-    var newCompressorState = this.props.meta.setIn(['compressor', param], e.target.value)
+    var newCompressorState = this.props.meta.setIn(['sample', 'compressor', param], e.target.value)
 
     if (this.state.updateTimeout) {
       clearInterval(this.state.updateTimeout);
     }
 
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {compressor: newCompressorState.get('compressor').toJS()}]), 500);
-    this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.get('compressor'));
+    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {compressor: newCompressorState.getIn(['sample', 'compressor']).toJS()}]), 500);
+    this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.getIn(['sample', 'compressor']));
   }
 
   render() {
@@ -56,8 +56,8 @@ class SetTrackCompressor extends Component {
                 return (
                   <div className="col-xs-2 param" key={i}>
                     <span>{_.capitalize(key)}</span>
-                    <input type="range" min={this.state.min[key]} max={this.state.max[key]} step={this.state.step[key]} value={this.props.meta.getIn(['compressor', key])} title={_.capitalize(key)} orient="vertical" onChange={this.onParamChange.bind(this, key)} />
-                    <span>{this.props.meta.getIn(['compressor', key])}</span>
+                    <input type="range" min={this.state.min[key]} max={this.state.max[key]} step={this.state.step[key]} value={this.props.meta.getIn(['sample', 'compressor', key])} title={_.capitalize(key)} orient="vertical" onChange={this.onParamChange.bind(this, key)} />
+                    <span>{this.props.meta.getIn(['sample', 'compressor', key])}</span>
                   </div>
                 );
               }.bind(this))}

@@ -15,14 +15,14 @@ class SetTrackEQ extends Component {
   }
 
   onFilterChange(filter, index, e) {
-    var newEQState = this.props.meta.setIn(['eq', index, 'gain'], ~~e.target.value)
+    var newEQState = this.props.meta.setIn(['sample', 'eq', index, 'gain'], ~~e.target.value)
 
     if (this.state.updateTimeout) {
       clearInterval(this.state.updateTimeout);
     }
 
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {eq: newEQState.get('eq').toJS()}]), 500);
-    this.props.trackActions.setEQ(this.props.track.id, newEQState.get('eq'));
+    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {eq: newEQState.getIn(['sample', 'eq']).toJS()}]), 500);
+    this.props.trackActions.setEQ(this.props.track.id, newEQState.getIn(['sample', 'eq']));
   }
 
   render() {
@@ -31,7 +31,7 @@ class SetTrackEQ extends Component {
         <div className="m-t-20 m-b-20">
           <div className="row vertical-center">
             <div className="col-xs-11">
-              {this.props.meta.get('eq').toArray().map((filter, i) => {
+              {this.props.meta.getIn(['sample', 'eq']).toArray().map((filter, i) => {
                 return (
                   <div className="col-xs-1 filter" key={i}>
                     <span>{filter.get('frequency')}</span>

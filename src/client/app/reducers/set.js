@@ -24,18 +24,19 @@ export const initialTrackState = {
   isStopped: true,
   isLooped: false,
 
-  region: null,
-  startPosition: null,
-  endPosition: null,
+  sample: {
+    startPosition: null,
+    endPosition: null,
 
-  volume: 100,
-  pan: 0,
+    volume: 100,
+    pan: 0,
 
-  eq: commonEQModel.defaultState,
-  defaultEQ: commonEQModel.defaultState,
+    eq: commonEQModel.defaultState,
+    defaultEQ: commonEQModel.defaultState,
 
-  compressor: commonCompressorModel.defaultState,
-  defaultCompressor: commonCompressorModel.defaultState
+    compressor: commonCompressorModel.defaultState,
+    defaultCompressor: commonCompressorModel.defaultState
+  }
 };
 
 export default function(state = initialState, action) {
@@ -67,15 +68,18 @@ export default function(state = initialState, action) {
       action.response.tracks.forEach((track) => {
         newState.meta[track.id] = Object.assign({}, initialTrackState, {
           name: action.response.tracksMeta[track.id].name,
-
-          startPosition: action.response.tracksMeta[track.id].startPosition,
-          endPosition: action.response.tracksMeta[track.id].endPosition,
           isLooped: action.response.tracksMeta[track.id].isLooped,
 
-          pan: action.response.tracksMeta[track.id].pan,
-          volume: action.response.tracksMeta[track.id].volume,
-          eq: action.response.tracksMeta[track.id].eq,
-          compressor: action.response.tracksMeta[track.id].compressor
+          sample: {
+            startPosition: action.response.tracksMeta[track.id].startPosition,
+            endPosition: action.response.tracksMeta[track.id].endPosition,
+
+            volume: action.response.tracksMeta[track.id].volume,
+            pan: action.response.tracksMeta[track.id].pan,
+
+            eq: action.response.tracksMeta[track.id].eq,
+            compressor: action.response.tracksMeta[track.id].compressor
+          }
         });
       });
 
@@ -118,34 +122,34 @@ export default function(state = initialState, action) {
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_REGION:
-      mergeState.meta[action.id].startPosition = action.params.startPosition;
-      mergeState.meta[action.id].endPosition = action.params.endPosition;
+      mergeState.meta[action.id].sample.startPosition = action.params.startPosition;
+      mergeState.meta[action.id].sample.endPosition = action.params.endPosition;
 
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_CLEAR_REGION:
-      mergeState.meta[action.id].startPosition = null;
-      mergeState.meta[action.id].endPosition = null;
+      mergeState.meta[action.id].sample.startPosition = null;
+      mergeState.meta[action.id].sample.endPosition = null;
 
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_PAN:
-      mergeState.meta[action.id].pan = action.pan;
+      mergeState.meta[action.id].sample.pan = action.pan;
 
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_VOLUME:
-      mergeState.meta[action.id].volume = action.volume;
+      mergeState.meta[action.id].sample.volume = action.volume;
 
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_EQ:
-      mergeState.meta[action.id].eq = action.eq;
+      mergeState.meta[action.id].sample.eq = action.eq;
 
       return state.merge(mergeState);
 
       case TrackActionCreators.TRACK_SET_COMPRESSOR:
-        mergeState.meta[action.id].compressor = action.compressor;
+        mergeState.meta[action.id].sample.compressor = action.compressor;
 
         return state.merge(mergeState);
 
