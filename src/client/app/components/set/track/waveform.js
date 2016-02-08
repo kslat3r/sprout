@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import SetTrackWaveformControls from './controls/waveform';
 import diff from 'immutablediff';
+import * as effectsUtils from '../../../utils/effects';
+import * as regionUtils from '../../../utils/region';
 
 class SetTrackWaveform extends Component {
   constructor(props) {
@@ -30,7 +32,10 @@ class SetTrackWaveform extends Component {
 
     this.ws.load(this.props.track.preview_url);
     this.ws.enableDragSelection(this.props.sampler.dragOptions);
+
     this.bindEvents();
+
+    effectsUtils.bindEffectsToAudioContext.call(this, this.props);
   }
 
   componentWillUnmount() {
@@ -45,75 +50,20 @@ class SetTrackWaveform extends Component {
     //region
 
     if (nextProps.meta.get('startPosition') === null || nextProps.meta.get('endPosition') === null) {
-      if (this.state.region) {
-        this.state.region.remove();
-        this.state.region = null;
-      }
+      regionUtils.removeRegionFromWaveform.bind(this);
     }
 
     //meta
 
     if (diff(this.props.meta.get('sample'), nextProps.meta.get('sample')).size > 0) {
-      var filters = [];
-
-      //panner
-
-      if (!this.state.panner) {
-        this.state.panner = this.ws.backend.ac.createPanner();
-      }
-
-      if (nextProps.meta.getIn(['sample', 'pan']) !== 0) {
-        var x = Math.sin(nextProps.meta.getIn(['sample', 'pan']) * (Math.PI / 180));
-      }
-
-      this.state.panner.setPosition(x, 0, 0);
-
-      if (x !== 0) {
-        filters.push(this.state.panner);
-      }
-
-      //volume
-
-      this.ws.setVolume(nextProps.meta.getIn(['sample', 'volume']) / 100);
-
-      //eq
-
-      nextProps.meta.getIn(['sample', 'eq']).toArray().forEach((band) => {
-        var filter = this.ws.backend.ac.createBiquadFilter();
-
-        filter.type = band.get('filterType');
-        filter.gain.value = band.get('gain');
-        filter.Q.value = band.get('Q');
-        filter.frequency.value = band.get('frequency');
-
-        filters.push(filter);
-      }.bind(this));
-
-      //compressor
-
-      var compressor = this.ws.backend.ac.createDynamicsCompressor();
-
-      Object.keys(nextProps.meta.getIn(['sample', 'compressor']).toObject()).map((key) => {
-        compressor[key].value = nextProps.meta.getIn(['sample', 'compressor', key]);
-      });
-
-      filters.push(compressor);
-
-      //add to ws
-
-      if (this.state.setFiltersTimeout) {
-        clearTimeout(this.state.setFiltersTimeout);
-      }
-
-      this.state.setFiltersTimeout = setTimeout(() => this.ws.backend.setFilters.apply(this.ws.backend, [filters]), 500);
-      return;
+      return effectsUtils.bindEffectsToAudioContext.call(this, nextProps);
     }
 
     //control
 
     if (nextProps.meta.get('isPlaying')) {
       if (this.state.region) {
-        this.seekToRegion(this.state.region);
+        regionUtils.seekToRegion.call(this, this.state.region);
 
         setTimeout(() => {
           this.ws.play();
@@ -143,7 +93,7 @@ class SetTrackWaveform extends Component {
   bindEvents() {
     this.ws.on('ready', this.onReady.bind(this));
     this.ws.on('finish', this.onFinish.bind(this));
-    this.ws.on('region-update-end', this.onRegionUpdated.bind(this));
+    this.ws.on('region-update-end', regionUtils.onRegionUpdated.bind(this));
   }
 
   onReady() {
@@ -152,16 +102,7 @@ class SetTrackWaveform extends Component {
     //region
 
     if (this.props.meta.getIn(['sample', 'startPosition']) && this.props.meta.getIn(['sample', 'endPosition'])) {
-      var Region = this.ws.addRegion({
-        start: this.props.meta.getIn(['sample', 'startPosition']),
-        end: this.props.meta.getIn(['sample', 'endPosition']),
-        color: this.props.sampler.dragOptions.color
-      });
-
-      this.onRegionOut(Region);
-      this.seekToRegion(Region);
-
-      this.state.region = Region;
+      regionUtils.bindRegionToWaveform.call(this);
     }
   }
 
@@ -171,42 +112,6 @@ class SetTrackWaveform extends Component {
     if (this.props.meta.get('isLooped')) {
       this.props.trackActions.play(this.props.track.id);
     }
-  }
-
-  onRegionUpdated(Region, e) {
-    if (this.state.region && e.toElement.className !== 'wavesurfer-region') {
-      this.state.region.remove();
-    }
-
-    this.state.region = Region;
-
-    var regionParams = {
-      startPosition: Region.start,
-      endPosition: Region.end
-    };
-
-    this.props.trackActions.updateInSet(this.props.track.id, regionParams);
-    this.props.trackActions.setRegion(this.props.track.id, regionParams);
-
-    this.seekToRegion(Region);
-    this.onRegionOut(Region);
-  }
-
-  onRegionOut(Region) {
-    Region.on('out', () => {
-      if (!this.props.meta.get('isLooped')) {
-        this.props.trackActions.stop(this.props.track.id);
-      }
-      else {
-        this.ws.seekTo(this.props.meta.getIn(['sample', 'startPosition']) / this.ws.getDuration())
-      }
-    }.bind(this));
-  }
-
-  seekToRegion(Region) {
-    setTimeout(() => {
-      this.ws.seekTo(Region.start / this.ws.getDuration());
-    }.bind(this), 10);
   }
 
   render() {

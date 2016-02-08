@@ -5,6 +5,7 @@ import Preview from '../../player/preview';
 export default class SetListTrack extends Component {
   render() {
     var track = this.props.track;
+    var meta = this.props.meta;
     var albumImages = track.album.images;
     var imageSrc = '/images/thumbnail-placeholder.png';
 
@@ -16,7 +17,7 @@ export default class SetListTrack extends Component {
       <div className="thumbnail track">
         <div className="thumbnail-image">
           <img src={imageSrc} />
-          <Preview track={track} />
+          <Preview track={track} meta={meta} />
         </div>
         <span className="name">{this.props.meta.name}</span>
       </div>

@@ -3,10 +3,11 @@ export const PLAYER_PAUSE = 'PLAYER_PAUSE';
 export const PLAYER_STOP = 'PLAYER_STOP';
 export const PLAYER_RESET = 'PLAYER_RESET';
 
-export function play(track) {
+export function play(track, meta) {
   return {
     type: PLAYER_PLAY,
-    track
+    track,
+    meta
   }
 };
 

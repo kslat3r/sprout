@@ -10,7 +10,11 @@ class SetTrackEQControls extends Component {
     this.reset = this.reset.bind(this);
   }
 
-  reset() {
+  reset(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
     var newEQState = this.props.meta.setIn(['sample', 'eq'], this.props.meta.getIn(['sample', 'defaultEQ']));
 
     this.props.trackActions.setEQ(this.props.track.id, newEQState.getIn(['sample', 'eq']));

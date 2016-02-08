@@ -5,7 +5,8 @@ export const initialState = Immutable.Map({
   isPlaying: false,
   isPaused: false,
   isStopped: true,
-  track: {}
+  track: {},
+  meta: {}
 });
 
 export default function(state = initialState, action) {
@@ -15,7 +16,8 @@ export default function(state = initialState, action) {
         isPlaying: true,
         isPaused: false,
         isStopped: false,
-        track: action.track
+        track: action.track,
+        meta: action.meta
       });
 
     case PlayerActionCreators.PLAYER_PAUSE:

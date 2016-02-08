@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as PlayerActions from '../../../actions/player';
+import * as effectsUtils from '../../../utils/effects';
 
 export default class PlayerBarWaveform extends Component {
   constructor(props) {
@@ -22,6 +23,11 @@ export default class PlayerBarWaveform extends Component {
     });
 
     this.ws.load(this.props.track.preview_url);
+
+    console.log(this.props.meta.toJS());
+    if (this.props.meta) {
+      effectsUtils.bindEffectsToAudioContext.call(this, this.props);
+    }
 
     this.ws.on('ready', () => {
       this.ws.play();
@@ -63,7 +69,8 @@ export default class PlayerBarWaveform extends Component {
 }
 
 PlayerBarWaveform.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object
 };
 
 export default connect(function(state) {

@@ -10,7 +10,11 @@ class SetTrackCompressorControls extends Component {
     this.reset = this.reset.bind(this);
   }
 
-  reset() {
+  reset(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
     var newCompressorState = this.props.meta.setIn(['sample', 'compressor'], this.props.meta.getIn(['sample', 'defaultCompressor']));
 
     this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.getIn(['sample', 'compressor']));

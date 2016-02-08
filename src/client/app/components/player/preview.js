@@ -11,7 +11,7 @@ class Preview extends Component {
   play(e) {
     e.preventDefault();
 
-    this.props.play(this.props.track);
+    this.props.play(this.props.track, this.props.meta);
   }
 
   pause(e) {
@@ -48,7 +48,8 @@ class Preview extends Component {
 };
 
 Preview.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  meta: PropTypes.object
 };
 
 export default connect(function(state) {

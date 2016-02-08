@@ -36,25 +36,33 @@ class SetTrackWaveformControls extends Component {
   }
 
   play(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.play(this.props.track.id);
   }
 
   pause(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.pause(this.props.track.id);
   }
 
   stop(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.stop(this.props.track.id);
   }
 
   rewind(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     var shouldPlay = this.props.meta.get('isPlaying');
 
@@ -68,7 +76,9 @@ class SetTrackWaveformControls extends Component {
   }
 
   toggleLoop(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.updateInSet(this.props.track.id, {
       isLooped: !this.props.meta.get('isLooped')
@@ -78,7 +88,9 @@ class SetTrackWaveformControls extends Component {
   }
 
   clear(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.updateInSet(this.props.track.id, {
       startPosition: null,
@@ -89,7 +101,9 @@ class SetTrackWaveformControls extends Component {
   }
 
   remove(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.trackActions.deleteFromSet(this.props.track.id);
 
