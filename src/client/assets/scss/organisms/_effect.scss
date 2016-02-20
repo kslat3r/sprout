@@ -20,6 +20,18 @@
 
     .bootstrap-switch {
       float: right;
+
+      &.bootstrap-switch-on {
+        border-color: #5cb85c;
+      }
+
+      &.bootstrap-switch-off {
+        border-color: #d9534f;
+      }
+
+      .bootstrap-switch-label {
+        background-color: #333;
+      }
     }
   }
 
