@@ -69,7 +69,7 @@ class Artist extends Component {
       return (
         <div>
           <div className="row">
-            <div className="m-t-20 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div className="m-t-20 col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <ArtistTitle data={this.props.artist.result} />
             </div>
           </div>

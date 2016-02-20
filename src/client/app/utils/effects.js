@@ -13,12 +13,12 @@ export function bindEffectsToAudioContext(props) {
 
   if (props.meta.getIn(['sample', 'pan']) !== 0) {
     var x = Math.sin(parseInt(props.meta.getIn(['sample', 'pan'])) * (Math.PI / 180));
-  }
 
-  this.state.panner.setPosition(x, 0, 0);
+    this.state.panner.setPosition(x, 0, 0);
 
-  if (x !== 0) {
-    filters.push(this.state.panner);
+    if (x !== 0) {
+      filters.push(this.state.panner);
+    }
   }
 
   //volume
@@ -27,26 +27,32 @@ export function bindEffectsToAudioContext(props) {
 
   //eq
 
-  props.meta.getIn(['sample', 'eq']).toArray().forEach((band) => {
-    var filter = this.ws.backend.ac.createBiquadFilter();
+  if (!props.meta.getIn(['sample', 'eq', 'bypass'])) {
+    props.meta.getIn(['sample', 'eq', 'filters']).toArray().forEach((band) => {
+      var filter = this.ws.backend.ac.createBiquadFilter();
 
-    filter.type = band.get('filterType');
-    filter.gain.value = band.get('gain');
-    filter.Q.value = band.get('Q');
-    filter.frequency.value = band.get('frequency');
+      filter.type = band.get('filterType');
+      filter.gain.value = band.get('gain');
+      filter.Q.value = band.get('Q');
+      filter.frequency.value = band.get('frequency');
 
-    filters.push(filter);
-  }.bind(this));
+      filters.push(filter);
+    });
+  }
 
   //compressor
 
-  var compressor = this.ws.backend.ac.createDynamicsCompressor();
+  if (!props.meta.getIn(['sample', 'compressor', 'bypass'])) {
+    var compressor = this.ws.backend.ac.createDynamicsCompressor();
 
-  Object.keys(props.meta.getIn(['sample', 'compressor']).toObject()).map((key) => {
-    compressor[key].value = props.meta.getIn(['sample', 'compressor', key]);
-  });
+    Object.keys(props.meta.getIn(['sample', 'compressor']).toObject()).map((key) => {
+      if (key !== 'bypass') {
+        compressor[key].value = props.meta.getIn(['sample', 'compressor', key]);
+      }
+    });
 
-  filters.push(compressor);
+    filters.push(compressor);
+  }
 
   //add to ws
 

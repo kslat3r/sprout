@@ -1,0 +1,46 @@
+.effect {
+  .bypass-toggle {
+    background-color: #222;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: #999;
+    margin-bottom: 2px;
+    padding-bottom: 10px;
+    height: 32px;
+    padding-right: 5px;
+    margin-right: -5px;
+    margin-left: -2px;
+
+    > span {
+      margin-top: 1px;
+      display: block;
+      float: left;
+    }
+
+    .bootstrap-switch {
+      float: right;
+    }
+  }
+
+  .param,
+  .filter {
+    text-align: center;
+
+    span {
+      display: block;
+    }
+
+    .title {
+      margin-bottom: 5px;
+    }
+
+    input {
+      height: 150px;
+      -webkit-appearance: slider-vertical;
+      -moz-appearance: slider-vertical;
+      appearance: slider-vertical;
+      margin-bottom: 5px;
+    }
+  }
+}

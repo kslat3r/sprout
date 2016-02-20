@@ -67,9 +67,6 @@ class Set extends Component {
     if (!this.props.set.requesting && !this.props.set.errored) {
       return (
         <div className="set">
-          <div className="row">
-            <h2>{this.props.set.toJS().result.name}</h2>
-          </div>
           {tracks}
         </div>
       );

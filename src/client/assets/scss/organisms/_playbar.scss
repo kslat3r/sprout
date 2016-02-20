@@ -1,4 +1,9 @@
 .playbar {
+  background-color: #222;
+  margin-left: 240px;
+  border-color: #090909;
+  margin-right: 15px;
+
   .container-fluid {
     padding: 0;
 
@@ -17,36 +22,37 @@
       .add-control {
         width: 25%;
         text-align: center;
-        font-size: 2em;
+        font-size: 1.5em;
         display: block;
         float: left;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 50px;
-
-        a:link,
-        a:visited,
-        a:hover,
-        a:active {
-          color: #555;
-        }
+        height: 30px;
       }
     }
 
     .track-info {
-      width: 80%;
-      text-align: center;
-      height: 20px;
-      margin-top: -20px;
       color: #999;
+      float: left;
+      margin-top: 12px;
+      max-height: 20px;
       font-size: 0.9em;
+      width: 175px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-left: 15px;
+      margin-right: 15px;
+      margin-bottom: 5px;
+      animation: marquee 50s linear infinite;
 
       a:link,
       a:visited,
       a:hover,
       a:active {
-        color: #999;
+        color: #FFCB05;
       }
     }
   }

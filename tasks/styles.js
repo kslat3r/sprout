@@ -7,6 +7,7 @@ module.exports = function(opts) {
     var sassOpts = {
       includePaths: [
         opts.vendorDir + '/bootstrap-sass/assets/stylesheets',
+        opts.nodeModulesDir + '/react-bootstrap-switch/dist/css/bootstrap3',
         opts.vendorDir + '/jasny-bootstrap/scss',
         opts.vendorDir + '/font-awesome/scss'
       ]

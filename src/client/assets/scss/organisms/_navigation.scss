@@ -1,8 +1,68 @@
 .navmenu {
-  .form-group {
-    .form-control {
-      width: 225px;
+  width: 240px;
+  font-size: 1.1em;
+
+  form {
+    .form-group {
+      width: 78%;
+      float: left;
       margin-right: 5px;
+      margin-bottom: 10px;
+
+      .form-control {
+        width: 100%;
+      }
+    }
+
+    .btn {
+      float: left;
+    }
+  }
+
+  ul {
+    clear: both;
+
+    li {
+      text-overflow: ellipsis;
+
+      i {
+        margin-right: 10px;
+      }
+
+      ul {
+        padding-left: 0;
+        list-style: none;
+
+        li {
+          a {
+            color: #777777;
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            padding-left: 30px;
+
+            &:hover {
+              color: #fff;
+              background-color: transparent;
+            }
+
+            span {
+              max-width: 160px;
+              width: 160px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: inline-block;
+              vertical-align: -7px;
+            }
+          }
+
+          &.active a {
+            color: #fff;
+            background-color: #090909;
+          }
+        }
+      }
     }
   }
 }

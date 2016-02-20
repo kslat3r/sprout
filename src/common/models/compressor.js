@@ -1,4 +1,5 @@
 export const defaultState = {
+  bypass: 1,
   threshold: -24,
   knee: 30,
   ratio: 12,

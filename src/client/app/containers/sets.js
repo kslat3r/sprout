@@ -42,9 +42,6 @@ class Sets extends Component {
     if (!this.props.sets.requesting && !this.props.sets.errored) {
       return (
         <div>
-          <div className="row">
-            <h1>Sets</h1>
-          </div>
           {sets.map((set, i) => {
             return <SetRow set={set} key={i} />;
           })}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import SetTrackCompressorControls from './controls/compressor';
+import Switch from 'react-bootstrap-switch';
 
 class SetTrackCompressor extends Component {
   constructor(props) {
@@ -33,6 +34,8 @@ class SetTrackCompressor extends Component {
         release: 0.001
       }
     };
+
+    this.onBypassToggle = this.onBypassToggle.bind(this);
   }
 
   onParamChange(param, e) {
@@ -46,9 +49,18 @@ class SetTrackCompressor extends Component {
     this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.getIn(['sample', 'compressor']));
   }
 
+  onBypassToggle() {
+    var newCompressorState = this.props.meta.setIn(['sample', 'compressor', 'bypass'], !this.props.meta.getIn(['sample', 'compressor', 'bypass']));
+
+    this.props.trackActions.updateInSet(this.props.track.id, {compressor: newCompressorState.getIn(['sample', 'compressor']).toJS()});
+    this.props.trackActions.setCompressor(this.props.track.id, newCompressorState.getIn(['sample', 'compressor']));
+  }
+
   render() {
-    return (
-      <div className="compressor">
+    var compressor;
+
+    if (!this.props.meta.getIn(['sample', 'compressor', 'bypass'])) {
+      compressor = (
         <div className="m-t-20 m-b-20">
           <div className="row vertical-center">
             <div className="col-xs-11">
@@ -67,6 +79,16 @@ class SetTrackCompressor extends Component {
             </div>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <div className="compressor effect">
+        <div className="bypass-toggle">
+          <span>Compressor</span>
+          <Switch state={!this.props.meta.getIn(['sample', 'compressor', 'bypass'])} size="mini" onText="On" offText="Bypass" onChange={this.onBypassToggle} onColor="success" offColor="danger" />
+        </div>
+        {compressor}
       </div>
     );
   }

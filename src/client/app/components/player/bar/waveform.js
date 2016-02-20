@@ -18,16 +18,15 @@ export default class PlayerBarWaveform extends Component {
   componentDidMount() {
     this.ws.init({
       container: this.refs.wavesurfer,
-      height: 30,
+      height: 75,
       cursorColor: '#FFCB05'
     });
 
     this.ws.load(this.props.track.preview_url);
 
-    console.log(this.props.meta.toJS());
-    if (this.props.meta) {
+    /*if (this.props.meta) {
       effectsUtils.bindEffectsToAudioContext.call(this, this.props);
-    }
+    }*/
 
     this.ws.on('ready', () => {
       this.ws.play();

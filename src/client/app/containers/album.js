@@ -50,13 +50,13 @@ class Album extends Component {
       return (
         <div>
           <div className="row">
-            <div className="m-t-20 col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div className="m-t-20 col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <AlbumTitle data={this.props.album.result} />
             </div>
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <TracksTable title="Tracks" tracks={tracks.items} limit={tracks.limit} offset={tracks.offset} total={tracks.total} />
+              <TracksTable tracks={tracks.items} limit={tracks.limit} offset={tracks.offset} total={tracks.total} />
             </div>
           </div>
         </div>

@@ -65,6 +65,13 @@ class PlayerBar extends Component {
         <nav className="navbar navbar-default navbar-fixed-bottom playbar">
           <div className="container-fluid">
             <Waveform track={this.props.player.get('track').toJS()} meta={this.props.player.get('meta')} />
+            <div className="track-info">
+              <span>
+                {this.props.player.getIn(['track', 'name'])}
+              </span>
+              <span>&nbsp;-&nbsp;</span>
+              <ArtistLink artists={this.props.player.getIn(['track', 'artists']).toJS()} />
+            </div>
             <div className="controls">
               <span className="rewind">
                 <a href="#" onClick={this.rewind}>
@@ -78,13 +85,6 @@ class PlayerBar extends Component {
                 </a>
               </span>
               <Add track={this.props.player.get('track').toJS()} context="bar" />
-            </div>
-            <div className="track-info">
-              <span>
-                {this.props.player.getIn(['track', 'name'])}
-              </span>
-              <span>&nbsp;-&nbsp;</span>
-              <ArtistLink artists={this.props.player.getIn(['track', 'artists']).toJS()} />
             </div>
           </div>
         </nav>

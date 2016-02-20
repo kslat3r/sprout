@@ -51,7 +51,7 @@ class Artists extends Component {
     return (
       <div>
         <div className="row">
-          <Grid title="Artists" type="artist" items={artists.items} masonry />
+          <Grid type="artist" items={artists.items} masonry />
           <Paging limit={artists.limit} cursor={artists.cursors.after} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
         </div>
       </div>

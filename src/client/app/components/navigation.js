@@ -44,17 +44,20 @@ class Navigation extends Component {
   }
 
   render() {
-    var setsClass = 'dropdown',
+    var setsClass,
       playlistsClass,
       artistsClass,
       albumsClass,
       tracksClass,
-      seperator;
+      isSet = false,
+      sets;
 
     switch (this.props.routes[this.props.routes.length - 1].name) {
       case 'sets':
+        setsClass = 'active';
+      break;
       case 'set':
-        setsClass += ' active';
+        isSet = true;
       break;
       case 'playlists':
       case 'playlist':
@@ -73,45 +76,71 @@ class Navigation extends Component {
       break;
     }
 
-    if (this.props.sets.results.length) {
-      seperator = <li role="separator" className="divider"></li>;
+    if (this.props.sets.results.length > 0) {
+      sets = (
+        <li className={setsClass}>
+          <Link to="/sets">
+            <i className="fa fa-bullhorn" />
+            Sets
+          </Link>
+          <ul>
+            {this.props.sets.results.map((set, i) => {
+              var className;
+
+              if (isSet === true && this.props.set.result && this.props.set.result._id && this.props.set.result._id === set._id) {
+                className = 'active';
+              }
+
+              return (
+                <li key={i} className={className}>
+                  <SetLink set={set}>
+                    <i className="fa fa-music" />
+                    {set.name}
+                  </SetLink>
+                </li>
+              );
+            })}
+          </ul>
+        </li>
+      );
     }
 
     return (
       <nav className="navmenu navmenu-default navmenu-fixed-left navmenu-inverse">
         <form className="navbar-form" role="search" onSubmit={this.searchSubmit}>
           <div className="form-group">
-            <input type="text" className="form-control" placeholder="Search for an album/artist/track" value={this.state.searchTerm} onChange={this.searchChange} />
+            <input type="text" className="form-control" placeholder="Search..." value={this.state.searchTerm} onChange={this.searchChange} />
           </div>
           <button type="submit" className="btn btn-default">
             <i className="fa fa-search" />
           </button>
         </form>
         <ul className="nav navmenu-nav">
-          <li className={setsClass}>
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              Sets <span className="caret"></span>
-            </a>
-            <ul className="dropdown-menu">
-              {this.props.sets.results.map((set, i) => {
-                return (
-                  <li key={i}>
-                    <SetLink set={set}>
-                      {set.name}
-                    </SetLink>
-                  </li>
-                );
-              })}
-              {seperator}
-              <li>
-                <Link to="/sets">View all sets</Link>
-              </li>
-            </ul>
+          {sets}
+          <li className={playlistsClass}>
+            <Link to="/playlists">
+              <i className="fa fa-folder-open" />
+              Playlists
+            </Link>
           </li>
-          <li className={playlistsClass}><Link to="/playlists">Playlists</Link></li>
-          <li className={artistsClass}><Link to="/artists">Artists</Link></li>
-          <li className={albumsClass}><Link to="/albums">Albums</Link></li>
-          <li className={tracksClass}><Link to="/tracks">Tracks</Link></li>
+          <li className={artistsClass}>
+            <Link to="/artists">
+              <i className="fa fa-group" />
+              Artists
+            </Link>
+          </li>
+          <li className={albumsClass}>
+            <Link to="/albums">
+              <i className="fa fa-sticky-note" />
+              Albums
+            </Link>
+          </li>
+          <li className={tracksClass}>
+            <Link to="/tracks">
+              <i className="fa fa-reorder" />
+              Tracks
+            </Link>
+          </li>
         </ul>
       </nav>
     );
@@ -120,7 +149,8 @@ class Navigation extends Component {
 
 export default connect(function(state) {
   return {
-    sets: state.get('sets').toJS()
+    sets: state.get('sets').toJS(),
+    set: state.get('set').toJS()
   };
 }, function(dispatch) {
   return {

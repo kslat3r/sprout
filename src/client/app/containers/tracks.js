@@ -49,11 +49,9 @@ class Tracks extends Component {
     var tracks = this.props.tracks.result.tracks;
 
     return (
-      <div>
-        <div className="row">
-          <TracksTable title="Tracks" tracks={tracks.items} />
-          <Paging limit={tracks.limit} offset={tracks.offset} total={tracks.total} action={this.tracksPaging} type="tracks" length={tracks.items.length} />
-        </div>
+      <div className="row">
+        <TracksTable tracks={tracks.items} />
+        <Paging limit={tracks.limit} offset={tracks.offset} total={tracks.total} action={this.tracksPaging} type="tracks" length={tracks.items.length} />
       </div>
     );
   }

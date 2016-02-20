@@ -51,7 +51,7 @@ class Albums extends Component {
     return (
       <div>
         <div className="row">
-          <Grid title="Albums" type="album" items={albums.items} masonry />
+          <Grid type="album" items={albums.items} masonry />
           <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="playlists" length={albums.items.length} />
         </div>
       </div>
