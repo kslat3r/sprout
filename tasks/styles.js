@@ -7,6 +7,7 @@ module.exports = function(opts) {
     var sassOpts = {
       includePaths: [
         opts.vendorDir + '/bootstrap-sass/assets/stylesheets',
+        opts.vendorDir + '/jasny-bootstrap/scss',
         opts.vendorDir + '/font-awesome/scss'
       ]
     };

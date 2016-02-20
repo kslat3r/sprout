@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Header from '../components/header';
+import Navigation from '../components/navigation';
 import PlayerBar from '../components/player/bar';
 import * as SetsActions from '../actions/sets';
 
-export default class App extends Component {
+class App extends Component {
   componentWillMount() {
     this.props.setsActions.request();
   }
 
   render() {
-    var header;
+    var navigation;
     var playerBar;
 
     if (this.props.user) {
-      header = <Header {...this.props} {...this.state} />;
+      navigation = <Navigation {...this.props} {...this.state} />;
       playerBar = <PlayerBar {...this.props} {...this.state} />;
     }
 
     return (
       <div>
-        {header}
+        {navigation}
         <div className="container" id="main">
           {this.props.children}
         </div>

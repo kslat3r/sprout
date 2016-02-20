@@ -11,8 +11,11 @@ body {
   height: 100%;
   overflow: auto;
 
+  @media (min-width: 992px) {
+    padding-left: 300px;
+  }
+
   #main {
-    margin-top: 70px;
     margin-bottom: 170px;
   }
 }

@@ -2,6 +2,7 @@
 
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'jasny-bootstrap';
 
 @import 'atoms/borders';
 @import 'atoms/margins';
@@ -20,7 +21,7 @@
 @import 'molecules/thumbnail';
 
 @import 'organisms/add-control';
-@import 'organisms/navbar';
+@import 'organisms/navigation';
 @import 'organisms/playbar';
 @import 'organisms/set-scroller';
 @import 'organisms/sampler';
