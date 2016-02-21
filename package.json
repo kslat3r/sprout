@@ -20,6 +20,7 @@
     "immutablediff": "^0.4.2",
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",
+    "lodash-inflection": "^1.3.2",
     "mongoose": "^4.3.4",
     "mongoose-findorcreate": "^0.1.2",
     "nconf": "^0.8.2",

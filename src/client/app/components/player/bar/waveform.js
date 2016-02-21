@@ -24,10 +24,6 @@ export default class PlayerBarWaveform extends Component {
 
     this.ws.load(this.props.track.preview_url);
 
-    /*if (this.props.meta) {
-      effectsUtils.bindEffectsToAudioContext.call(this, this.props);
-    }*/
-
     this.ws.on('ready', () => {
       this.ws.play();
     }.bind(this));

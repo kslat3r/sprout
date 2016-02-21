@@ -1,6 +1,17 @@
+import Immutable from 'immutable';
+
 export function bindEffectsToAudioContext(props) {
   if (!this.state) {
     this.state = {};
+  }
+
+  var effectsProps;
+
+  if (!props.meta.get('sample')) {
+    effectsProps = props.meta.toJS();
+  }
+  else {
+    effectsProps = props.meta.get('sample').toJS();
   }
 
   var filters = [];
@@ -11,8 +22,8 @@ export function bindEffectsToAudioContext(props) {
     this.state.panner = this.ws.backend.ac.createPanner();
   }
 
-  if (props.meta.getIn(['sample', 'pan']) !== 0) {
-    var x = Math.sin(parseInt(props.meta.getIn(['sample', 'pan'])) * (Math.PI / 180));
+  if (parseInt(effectsProps.pan) !== 0) {
+    var x = Math.sin(parseInt(effectsProps.pan) * (Math.PI / 180));
 
     this.state.panner.setPosition(x, 0, 0);
 
@@ -23,18 +34,18 @@ export function bindEffectsToAudioContext(props) {
 
   //volume
 
-  this.ws.setVolume(props.meta.getIn(['sample', 'volume']) / 100);
+  this.ws.setVolume(effectsProps.volume / 100);
 
   //eq
 
-  if (!props.meta.getIn(['sample', 'eq', 'bypass'])) {
-    props.meta.getIn(['sample', 'eq', 'filters']).toArray().forEach((band) => {
+  if (!effectsProps.eq.bypass) {
+    effectsProps.eq.filters.forEach((band) => {
       var filter = this.ws.backend.ac.createBiquadFilter();
 
-      filter.type = band.get('filterType');
-      filter.gain.value = band.get('gain');
-      filter.Q.value = band.get('Q');
-      filter.frequency.value = band.get('frequency');
+      filter.type = band.filterType;
+      filter.gain.value = band.gain;
+      filter.Q.value = band.Q;
+      filter.frequency.value = band.frequency;
 
       filters.push(filter);
     });
@@ -42,16 +53,30 @@ export function bindEffectsToAudioContext(props) {
 
   //compressor
 
-  if (!props.meta.getIn(['sample', 'compressor', 'bypass'])) {
+  if (!effectsProps.compressor.bypass) {
     var compressor = this.ws.backend.ac.createDynamicsCompressor();
 
-    Object.keys(props.meta.getIn(['sample', 'compressor']).toObject()).map((key) => {
+    Object.keys(effectsProps.compressor).map((key) => {
       if (key !== 'bypass') {
-        compressor[key].value = props.meta.getIn(['sample', 'compressor', key]);
+        compressor[key].value = effectsProps.compressor[key];
       }
     });
 
     filters.push(compressor);
+  }
+
+  //delay
+
+  if (effectsProps.delay.bypass) {
+    var delay = this.ws.backend.ac.createDelay();
+
+    Object.keys(effectsProps.delay).map((key) => {
+      if (key !== 'bypass') {
+        delay[key].value = effectsProps.delay[key];
+      }
+    });
+
+    filters.push(delay);
   }
 
   //add to ws
@@ -62,4 +87,8 @@ export function bindEffectsToAudioContext(props) {
 
   this.state.setFiltersTimeout = setTimeout(() => this.ws.backend.setFilters.apply(this.ws.backend, [filters]), 100);
   return;
+};
+
+export function resetEffectsOnAudioContext() {
+  this.ws.backend.disconnectFilters.apply(this.ws.backend);
 };

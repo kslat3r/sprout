@@ -5,10 +5,11 @@ import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import ArtistLink from '../../link/artist';
 import SetTrackWaveform from './waveform';
-import SetTrackPan from './pan';
-import SetTrackVolume from './volume';
-import SetTrackEQ from './eq';
-import SetTrackCompressor from './compressor';
+import SetTrackEffectPan from './effects/pan';
+import SetTrackEffectVolume from './effects/volume';
+import SetTrackEffectEQ from './effects/eq';
+import SetTrackEffectCompressor from './effects/compressor';
+import SetTrackEffectDelay from './effects/delay';
 
 class SetTrack extends Component {
   constructor(props) {
@@ -50,14 +51,15 @@ class SetTrack extends Component {
   }
 
   render() {
-    var track = this.props.track;
-    var meta = this.props.meta;
-    var imageSrc = '/images/thumbnail-placeholder.png';
-    var sampleName;
-    var pan;
-    var volume;
-    var eq;
-    var compressor;
+    var track = this.props.track,
+      meta = this.props.meta,
+      imageSrc = '/images/thumbnail-placeholder.png',
+      sampleName,
+      pan,
+      volume,
+      eq,
+      compressor,
+      delay;
 
     if (track.album.images[track.album.images.length - 2] && track.album.images[track.album.images.length - 2].url) {
       imageSrc = track.album.images[track.album.images.length - 2].url;
@@ -84,10 +86,11 @@ class SetTrack extends Component {
     }
 
     if (meta.get('hasLoaded')) {
-      pan = <SetTrackPan track={track} meta={meta} />;
-      volume = <SetTrackVolume track={track} meta={meta} />;
-      eq = <SetTrackEQ track={track} meta={meta} />;
-      compressor = <SetTrackCompressor track={track} meta={meta} />;
+      pan = <SetTrackEffectPan track={track} meta={meta} />;
+      volume = <SetTrackEffectVolume track={track} meta={meta} />;
+      eq = <SetTrackEffectEQ track={track} meta={meta} />;
+      compressor = <SetTrackEffectCompressor track={track} meta={meta} />;
+      delay = <SetTrackEffectDelay track={track} meta={meta} />;
     }
 
     return (
@@ -115,8 +118,9 @@ class SetTrack extends Component {
         <div className="row">
           <div className="col-xs-12">
             <SetTrackWaveform track={track} meta={meta} />
-            {eq}
             {compressor}
+            {delay}
+            {eq}
           </div>
         </div>
       </div>

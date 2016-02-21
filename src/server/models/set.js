@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var commonEQModel = require('../../common/models/eq');
 var commonCompressorModel = require('../../common/models/compressor');
+var commonDelayModel = require('../../common/models/delay');
 
 var setSchema = mongoose.Schema({
   name: String,
@@ -21,7 +22,8 @@ setSchema.statics.defaultTrackMeta = {
   pan: 0,
 
   eq: commonEQModel.defaultState,
-  compressor: commonCompressorModel.defaultState
+  compressor: commonCompressorModel.defaultState,
+  delay: commonDelayModel.defaultState
 };
 
 module.exports = mongoose.model('Set', setSchema);

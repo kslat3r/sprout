@@ -2,11 +2,11 @@ import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../actions/track';
-import SetTrackEQControls from './controls/eq';
+import * as TrackActions from '../../../../actions/track';
+import SetTrackEQControls from '../controls/eq';
 import Switch from 'react-bootstrap-switch';
 
-class SetTrackEQ extends Component {
+class SetTrackEffectEQ extends Component {
   constructor(props) {
     super(props);
 
@@ -73,7 +73,7 @@ class SetTrackEQ extends Component {
   }
 }
 
-SetTrackEQ.propTypes = {
+SetTrackEffectEQ.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
@@ -87,4 +87,4 @@ export default connect(function(state) {
   };
 }, function(stateProps, dispatchProps, ownProps) {
   return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEQ);
+})(SetTrackEffectEQ);
