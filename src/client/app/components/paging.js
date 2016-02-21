@@ -8,7 +8,9 @@ export default class Paging extends Component {
   }
 
   click(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     this.props.action({
       type: this.props.type,

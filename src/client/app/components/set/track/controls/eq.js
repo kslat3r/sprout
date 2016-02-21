@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
+import SetTrackControls from './';
 
-class SetTrackEQControls extends Component {
+class SetTrackControlsEQ extends Component {
   constructor(props) {
     super(props);
 
@@ -36,18 +34,9 @@ class SetTrackEQControls extends Component {
   }
 }
 
-SetTrackEQControls.propTypes = {
+SetTrackControlsEQ.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEQControls);
+export default SetTrackControls(SetTrackControlsEQ);

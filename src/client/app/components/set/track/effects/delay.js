@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
-import SetTrackDelayControls from '../controls/delay';
+import SetTrackControlsDelay from '../controls/delay';
 import Switch from 'react-bootstrap-switch';
+import SetTrackEffects from './';
 
-class SetTrackEffectDelay extends Component {
+class SetTrackEffectsDelay extends Component {
   constructor(props) {
     super(props);
 
@@ -63,7 +61,7 @@ class SetTrackEffectDelay extends Component {
               }.bind(this))}
             </div>
             <div className="col-xs-1">
-              <SetTrackDelayControls track={this.props.track} meta={this.props.meta} />
+              <SetTrackControlsDelay track={this.props.track} meta={this.props.meta} />
             </div>
           </div>
         </div>
@@ -82,18 +80,9 @@ class SetTrackEffectDelay extends Component {
   }
 }
 
-SetTrackEffectDelay.propTypes = {
+SetTrackEffectsDelay.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEffectDelay);
+export default SetTrackEffects(SetTrackEffectsDelay);

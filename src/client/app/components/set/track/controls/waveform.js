@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
 import { Modal, Button } from 'react-bootstrap';
+import SetTrackControls from './';
 
-class SetTrackWaveformControls extends Component {
+class SetTrackControlsWaveform extends Component {
   constructor(props) {
     super(props);
 
@@ -196,18 +194,9 @@ class SetTrackWaveformControls extends Component {
   }
 }
 
-SetTrackWaveformControls.propTypes = {
+SetTrackControlsWaveform.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackWaveformControls);
+export default SetTrackControls(SetTrackControlsWaveform);

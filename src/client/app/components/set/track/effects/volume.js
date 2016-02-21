@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
+import SetTrackEffects from './';
 
-class SetTrackEffectVolume extends Component {
+class SetTrackEffectsVolume extends Component {
   constructor(props) {
     super(props);
 
@@ -37,18 +35,9 @@ class SetTrackEffectVolume extends Component {
   }
 }
 
-SetTrackEffectVolume.propTypes = {
+SetTrackEffectsVolume.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEffectVolume);
+export default SetTrackEffects(SetTrackEffectsVolume);

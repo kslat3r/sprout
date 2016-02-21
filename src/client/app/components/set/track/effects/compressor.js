@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
-import SetTrackCompressorControls from '../controls/compressor';
+import SetTrackControlsCompressor from '../controls/compressor';
 import Switch from 'react-bootstrap-switch';
+import SetTrackEffects from './';
 
-class SetTrackEffectCompressor extends Component {
+class SetTrackEffectsCompressor extends Component {
   constructor(props) {
     super(props);
 
@@ -75,7 +73,7 @@ class SetTrackEffectCompressor extends Component {
               }.bind(this))}
             </div>
             <div className="col-xs-1">
-              <SetTrackCompressorControls track={this.props.track} meta={this.props.meta} />
+              <SetTrackControlsCompressor track={this.props.track} meta={this.props.meta} />
             </div>
           </div>
         </div>
@@ -94,18 +92,9 @@ class SetTrackEffectCompressor extends Component {
   }
 }
 
-SetTrackEffectCompressor.propTypes = {
+SetTrackEffectsCompressor.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEffectCompressor);
+export default SetTrackEffects(SetTrackEffectsCompressor);

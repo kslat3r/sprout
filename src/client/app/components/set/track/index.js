@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import ArtistLink from '../../link/artist';
 import SetTrackWaveform from './waveform';
-import SetTrackEffectPan from './effects/pan';
-import SetTrackEffectVolume from './effects/volume';
-import SetTrackEffectEQ from './effects/eq';
-import SetTrackEffectCompressor from './effects/compressor';
-import SetTrackEffectDelay from './effects/delay';
+import SetTrackEffectsPan from './effects/pan';
+import SetTrackEffectsVolume from './effects/volume';
+import SetTrackEffectsEQ from './effects/eq';
+import SetTrackEffectsCompressor from './effects/compressor';
+import SetTrackEffectsDelay from './effects/delay';
 
 class SetTrack extends Component {
   constructor(props) {
@@ -86,11 +86,11 @@ class SetTrack extends Component {
     }
 
     if (meta.get('hasLoaded')) {
-      pan = <SetTrackEffectPan track={track} meta={meta} />;
-      volume = <SetTrackEffectVolume track={track} meta={meta} />;
-      eq = <SetTrackEffectEQ track={track} meta={meta} />;
-      compressor = <SetTrackEffectCompressor track={track} meta={meta} />;
-      delay = <SetTrackEffectDelay track={track} meta={meta} />;
+      pan = <SetTrackEffectsPan track={track} meta={meta} />;
+      volume = <SetTrackEffectsVolume track={track} meta={meta} />;
+      eq = <SetTrackEffectsEQ track={track} meta={meta} />;
+      compressor = <SetTrackEffectsCompressor track={track} meta={meta} />;
+      delay = <SetTrackEffectsDelay track={track} meta={meta} />;
     }
 
     return (

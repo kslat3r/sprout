@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../../actions/track';
-import SetTrackEQControls from '../controls/eq';
+import SetTrackControlsEQ from '../controls/eq';
 import Switch from 'react-bootstrap-switch';
+import SetTrackEffects from './';
 
-class SetTrackEffectEQ extends Component {
+class SetTrackEffectsEQ extends Component {
   constructor(props) {
     super(props);
 
@@ -54,7 +52,7 @@ class SetTrackEffectEQ extends Component {
               }.bind(this))}
             </div>
             <div className="col-xs-1">
-              <SetTrackEQControls track={this.props.track} meta={this.props.meta} />
+              <SetTrackControlsEQ track={this.props.track} meta={this.props.meta} />
             </div>
           </div>
         </div>
@@ -73,18 +71,9 @@ class SetTrackEffectEQ extends Component {
   }
 }
 
-SetTrackEffectEQ.propTypes = {
+SetTrackEffectsEQ.propTypes = {
   track: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired
 };
 
-export default connect(function(state) {
-  return {
-  };
-}, function(dispatch) {
-  return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
-  };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
-})(SetTrackEffectEQ);
+export default SetTrackEffects(SetTrackEffectsEQ);
