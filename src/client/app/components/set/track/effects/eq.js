@@ -7,20 +7,7 @@ class SetTrackEffectsEQ extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      updateTimeout: null,
-    };
-  }
-
-  onFilterChange(filter, index, e) {
-    var newEQState = this.props.meta.setIn(['sample', 'eq', 'filters', index, 'gain'], ~~e.target.value)
-
-    if (this.state.updateTimeout) {
-      clearInterval(this.state.updateTimeout);
-    }
-
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {eq: newEQState.getIn(['sample', 'eq']).toJS()}]), 500);
-    this.props.trackActions.setEQ(this.props.track.id, newEQState.getIn(['sample', 'eq']));
+    this.state = {};
   }
 
   render() {
@@ -35,7 +22,7 @@ class SetTrackEffectsEQ extends Component {
                 return (
                   <div className="col-xs-1 filter" key={i}>
                     <span>{filter.get('frequency')}</span>
-                    <input type="range" min="-40" max="40" value={filter.get('gain')} title={filter.get('frequency')} orient="vertical" onChange={this.onFilterChange.bind(this, filter, i)} />
+                    <input type="range" min="-40" max="40" value={filter.get('gain')} title={filter.get('frequency')} orient="vertical" onChange={this.props.onParamChange.bind(this, 'filters', i, 'gain')} />
                     <span>{filter.get('gain')}</span>
                   </div>
                 );
@@ -55,7 +42,8 @@ class SetTrackEffectsEQ extends Component {
 
 SetTrackEffectsEQ.propTypes = {
   track: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object.isRequired,
+  onParamChange: PropTypes.func.isRequired
 };
 
 export default SetTrackEffects(SetTrackEffectsEQ, {

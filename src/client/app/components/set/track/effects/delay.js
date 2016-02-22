@@ -8,7 +8,6 @@ class SetTrackEffectsDelay extends Component {
     super(props);
 
     this.state = {
-      updateTimeout: null,
       min: {
         delayTime: 0
       },
@@ -19,17 +18,6 @@ class SetTrackEffectsDelay extends Component {
         delayTime: 0.1
       }
     };
-  }
-
-  onParamChange(param, e) {
-    var newDelayState = this.props.meta.setIn(['sample', 'delay', param], e.target.value)
-
-    if (this.state.updateTimeout) {
-      clearInterval(this.state.updateTimeout);
-    }
-
-    this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {delay: newDelayState.getIn(['sample', 'delay']).toJS()}]), 500);
-    this.props.trackActions.setDelay(this.props.track.id, newDelayState.getIn(['sample', 'delay']));
   }
 
   render() {
@@ -44,7 +32,7 @@ class SetTrackEffectsDelay extends Component {
                 return (
                   <div className="col-xs-11 param" key={i}>
                     <span>{_.capitalize(_.startCase(key))}</span>
-                    <input type="range" min={this.state.min[key]} max={this.state.max[key]} step={this.state.step[key]} value={this.props.meta.getIn(['sample', 'delay', key])} title={_.capitalize(key)} orient="vertical" onChange={this.onParamChange.bind(this, key)} />
+                    <input type="range" min={this.state.min[key]} max={this.state.max[key]} step={this.state.step[key]} value={this.props.meta.getIn(['sample', 'delay', key])} title={_.capitalize(key)} orient="vertical" onChange={this.props.onParamChange.bind(this, key)} />
                     <span>{this.props.meta.getIn(['sample', 'delay', key])}</span>
                   </div>
                 );
@@ -64,7 +52,8 @@ class SetTrackEffectsDelay extends Component {
 
 SetTrackEffectsDelay.propTypes = {
   track: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object.isRequired,
+  onParamChange: PropTypes.func.isRequired
 };
 
 export default SetTrackEffects(SetTrackEffectsDelay, {

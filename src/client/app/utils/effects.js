@@ -67,7 +67,7 @@ export function bindEffectsToAudioContext(props) {
 
   //delay
 
-  if (effectsProps.delay.bypass) {
+  if (!effectsProps.delay.bypass) {
     var delay = this.ws.backend.ac.createDelay();
 
     Object.keys(effectsProps.delay).map((key) => {
