@@ -40,4 +40,7 @@ SetTrackEffectsVolume.propTypes = {
   meta: PropTypes.object.isRequired
 };
 
-export default SetTrackEffects(SetTrackEffectsVolume);
+export default SetTrackEffects(SetTrackEffectsVolume, {
+  effectName: 'volume',
+  hasBypass: false
+});

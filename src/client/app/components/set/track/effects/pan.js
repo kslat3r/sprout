@@ -40,4 +40,7 @@ SetTrackEffectsPan.propTypes = {
   meta: PropTypes.object.isRequired
 };
 
-export default SetTrackEffects(SetTrackEffectsPan);
+export default SetTrackEffects(SetTrackEffectsPan, {
+  effectName: 'pan',
+  hasBypass: false
+});

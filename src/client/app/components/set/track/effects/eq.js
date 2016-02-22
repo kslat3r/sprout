@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import SetTrackControlsEQ from '../controls/eq';
-import Switch from 'react-bootstrap-switch';
 import SetTrackEffects from './';
 
 class SetTrackEffectsEQ extends Component {
@@ -9,10 +8,8 @@ class SetTrackEffectsEQ extends Component {
     super(props);
 
     this.state = {
-      updateTimeout: null
+      updateTimeout: null,
     };
-
-    this.onBypassToggle = this.onBypassToggle.bind(this);
   }
 
   onFilterChange(filter, index, e) {
@@ -26,15 +23,8 @@ class SetTrackEffectsEQ extends Component {
     this.props.trackActions.setEQ(this.props.track.id, newEQState.getIn(['sample', 'eq']));
   }
 
-  onBypassToggle() {
-    var newEQState = this.props.meta.setIn(['sample', 'eq', 'bypass'], !this.props.meta.getIn(['sample', 'eq', 'bypass']));
-
-    this.props.trackActions.updateInSet(this.props.track.id, {eq: newEQState.getIn(['sample', 'eq']).toJS()});
-    this.props.trackActions.setEQ(this.props.track.id, newEQState.getIn(['sample', 'eq']));
-  }
-
   render() {
-    var eq;
+    var eq = false;
 
     if (!this.props.meta.getIn(['sample', 'eq', 'bypass'])) {
       eq = (
@@ -59,15 +49,7 @@ class SetTrackEffectsEQ extends Component {
       );
     }
 
-    return (
-      <div className="eq effect">
-        <div className="bypass-toggle">
-          <span>Equalizer</span>
-          <Switch state={!this.props.meta.getIn(['sample', 'eq', 'bypass'])} size="mini" onText="On" offText="Bypass" onChange={this.onBypassToggle} onColor="success" offColor="danger" />
-        </div>
-        {eq}
-      </div>
-    );
+    return eq;
   }
 }
 
@@ -76,4 +58,7 @@ SetTrackEffectsEQ.propTypes = {
   meta: PropTypes.object.isRequired
 };
 
-export default SetTrackEffects(SetTrackEffectsEQ);
+export default SetTrackEffects(SetTrackEffectsEQ, {
+  effectName: 'EQ',
+  hasBypass: true
+});

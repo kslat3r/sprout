@@ -6,7 +6,7 @@ import * as TrackActions from '../../../../actions/track';
 import { initialTrackState } from '../../../../reducers/set';
 import Immutable from 'immutable';
 
-export default function(SubComponent) {
+export default function(SubComponent, opts) {
   class SetTrackControls extends Component {
     constructor(props) {
       super(props);
@@ -19,28 +19,35 @@ export default function(SubComponent) {
         e.preventDefault();
       }
 
-      var effect = this.refs.subComponent.state.effectName;
-      var defaultState = Immutable.fromJS(this.props.initialTrackState.sample['default' + _.capitalize(effect)]).merge({
+      var defaultState = Immutable.fromJS(this.props.initialTrackState.sample['default' + _.capitalize(opts.effectName)]).merge({
         bypass: false
       });
-      var newState = this.props.meta.setIn(['sample', effect.toLowerCase()], defaultState);
+      var newState = this.props.meta.setIn(['sample', opts.effectName.toLowerCase()], defaultState);
 
-      this.props.trackActions['set' + _.capitalize(effect)](this.props.track.id, newState.getIn(['sample', effect.toLowerCase()]));
+      this.props.trackActions['set' + _.capitalize(opts.effectName)](this.props.track.id, newState.getIn(['sample', opts.effectName.toLowerCase()]));
       this.props.trackActions.updateInSet(this.props.track.id, {
-        [effect.toLowerCase()]: newState.getIn(['sample', effect.toLowerCase()]).toJS()
+        [opts.effectName.toLowerCase()]: newState.getIn(['sample', opts.effectName.toLowerCase()]).toJS()
       });
     }
 
     render() {
+      var reset;
+
+      if (opts.hasReset === true) {
+        reset = (
+          <span className="reset">
+            <a href="#" onClick={this.reset}>
+              <i className="fa fa-eraser" />
+            </a>
+          </span>
+        );
+      }
+
       return (
         <div className="controls">
           <div className="row">
-            <span className="reset">
-              <a href="#" onClick={this.reset}>
-                <i className="fa fa-eraser" />
-              </a>
-            </span>
-            <SubComponent ref="subComponent" {...this.props} />
+            {reset}
+            <SubComponent {...this.props} {...this.state} />
           </div>
         </div>
       );

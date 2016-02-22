@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import SetTrackControlsDelay from '../controls/delay';
-import Switch from 'react-bootstrap-switch';
 import SetTrackEffects from './';
 
 class SetTrackEffectsDelay extends Component {
@@ -20,8 +19,6 @@ class SetTrackEffectsDelay extends Component {
         delayTime: 0.1
       }
     };
-
-    this.onBypassToggle = this.onBypassToggle.bind(this);
   }
 
   onParamChange(param, e) {
@@ -35,15 +32,8 @@ class SetTrackEffectsDelay extends Component {
     this.props.trackActions.setDelay(this.props.track.id, newDelayState.getIn(['sample', 'delay']));
   }
 
-  onBypassToggle() {
-    var newDelayState = this.props.meta.setIn(['sample', 'delay', 'bypass'], !this.props.meta.getIn(['sample', 'delay', 'bypass']));
-
-    this.props.trackActions.updateInSet(this.props.track.id, {delay: newDelayState.getIn(['sample', 'delay']).toJS()});
-    this.props.trackActions.setDelay(this.props.track.id, newDelayState.getIn(['sample', 'delay']));
-  }
-
   render() {
-    var delay;
+    var delay = false;
 
     if (!this.props.meta.getIn(['sample', 'delay', 'bypass'])) {
       delay = (
@@ -68,15 +58,7 @@ class SetTrackEffectsDelay extends Component {
       );
     }
 
-    return (
-      <div className="delay effect">
-        <div className="bypass-toggle">
-          <span>Delay</span>
-          <Switch state={!this.props.meta.getIn(['sample', 'delay', 'bypass'])} size="mini" onText="On" offText="Bypass" onChange={this.onBypassToggle} onColor="success" offColor="danger" />
-        </div>
-        {delay}
-      </div>
-    );
+    return delay;
   }
 }
 
@@ -85,4 +67,7 @@ SetTrackEffectsDelay.propTypes = {
   meta: PropTypes.object.isRequired
 };
 
-export default SetTrackEffects(SetTrackEffectsDelay);
+export default SetTrackEffects(SetTrackEffectsDelay, {
+  effectName: 'delay',
+  hasBypass: true
+});

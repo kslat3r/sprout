@@ -199,4 +199,7 @@ SetTrackControlsWaveform.propTypes = {
   meta: PropTypes.object.isRequired
 };
 
-export default SetTrackControls(SetTrackControlsWaveform);
+export default SetTrackControls(SetTrackControlsWaveform, {
+  effectName: null,
+  hasReset: false
+});
