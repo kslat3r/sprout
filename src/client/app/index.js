@@ -39,14 +39,15 @@ ReactDOM.render(
       <Route name="app" path="/" component={App}>
         <IndexRoute name="home" component={Home} />
         <Route name="search" path="search" component={Search} />
-        <Route name="artists" path="artists" component={Artists} />
         <Route name="artist" path="artists/:id" component={Artist} />
-        <Route name="albums" path="albums" component={Albums} />
+        <Route name="artists" path="artists" component={Artists} />
         <Route name="album" path="albums/:id" component={Album} />
-        <Route name="playlists" path="playlists" component={Playlists} />
+        <Route name="albums" path="albums" component={Albums} />
         <Route name="playlist" path="playlists/:id" component={Playlist} />
-        <Route name="sets" path="sets" component={Sets} />
+        <Route name="playlists" path="playlists" component={Playlists} />
+        <Route name="setTrack" path="sets/:id/:trackId" component={Set} />
         <Route name="set" path="sets/:id" component={Set} />
+        <Route name="sets" path="sets" component={Sets} />
         <Route name="tracks" path="tracks" component={Tracks} />
       </Route>
     </Router>

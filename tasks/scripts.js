@@ -4,17 +4,23 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var concat = require('gulp-concat');
+var watchify = require('watchify');
+var bundler;
 
 module.exports = function(opts) {
   gulp.task('scripts', function() {
     var browserifyOpts = {
       entries: opts.scripts.srcFile,
-      debug: true
+      transform: [babelify],
+      debug: true,
+      cache: {},
+      packageCache: {},
+      fullPaths: true
     };
 
-    return browserify(browserifyOpts)
-      .transform(babelify)
-      .bundle()
+    bundler = bundler || watchify(browserify(browserifyOpts));
+
+    return bundler.bundle()
       .on('error', function(err) {
         console.log(err.message);
         this.emit('end');
@@ -23,7 +29,7 @@ module.exports = function(opts) {
       .pipe(gulp.dest(opts.scripts.buildDir))
       .pipe(opts.browserSync.reload({
         stream: true
-      }));;
+      }));
   });
 
   gulp.task('scripts:vendor', function() {

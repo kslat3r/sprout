@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetsActions from '../actions/sets';
-import SetRow from '../components/set/list/row';
+import SetSlider from '../components/set/slider';
+import SetLink from '../components/link/set';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Sets extends Component {
@@ -43,7 +44,14 @@ class Sets extends Component {
       return (
         <div>
           {sets.map((set, i) => {
-            return <SetRow set={set} key={i} />;
+            return (
+              <div key={i}>
+                <SetLink set={set}>
+                  <h2>{set.name}</h2>
+                </SetLink>
+                <SetSlider set={set} preview={true} link={false} />
+              </div>
+            );
           })}
         </div>
       );

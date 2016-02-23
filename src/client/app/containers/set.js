@@ -1,12 +1,24 @@
+import _ from 'lodash';
+import Immutable from 'immutable';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as SetActions from '../actions/set';
 import * as PlayerActions from '../actions/player';
+import * as TrackActions from '../actions/track';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
-import SetEditorTrack from '../components/set/track';
+import SetTrack from '../components/set/track';
+import SetSlider from '../components/set/slider';
 
 class Set extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hasRendered: false
+    };
+  }
+
   componentDidMount() {
     this.props.playerActions.reset();
 
@@ -21,10 +33,14 @@ class Set extends Component {
         id: nextProps.routeParams.id
       });
     }
+
+    if (this.props.routeParams.trackId && this.props.routeParams.trackId !== nextProps.routeParams.trackId) {
+      this.props.trackActions.stop(this.props.routeParams.trackId);
+    }
   }
 
   requesting() {
-    if (this.props.set.toJS().requesting) {
+    if (this.props.set.requesting) {
       return (
         <div className="loading">
           <i className="fa fa-spinner fa-spin"></i>
@@ -36,11 +52,11 @@ class Set extends Component {
   }
 
   errored() {
-    if (this.props.set.toJS().errored) {
+    if (this.props.set.errored) {
       return (
         <div className="row">
           <div className="col-xs-12">
-            {this.props.set.toJS().exception.message}
+            {this.props.set.exception.message}
           </div>
         </div>
       );
@@ -50,24 +66,25 @@ class Set extends Component {
   }
 
   set() {
-    var tracks;
+    if (!this.props.set.requesting && !this.props.set.errored) {
+      var trackElem;
 
-    if (this.props.set.toJS().result.tracks.length) {
-      tracks = this.props.set.toJS().result.tracks.map((track, i) => {
-        if (this.props.set.toJS().meta[track.id]) {
-          return (
-            <SetEditorTrack track={track} meta={this.props.set.getIn(['meta', track.id])} index={i} key={i} />
+      if (this.props.routeParams.trackId) {
+        var track = _.find(this.props.set.result.tracks, {id: this.props.routeParams.trackId});
+
+        if (track) {
+          var meta = Immutable.fromJS(this.props.set.meta[track.id]);
+
+          trackElem = (
+            <SetTrack track={track} meta={meta} index={0} />
           );
         }
+      }
 
-        return false;
-      }.bind(this));
-    }
-
-    if (!this.props.set.requesting && !this.props.set.errored) {
       return (
         <div className="set">
-          {tracks}
+          {trackElem}
+          <SetSlider set={this.props.set.result} preview={false} link={true} />
         </div>
       );
     }
@@ -90,11 +107,12 @@ Set = AuthorisationRequired(Set);
 
 export default connect(function(state) {
   return {
-    set: state.get('set')
+    set: state.get('set').toJS()
   };
 }, function(dispatch) {
   return {
     setActions: bindActionCreators(SetActions, dispatch),
-    playerActions: bindActionCreators(PlayerActions, dispatch)
+    playerActions: bindActionCreators(PlayerActions, dispatch),
+    trackActions: bindActionCreators(TrackActions, dispatch)
   };
 })(Set);

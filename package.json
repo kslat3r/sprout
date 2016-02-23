@@ -51,8 +51,8 @@
     "browserify": "^9.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.0.6",
     "gulp-plumber": "^1.0.1",
     "gulp-replace": "^0.5.4",
@@ -60,6 +60,7 @@
     "gulp-watch": "^4.3.5",
     "run-sequence": "^1.1.5",
     "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0",
     "wrench": "^1.5.8"
   }
 }

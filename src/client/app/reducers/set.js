@@ -24,6 +24,7 @@ export const initialTrackState = {
   isPaused: false,
   isStopped: true,
   isLooped: false,
+  hasLoaded: false,
 
   sample: {
     startPosition: null,

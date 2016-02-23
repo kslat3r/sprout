@@ -16,8 +16,6 @@ class SetTrackWaveform extends Component {
       throw new Error('Wavesurfer is not defined');
     }
 
-    this.ws = Object.create(WaveSurfer);
-
     this.state = {
       region: null,
       panner: null,
@@ -26,26 +24,21 @@ class SetTrackWaveform extends Component {
   }
 
   componentDidMount() {
-    this.ws.init(Object.assign({}, this.props.sampler.wsOptions, {
-      container: this.refs.wavesurfer
-    }));
-
-    this.ws.load(this.props.track.preview_url);
-    this.ws.enableDragSelection(this.props.sampler.dragOptions);
-
-    this.bindEvents();
-
-    effectsUtils.bindEffectsToAudioContext.call(this, this.props);
+    this.initialise(this.props);
   }
 
   componentWillUnmount() {
-    if (this.ws) {
-      this.ws.destroy();
-      this.ws = undefined;
-    }
+    this.destroy();
   }
 
   componentWillReceiveProps(nextProps) {
+    
+    //new track loaded
+
+    if (this.props.track.id !== nextProps.track.id) {
+      this.destroy();
+      this.initialise(nextProps);
+    }
 
     //region
 
@@ -88,6 +81,36 @@ class SetTrackWaveform extends Component {
     else if (nextProps.meta.get('isPaused')) {
       this.ws.pause();
     }
+  }
+
+  initialise(props) {
+    if (!this.ws) {
+      this.ws = Object.create(WaveSurfer);
+    }
+
+    this.ws.init(Object.assign({}, props.sampler.wsOptions, {
+      container: this.refs.wavesurfer
+    }));
+
+    this.ws.load(props.track.preview_url);
+    this.ws.enableDragSelection(props.sampler.dragOptions);
+
+    this.bindEvents();
+
+    effectsUtils.bindEffectsToAudioContext.call(this, props);
+  }
+
+  destroy() {
+    if (this.ws) {
+      this.ws.destroy();
+      this.ws = undefined;
+    }
+
+    this.state = {
+      region: null,
+      panner: null,
+      setFiltersTimeout: null
+    };
   }
 
   bindEvents() {

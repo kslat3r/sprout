@@ -61,12 +61,13 @@ export default function(SubComponent, opts) {
     render() {
       if (opts.hasBypass) {
         var className = opts.effectName.toLowerCase() + ' effect';
+        var bypass = this.props.meta.getIn(['sample', opts.effectName.toLowerCase(), 'bypass']);
 
         return (
           <div className={className}>
             <div className="bypass-toggle">
               <span>{_.capitalize(opts.effectName)}</span>
-              <Switch state={!this.props.meta.getIn(['sample', opts.effectName.toLowerCase(), 'bypass'])} size="mini" onText="On" offText="Bypass" onChange={this.onBypassToggle} onColor="success" offColor="danger" />
+              <Switch state={!bypass} size="mini" onText="On" offText="Bypass" onChange={this.onBypassToggle} onColor="success" offColor="danger" />
             </div>
             <SubComponent {...this.props} {...this.state} onParamChange={this.onParamChange} />
           </div>

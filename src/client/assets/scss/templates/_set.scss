@@ -63,4 +63,17 @@
       }
     }
   }
+
+  .set-slider {
+    background-color: #222;
+    margin-left: 240px;
+    border-color: #090909;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    padding: 20px 0px;
+  }
 }
