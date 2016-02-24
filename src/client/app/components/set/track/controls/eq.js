@@ -3,7 +3,7 @@ import SetTrackControls from './';
 
 class SetTrackControlsEQ extends Component {
   render() {
-    return false;
+    return null;
   }
 }
 

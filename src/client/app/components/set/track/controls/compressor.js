@@ -3,7 +3,7 @@ import SetTrackControls from './';
 
 class SetTrackControlsCompressor extends Component {
   render() {
-    return false;
+    return null;
   }
 }
 

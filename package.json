@@ -36,6 +36,7 @@
     "react-router-redux": "^2.1.0",
     "redux": "^3.0.5",
     "redux-immutable": "^3.0.3",
+    "redux-logger": "^2.6.0",
     "redux-thunk": "^1.0.3",
     "spotify-web-api-node": "^2.2.0",
     "winston": "^2.1.1"

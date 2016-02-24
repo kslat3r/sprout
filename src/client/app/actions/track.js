@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 import * as SetsActions from './sets';
 import * as SetActions from './set';
 
+export const TRACK_IS_LOADING = 'TRACK_IS_LOADING';
 export const TRACK_HAS_LOADED = 'TRACK_HAS_LOADED';
 export const TRACK_SET_NAME = 'TRACK_SET_NAME';
 export const TRACK_PLAY = 'TRACK_PLAY';
@@ -111,6 +112,13 @@ export function deleteFromSet(id) {
       .catch(exception => dispatch(failure(exception)));
   };
 };
+
+export function isLoading(id) {
+  return {
+    type: TRACK_IS_LOADING,
+    id
+  };
+}
 
 export function hasLoaded(id) {
   return {

@@ -91,6 +91,11 @@ export default function(state = initialState, action) {
 
       return state.merge(newState);
 
+    case TrackActionCreators.TRACK_IS_LOADING:
+      mergeState.meta[action.id].hasLoaded = false;
+
+      return state.merge(mergeState);
+
     case TrackActionCreators.TRACK_HAS_LOADED:
       mergeState.meta[action.id].hasLoaded = true;
 

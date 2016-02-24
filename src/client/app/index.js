@@ -7,6 +7,7 @@ import { createHashHistory } from 'history';
 import { syncHistory } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
+import logger from './logger';
 
 import App from './containers/app';
 import Home from './containers/home';
@@ -28,7 +29,8 @@ const historyMiddleware = syncHistory(history);
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(thunk),
-  applyMiddleware(historyMiddleware)
+  applyMiddleware(historyMiddleware),
+  applyMiddleware(logger)
 )(createStore);
 
 const store = createStoreWithMiddleware(reducers, Immutable.Map(window.initialData));

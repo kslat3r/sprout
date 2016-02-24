@@ -36,6 +36,7 @@ class Set extends Component {
 
     if (this.props.routeParams.trackId && this.props.routeParams.trackId !== nextProps.routeParams.trackId) {
       this.props.trackActions.stop(this.props.routeParams.trackId);
+      this.props.trackActions.isLoading(nextProps.routeParams.trackId);
     }
   }
 

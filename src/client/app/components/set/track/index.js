@@ -94,7 +94,7 @@ class SetTrack extends Component {
     }
 
     return (
-      <div className="m-b-20 b-b-solid p-b-20 set-track col-xs-12">
+      <div className="b-b-solid p-b-20 set-track col-xs-12">
         <div className="row m-b-20">
           <div className="col-xs-1 no-padding">
             <img src={imageSrc} className="img-responsive" />
@@ -115,7 +115,7 @@ class SetTrack extends Component {
             {volume}
           </div>
         </div>
-        <div className="row">
+        <div className="row ">
           <div className="col-xs-12">
             <SetTrackWaveform track={track} meta={meta} />
             {compressor}

@@ -32,7 +32,7 @@ class SetTrackWaveform extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+
     //new track loaded
 
     if (this.props.track.id !== nextProps.track.id) {
