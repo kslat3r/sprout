@@ -8,28 +8,6 @@ import Immutable from 'immutable';
 
 export default function(SubComponent, opts) {
   class SetTrackControls extends Component {
-    constructor(props) {
-      super(props);
-
-      this.reset = this.reset.bind(this);
-    }
-
-    reset(e) {
-      if (e) {
-        e.preventDefault();
-      }
-
-      var defaultState = Immutable.fromJS(this.props.initialTrackState.sample['default' + _.capitalize(opts.effectName)]).merge({
-        bypass: false
-      });
-      var newState = this.props.meta.setIn(['sample', opts.effectName.toLowerCase()], defaultState);
-
-      this.props.trackActions['set' + _.capitalize(opts.effectName)](this.props.track.id, newState.getIn(['sample', opts.effectName.toLowerCase()]));
-      this.props.trackActions.updateInSet(this.props.track.id, {
-        [opts.effectName.toLowerCase()]: newState.getIn(['sample', opts.effectName.toLowerCase()]).toJS()
-      });
-    }
-
     render() {
       var reset;
 

@@ -11,14 +11,6 @@ import SetTrack from '../components/set/track';
 import SetSlider from '../components/set/slider';
 
 class Set extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hasRendered: false
-    };
-  }
-
   componentDidMount() {
     this.props.playerActions.reset();
 
