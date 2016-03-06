@@ -49,7 +49,7 @@ class Playlist extends Component {
   }
 
   playlist() {
-    if (this.props.playlist.result.id) {
+    if (this.props.playlist.result.id && !this.props.playlist.requesting && !this.props.playlist.errored) {
       var tracks = this.props.playlist.result.tracks;
 
       return (

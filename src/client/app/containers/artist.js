@@ -62,7 +62,7 @@ class Artist extends Component {
   }
 
   artist() {
-    if (this.props.artist.result.id) {
+    if (this.props.artist.result.id && !this.props.artist.requesting && !this.props.artist.errored) {
       var albums = this.props.artist.result.albums;
       var tracks = this.props.artist.result.tracks;
 

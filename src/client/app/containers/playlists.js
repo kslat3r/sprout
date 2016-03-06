@@ -48,14 +48,16 @@ class Playlists extends Component {
   playlists() {
     var playlists = this.props.playlists.result.playlists;
 
-    return (
-      <div>
-        <div className="row">
-          <Grid type="playlist" items={playlists.items} masonry />
-          <Paging limit={playlists.limit} offset={playlists.offset} total={playlists.total} action={this.playlistsPaging} type="playlists" length={playlists.items.length} />
+    if (!this.props.playlists.requesting && !this.props.playlists.errored) {
+      return (
+        <div>
+          <div className="row">
+            <Grid type="playlist" items={playlists.items} masonry />
+            <Paging limit={playlists.limit} offset={playlists.offset} total={playlists.total} action={this.playlistsPaging} type="playlists" length={playlists.items.length} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   render() {

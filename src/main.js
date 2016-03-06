@@ -21,16 +21,27 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600, webPreferences: {
-    nodeIntegration: false,
-    preload: '../js/vendor.js'
-  }});
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 960,
+    minWidth: 1280,
+    minHeight: 960,
+    x: 0,
+    y: 0,
+    frame: true,
+    title: 'Sprout',
+    darkTheme: true,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: '../js/vendor.js'
+    }
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

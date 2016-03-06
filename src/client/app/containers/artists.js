@@ -48,14 +48,16 @@ class Artists extends Component {
   artists() {
     var artists = this.props.artists.result.artists;
 
-    return (
-      <div>
-        <div className="row">
-          <Grid type="artist" items={artists.items} masonry />
-          <Paging limit={artists.limit} cursor={artists.cursors.after} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
+    if (!this.props.artists.requesting && !this.props.artists.errored) {
+      return (
+        <div>
+          <div className="row">
+            <Grid type="artist" items={artists.items} masonry />
+            <Paging limit={artists.limit} cursor={artists.cursors.after} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   render() {

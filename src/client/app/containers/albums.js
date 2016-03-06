@@ -48,14 +48,16 @@ class Albums extends Component {
   albums() {
     var albums = this.props.albums.result.albums;
 
-    return (
-      <div>
-        <div className="row">
-          <Grid type="album" items={albums.items} masonry />
-          <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="playlists" length={albums.items.length} />
+    if (!this.props.albums.requesting && !this.props.albums.errored) {
+      return (
+        <div>
+          <div className="row">
+            <Grid type="album" items={albums.items} masonry />
+            <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="playlists" length={albums.items.length} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   render() {
