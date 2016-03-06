@@ -27,8 +27,9 @@ class Set extends Component {
     }
 
     if (this.props.routeParams.trackId && this.props.routeParams.trackId !== nextProps.routeParams.trackId) {
-      this.props.trackActions.stop(this.props.routeParams.trackId);
-      this.props.trackActions.isLoading(nextProps.routeParams.trackId);
+      if (!this.props.set.meta[this.props.routeParams.trackId].isStopped) {
+        this.props.trackActions.stopCurrentAndLoadNext(this.props.routeParams.trackId, nextProps.routeParams.trackId);
+      }
     }
   }
 
@@ -77,7 +78,7 @@ class Set extends Component {
       return (
         <div className="set">
           {trackElem}
-          <SetSlider set={this.props.set.result} preview={false} link={true} />
+          <SetSlider set={this.props.set} preview={false} link={true} />
         </div>
       );
     }

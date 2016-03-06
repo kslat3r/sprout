@@ -21,13 +21,15 @@ export default class SetSliderTrack extends Component {
       );
     }
 
+    var name = this.props.meta.name !== '' ? this.props.meta.name : <span>&nbsp;</span>;
+
     var elem = (
       <div>
         <div className="thumbnail-image">
           <img src={imageSrc} />
           {preview}
         </div>
-        <span className="name">{this.props.meta.name}</span>
+        <span className="name">{name}</span>
       </div>
     );
 

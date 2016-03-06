@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export default class SetTrackLink extends Component {
   render() {
     return (
-      <Link to={`/sets/${this.props.set._id}/${this.props.track.id}`}>
+      <Link to={`/sets/${this.props.set.result._id}/${this.props.track.id}`}>
         {this.props.children}
       </Link>
     );

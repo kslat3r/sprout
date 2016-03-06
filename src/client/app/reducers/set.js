@@ -102,6 +102,7 @@ export default function(state = initialState, action) {
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_NAME:
+      console.log(mergeState);
       mergeState.meta[action.id].name = action.name;
 
       return state.merge(mergeState);

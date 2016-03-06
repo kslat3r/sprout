@@ -127,6 +127,16 @@ export function hasLoaded(id) {
   };
 }
 
+export function stopCurrentAndLoadNext(prevId, nextId) {
+  return function(dispatch) {
+    dispatch(stop(prevId));
+
+    setTimeout(() => {
+      dispatch(isLoading(nextId));
+    }, 1);
+  };
+}
+
 export function setName(id, name) {
   return {
     type: TRACK_SET_NAME,
