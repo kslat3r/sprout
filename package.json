@@ -28,7 +28,7 @@
     "passport-spotify": "^0.3.0",
     "react": "^0.14.6",
     "react-bootstrap": "^0.28.2",
-    "react-bootstrap-switch": "^3.4.2",
+    "react-bootstrap-switch": "git://github.com/kslat3r/react-bootstrap-switch.git#master",
     "react-dom": "^0.14.7",
     "react-masonry-component": "^3.0.0",
     "react-redux": "^4.0.6",

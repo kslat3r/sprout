@@ -13,13 +13,18 @@ export default function(SubComponent, opts) {
       this.onBypassToggle = this.onBypassToggle.bind(this);
     }
 
-    onBypassToggle() {
+    onBypassToggle(val, e) {
+      if (!e) {
+        return;
+      }
+
       var effectName = opts.effectName.toLowerCase();
       var newState = this.props.meta.setIn(['sample', effectName, 'bypass'], !this.props.meta.getIn(['sample', effectName, 'bypass']));
 
       this.props.trackActions.updateInSet(this.props.track.id, {
         [effectName]: newState.getIn(['sample', effectName]).toJS()
       });
+
       this.props.trackActions['set' + (effectName === 'eq' ? 'EQ' : _.capitalize(effectName))](this.props.track.id, newState.getIn(['sample', effectName]));
     }
 
