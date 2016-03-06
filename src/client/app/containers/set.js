@@ -9,6 +9,7 @@ import * as TrackActions from '../actions/track';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 import SetTrack from '../components/set/track';
 import SetSlider from '../components/set/slider';
+import SetSequencer from '../components/set/sequencer';
 
 class Set extends Component {
   componentDidMount() {
@@ -59,7 +60,7 @@ class Set extends Component {
 
   set() {
     if (!this.props.set.requesting && !this.props.set.errored) {
-      var trackElem;
+      var elem;
 
       if (this.props.routeParams.trackId) {
         var track = _.find(this.props.set.result.tracks, {id: this.props.routeParams.trackId});
@@ -67,15 +68,20 @@ class Set extends Component {
         if (track) {
           var meta = Immutable.fromJS(this.props.set.meta[track.id]);
 
-          trackElem = (
+          elem = (
             <SetTrack track={track} meta={meta} index={0} />
           );
         }
       }
+      else {
+        elem = (
+          <SetSequencer set={this.props.set} />
+        )
+      }
 
       return (
         <div className="set">
-          {trackElem}
+          {elem}
           <SetSlider set={this.props.set} preview={false} link={true} />
         </div>
       );

@@ -118,9 +118,11 @@ class SetTrack extends Component {
         <div className="row ">
           <div className="col-xs-12">
             <SetTrackWaveform track={track} meta={meta} />
-            {compressor}
-            {delay}
-            {eq}
+            <div className="effects">
+              {compressor}
+              {delay}
+              {eq}
+            </div>
           </div>
         </div>
       </div>

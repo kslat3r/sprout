@@ -49,7 +49,9 @@ class Sets extends Component {
                 <SetLink set={set}>
                   <h2>{set.name}</h2>
                 </SetLink>
-                <SetSlider set={set} preview={true} link={false} />
+                <div className="col-xs-12">
+                  <SetSlider set={set} preview={true} link={false} />
+                </div>
               </div>
             );
           })}

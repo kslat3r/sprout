@@ -57,6 +57,7 @@ class Navigation extends Component {
         setsClass = 'active';
       break;
       case 'set':
+      case 'setTrack':
         isSet = true;
       break;
       case 'playlists':
