@@ -39,6 +39,10 @@
           display: block;
           padding: 2px 2px;
           padding-bottom: 1px;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .preview {

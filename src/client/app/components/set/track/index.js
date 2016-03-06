@@ -94,7 +94,7 @@ class SetTrack extends Component {
     }
 
     return (
-      <div className="b-b-solid p-b-20 set-track col-xs-12">
+      <div className="p-b-20 set-track col-xs-12">
         <div className="row m-b-20">
           <div className="col-xs-1 no-padding">
             <img src={imageSrc} className="img-responsive" />

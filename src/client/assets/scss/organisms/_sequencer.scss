@@ -1,0 +1,42 @@
+.sequencer {
+  margin-bottom: 70px;
+
+  table {
+    border-spacing: 10px;
+    border-collapse: separate;
+    overflow-x: scroll;
+
+    th {
+      text-align: center;
+      font-size: 0.6em;
+      color: #999;
+    }
+
+    td {
+      width: 3%;
+      padding: 10px;
+
+      &.name {
+        text-align: right;
+        width: 4%;
+        font-size: 0.8em;
+        color: #999;
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0;
+      }
+
+      &.step {
+        cursor: pointer;
+        background-color: #222;
+        border-radius: 5px;
+
+        &.on {
+          background-color: #FFCB05;
+        }
+      }
+    }
+  }
+}
