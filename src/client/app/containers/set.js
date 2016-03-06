@@ -26,10 +26,8 @@ class Set extends Component {
       });
     }
 
-    if (this.props.routeParams.trackId && this.props.routeParams.trackId !== nextProps.routeParams.trackId) {
-      if (!this.props.set.meta[this.props.routeParams.trackId].isStopped) {
-        this.props.trackActions.stopCurrentAndLoadNext(this.props.routeParams.trackId, nextProps.routeParams.trackId);
-      }
+    if (this.props.routeParams.trackId && nextProps.routeParams.trackId && this.props.routeParams.trackId !== nextProps.routeParams.trackId) {
+      this.props.trackActions.stopCurrentAndLoadNext(this.props.routeParams.trackId, nextProps.routeParams.trackId);
     }
   }
 

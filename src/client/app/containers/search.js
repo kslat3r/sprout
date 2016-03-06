@@ -61,7 +61,7 @@ class Search extends Component {
     var tracks = this.props.search.results.tracks;
 
     return (
-      <div>
+      <div className="search">
         <div className="row">
           <h1>Search for "{this.props.search.term}"</h1>
         </div>
