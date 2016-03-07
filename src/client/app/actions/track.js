@@ -17,6 +17,7 @@ export const TRACK_SET_VOLUME = 'TRACK_SET_VOLUME';
 export const TRACK_SET_EQ = 'TRACK_SET_EQ';
 export const TRACK_SET_COMPRESSOR = 'TRACK_SET_COMPRESSOR';
 export const TRACK_SET_DELAY = 'TRACK_SET_DELAY';
+export const TRACK_SET_SEQUENCE = 'TRACK_SET_SEQUENCE';
 export const TRACK_REQUEST = 'TRACK_REQUEST';
 export const TRACK_FAILURE = 'TRACK_FAILURE';
 export const TRACK_SUCCESS = 'TRACK_SUCCESS';
@@ -72,7 +73,7 @@ export function addToNewSet(params) {
   };
 };
 
-export function updateInSet(id, params) {
+export function updateMeta(id, params) {
   return function(dispatch, getState) {
     let state = getState();
 
@@ -86,7 +87,26 @@ export function updateInSet(id, params) {
       body: JSON.stringify(params)
     });
 
-    return fetch(state.get('config').apiUrl + '/sets/' + state.toJS().set.result._id + '/tracks/' + id, fetchParams)
+    return fetch(state.get('config').apiUrl + '/sets/' + state.toJS().set.result._id + '/tracks/' + id + '/meta', fetchParams)
+      .catch(exception => dispatch(failure(exception)));
+  };
+};
+
+export function updateSequencer(id, sequence) {
+  return function(dispatch, getState) {
+    let state = getState();
+
+    var fetchParams = _.extend(_.clone(state.get('config').fetch), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }, {
+      body: JSON.stringify(sequence)
+    });
+
+    return fetch(state.get('config').apiUrl + '/sets/' + state.toJS().set.result._id + '/tracks/' + id + '/sequencer', fetchParams)
       .catch(exception => dispatch(failure(exception)));
   };
 };
@@ -226,6 +246,14 @@ export function setDelay(id, delay) {
     id,
     delay
   };
+};
+
+export function setSequence(id, sequence) {
+  return {
+    type: TRACK_SET_SEQUENCE,
+    id,
+    sequence
+  }
 };
 
 export function failure(exception) {

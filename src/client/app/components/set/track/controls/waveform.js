@@ -78,7 +78,7 @@ class SetTrackControlsWaveform extends Component {
       e.preventDefault();
     }
 
-    this.props.trackActions.updateInSet(this.props.track.id, {
+    this.props.trackActions.updateMeta(this.props.track.id, {
       isLooped: !this.props.meta.get('isLooped')
     });
 
@@ -90,7 +90,7 @@ class SetTrackControlsWaveform extends Component {
       e.preventDefault();
     }
 
-    this.props.trackActions.updateInSet(this.props.track.id, {
+    this.props.trackActions.updateMeta(this.props.track.id, {
       startPosition: null,
       endPosition: null
     });

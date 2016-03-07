@@ -18,7 +18,7 @@ export default class SetSlider extends Component {
         <div className="set-slider-outer">
           <div className="set-slider-inner" style={innerStyle}>
             {items.map((track, i) => {
-              meta = this.props.set.meta !== undefined ? this.props.set.meta[track.id] : this.props.set.tracksMeta[track.id];
+              meta = this.props.set.meta[track.id];
 
               return (
                 <SetSliderTrack key={i} track={track} set={this.props.set} meta={meta} preview={this.props.preview} link={this.props.link} />

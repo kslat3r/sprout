@@ -36,7 +36,7 @@ export function onRegionUpdated(Region, e) {
     endPosition: Region.end
   };
 
-  this.props.trackActions.updateInSet(this.props.track.id, regionParams);
+  this.props.trackActions.updateMeta(this.props.track.id, regionParams);
   this.props.trackActions.setRegion(this.props.track.id, regionParams);
 
   bindNewRegion.call(this, Region);

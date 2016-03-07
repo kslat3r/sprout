@@ -21,7 +21,7 @@ export default function(SubComponent, opts) {
       var effectName = opts.effectName.toLowerCase();
       var newState = this.props.meta.setIn(['sample', effectName, 'bypass'], !this.props.meta.getIn(['sample', effectName, 'bypass']));
 
-      this.props.trackActions.updateInSet(this.props.track.id, {
+      this.props.trackActions.updateMeta(this.props.track.id, {
         [effectName]: newState.getIn(['sample', effectName]).toJS()
       });
 
@@ -54,7 +54,7 @@ export default function(SubComponent, opts) {
         clearInterval(this.state.updateTimeout);
       }
 
-      this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateInSet.apply(this, [this.props.track.id, {
+      this.state.updateTimeout = setTimeout(() => this.props.trackActions.updateMeta.apply(this, [this.props.track.id, {
         [effectName]: effectValue
       }]), 500);
 

@@ -43,7 +43,7 @@ class SetTrack extends Component {
   saveName(e) {
     e.preventDefault();
 
-    this.props.trackActions.updateInSet(this.props.track.id, {name: this.props.meta.get('name')});
+    this.props.trackActions.updateMeta(this.props.track.id, {name: this.props.meta.get('name')});
 
     this.setState({
       showEditName: false

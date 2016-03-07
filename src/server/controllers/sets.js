@@ -56,12 +56,14 @@ module.exports = {
         name: req.body.name,
         spotifyProfileId: req.user.profile.id,
         tracks: [],
-        tracksMeta: {}
+        meta: {},
+        sequencer: {}
       };
 
       if (req.body.track) {
         obj.tracks.push(req.body.track.id);
-        obj.tracksMeta[req.body.track.id] = Set.defaultTrackMeta;
+        obj.meta[req.body.track.id] = Set.defaultMeta;
+        obj.sequencer[req.body.track.id] = Set.defaultSequencer;
       }
 
       var NewSet = yield Set.create(obj);
@@ -79,7 +81,8 @@ module.exports = {
 
       if (FoundSet.tracks.indexOf(req.body.track.id) === -1) {
         FoundSet.tracks.push(req.body.track.id);
-        FoundSet.tracksMeta[req.body.track.id] = Set.defaultTrackMeta;
+        FoundSet.meta[req.body.track.id] = Set.defaultMeta;
+        FoundSet.sequencer[req.body.track.id] = Set.defaultSequencer;
 
         yield Set.update({_id: FoundSet.id}, FoundSet.toJSON());
       }
@@ -91,12 +94,32 @@ module.exports = {
     }
   }),
 
-  updateTrackInSet: wrap(function* (req, res) {
+  updateMeta: wrap(function* (req, res) {
     try {
       var FoundSet = yield Set.findById(req.params.setId);
 
-      if (FoundSet.tracksMeta[req.params.trackId]) {
-        FoundSet.tracksMeta[req.params.trackId] = _.merge(FoundSet.tracksMeta[req.params.trackId], req.body);
+      if (FoundSet.meta[req.params.trackId]) {
+        FoundSet.meta[req.params.trackId] = _.merge(FoundSet.meta[req.params.trackId], req.body);
+
+        yield Set.update({_id: FoundSet.id}, FoundSet.toJSON());
+
+        res.send(FoundSet);
+      }
+      else {
+        throw new Error('Track not found in set');
+      }
+    }
+    catch(e) {
+      res.status(500).send({});
+    }
+  }),
+
+  updateSequencer: wrap(function* (req, res) {
+    try {
+      var FoundSet = yield Set.findById(req.params.setId);
+
+      if (FoundSet.sequencer[req.params.trackId]) {
+        FoundSet.sequencer[req.params.trackId] = req.body;
 
         yield Set.update({_id: FoundSet.id}, FoundSet.toJSON());
 
@@ -115,10 +138,11 @@ module.exports = {
     try {
       var FoundSet = yield Set.findById(req.params.setId);
 
-      FoundSet.tracksMeta = _.omit(FoundSet.tracksMeta, req.params.trackId);
       FoundSet.tracks = _.remove(FoundSet.tracks, (val, i) => {
         return val !== req.params.trackId;
       });
+      FoundSet.meta = _.omit(FoundSet.meta, req.params.trackId);
+      FoundSet.sequencer = _.omit(FoundSet.sequencer, req.params.trackId);
 
       yield FoundSet.save();
 

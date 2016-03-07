@@ -1,8 +1,10 @@
+import _ from 'lodash';
 import * as SetActionCreators from '../actions/set';
 import * as TrackActionCreators from '../actions/track';
 import * as commonEQModel from '../../../common/models/eq';
 import * as commonCompressorModel from '../../../common/models/compressor';
 import * as commonDelayModel from '../../../common/models/delay';
+import * as commonSequencerModel from '../../../common/models/sequencer';
 import Immutable from 'immutable';
 
 export const initialState = Immutable.Map({
@@ -11,13 +13,14 @@ export const initialState = Immutable.Map({
   },
 
   meta: {},
+  sequencer: {},
 
   requesting: false,
   errored: false,
   exception: null
 });
 
-export const initialTrackState = {
+export const initialMetaState = {
   name: 'Untitled',
 
   isPlaying: false,
@@ -44,6 +47,8 @@ export const initialTrackState = {
   }
 };
 
+export const initialSequencerState = commonSequencerModel.defaultState;
+
 export default function(state = initialState, action) {
   var mergeState = state.toJS();
 
@@ -65,28 +70,31 @@ export default function(state = initialState, action) {
     case SetActionCreators.SET_SUCCESS:
       var newState = Object.assign({}, {result: action.response}, {
         meta: {},
+        sequencer: {},
         requesting: false,
         errored: false,
         exception: null
       });
 
       action.response.tracks.forEach((track) => {
-        newState.meta[track.id] = Object.assign({}, initialTrackState, {
-          name: action.response.tracksMeta[track.id].name,
-          isLooped: action.response.tracksMeta[track.id].isLooped,
+        newState.meta[track.id] = Object.assign({}, initialMetaState, {
+          name: action.response.meta[track.id].name,
+          isLooped: action.response.meta[track.id].isLooped,
 
           sample: {
-            startPosition: action.response.tracksMeta[track.id].startPosition,
-            endPosition: action.response.tracksMeta[track.id].endPosition,
+            startPosition: action.response.meta[track.id].startPosition,
+            endPosition: action.response.meta[track.id].endPosition,
 
-            volume: action.response.tracksMeta[track.id].volume,
-            pan: action.response.tracksMeta[track.id].pan,
+            volume: action.response.meta[track.id].volume,
+            pan: action.response.meta[track.id].pan,
 
-            eq: action.response.tracksMeta[track.id].eq,
-            compressor: action.response.tracksMeta[track.id].compressor,
-            delay: action.response.tracksMeta[track.id].delay
+            eq: action.response.meta[track.id].eq,
+            compressor: action.response.meta[track.id].compressor,
+            delay: action.response.meta[track.id].delay
           }
         });
+
+        newState.sequencer[track.id] = Object.assign({}, initialSequencerState, action.response.sequencer[track.id]);
       });
 
       return state.merge(newState);
@@ -102,7 +110,6 @@ export default function(state = initialState, action) {
       return state.merge(mergeState);
 
     case TrackActionCreators.TRACK_SET_NAME:
-      console.log(mergeState);
       mergeState.meta[action.id].name = action.name;
 
       return state.merge(mergeState);
@@ -167,6 +174,11 @@ export default function(state = initialState, action) {
 
     case TrackActionCreators.TRACK_SET_DELAY:
       mergeState.meta[action.id].sample.delay = action.delay;
+
+      return state.merge(mergeState);
+
+    case TrackActionCreators.TRACK_SET_SEQUENCE:
+      mergeState.sequencer[action.id] = action.sequence;
 
       return state.merge(mergeState);
 

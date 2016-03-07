@@ -1,16 +1,19 @@
+var _ = require('lodash');
 var mongoose = require('mongoose');
 var commonEQModel = require('../../common/models/eq');
 var commonCompressorModel = require('../../common/models/compressor');
 var commonDelayModel = require('../../common/models/delay');
+var commonSequencerModel = require('../../common/models/sequencer');
 
 var setSchema = mongoose.Schema({
   name: String,
   tracks: Array,
   spotifyProfileId: String,
-  tracksMeta: Object
+  meta: Object,
+  sequencer: Object
 });
 
-setSchema.statics.defaultTrackMeta = {
+setSchema.statics.defaultMeta = {
   name: 'Untitled',
   hasLoaded: false,
 
@@ -25,5 +28,7 @@ setSchema.statics.defaultTrackMeta = {
   compressor: commonCompressorModel.defaultState,
   delay: commonDelayModel.defaultState
 };
+
+setSchema.statics.defaultSequencer = commonSequencerModel.defaultState;
 
 module.exports = mongoose.model('Set', setSchema);

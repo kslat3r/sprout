@@ -1,40 +1,122 @@
+$maxSequencerHeight: 500px;
+$numCells: 32;
+$cellSize: 40px;
+$nameSize: 80px;
+$cellMargin: 5px;
+$spacedCellMargin: 15px;
+$spacedCellMarginVertical: 10px;
+
 .sequencer {
-  margin-bottom: 70px;
+  width: 100%;
+  max-height: $maxSequencerHeight;
+  height: $maxSequencerHeight;
+  overflow-y: auto;
 
-  table {
-    border-spacing: 10px;
-    border-collapse: separate;
-    overflow-x: scroll;
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-    th {
-      text-align: center;
-      font-size: 0.6em;
-      color: #999;
+  .item {
+    float: left;
+    width: $cellSize;
+    height: $cellSize;
+    margin: $cellMargin;
+    text-align: center;
+
+    &:nth-child(4n) {
+      margin-right: $spacedCellMargin;
     }
 
-    td {
-      width: 3%;
-      padding: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
 
-      &.name {
-        text-align: right;
-        width: 4%;
-        font-size: 0.8em;
-        color: #999;
-        max-width: 100px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .names {
+    width: $nameSize;
+    float: left;
+    padding-top: $cellSize + ($cellMargin * 2);
+    margin-right: 20px;
+
+    .row {
+      &:nth-child(4n) {
+        margin-bottom: $spacedCellMarginVertical + ($cellMargin * 2);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    > div {
+      width: 100%;
+      max-width: 100%;
+      height: $cellSize;
+      margin: $cellMargin;
+      font-size: 0.8em;
+      color: #999;
+      margin-bottom: $cellMargin * 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+
+      span {
+        width: $nameSize;
+        max-width: $nameSize;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        padding: 0;
+        display: block;
+        text-align: right;
+      }
+    }
+  }
+
+  .editor {
+    overflow-x: auto;
+    margin-right: $spacedCellMargin;
+
+    .header,
+    .content {
+      width: (($cellSize + ($cellMargin * 2)) * $numCells)
+        - (($numCells / 4) * $cellMargin)
+        + (($numCells / 4) * $spacedCellMargin)
+        - ($spacedCellMargin);
+      float: left;
+    }
+  }
+
+  .header {
+    .item {
+      font-size: 0.6em;
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .content {
+    .row {
+      &:nth-child(4n) {
+        margin-bottom: $spacedCellMarginVertical;
       }
 
-      &.step {
-        cursor: pointer;
-        background-color: #222;
-        border-radius: 5px;
+      .item {
+        &.step {
+          cursor: pointer;
+          background-color: #222;
+          border-radius: 5px;
 
-        &.on {
-          background-color: #FFCB05;
+          &.on {
+            background-color: #FFCB05;
+          }
         }
       }
     }
