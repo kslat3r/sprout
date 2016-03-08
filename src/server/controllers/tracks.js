@@ -1,6 +1,7 @@
 var wrap = require('co-express');
 var request = require('request');
-var fs = require('fs');
+var stream = require('stream');
+var util = require('util');
 
 module.exports = {
   index: wrap(function* (req, res) {

@@ -26,7 +26,7 @@
     "nconf": "^0.8.2",
     "passport": "^0.3.2",
     "passport-spotify": "^0.3.0",
-    "react": "^0.14.6",
+    "react": "0.14.6",
     "react-bootstrap": "^0.28.2",
     "react-bootstrap-switch": "git://github.com/kslat3r/react-bootstrap-switch.git#master",
     "react-dom": "^0.14.7",
@@ -38,8 +38,6 @@
     "redux-immutable": "^3.0.3",
     "redux-logger": "^2.6.0",
     "redux-thunk": "^1.0.3",
-    "request": "^2.69.0",
-    "seamless-immutable": "^5.1.0",
     "spotify-web-api-node": "^2.2.0",
     "winston": "^2.1.1"
   },
