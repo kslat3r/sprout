@@ -33,7 +33,7 @@ class Set extends Component {
   }
 
   requesting() {
-    if (this.props.set.requesting) {
+    if (this.props.set.get('requesting')) {
       return (
         <div className="loading">
           <i className="fa fa-spinner fa-spin"></i>
@@ -45,11 +45,11 @@ class Set extends Component {
   }
 
   errored() {
-    if (this.props.set.errored) {
+    if (this.props.set.get('errored')) {
       return (
         <div className="row">
           <div className="col-xs-12">
-            {this.props.set.exception.message}
+            {this.props.set.getIn(['exception', 'message'])}
           </div>
         </div>
       );
@@ -59,30 +59,32 @@ class Set extends Component {
   }
 
   set() {
-    if (!this.props.set.requesting && !this.props.set.errored) {
+    if (!this.props.set.get('requesting') && !this.props.set.get('errored') && this.props.set.getIn(['result', 'tracks'])) {
       var elem;
 
       if (this.props.routeParams.trackId) {
-        var track = _.find(this.props.set.result.tracks, {id: this.props.routeParams.trackId});
+        var track = this.props.set.getIn(['result', 'tracks']).find((track) => {
+          return track.get('id') === this.props.routeParams.trackId;
+        });
 
         if (track) {
-          var meta = Immutable.fromJS(this.props.set.meta[track.id]);
+          var meta = this.props.set.getIn(['meta', track.get('id')]);
 
           elem = (
-            <SetTrack track={track} meta={meta} index={0} />
+            <SetTrack track={track.toJS()} meta={meta} />
           );
         }
       }
       else {
         elem = (
-          <SetSequencer set={this.props.set} />
+          <SetSequencer set={this.props.set.toJS()} />
         )
       }
 
       return (
         <div className="set">
           {elem}
-          <SetSlider set={this.props.set} preview={false} link={true} />
+          <SetSlider set={this.props.set.toJS()} preview={false} link={true} />
         </div>
       );
     }
@@ -105,7 +107,7 @@ Set = AuthorisationRequired(Set);
 
 export default connect(function(state) {
   return {
-    set: state.get('set').toJS()
+    set: state.get('set')
   };
 }, function(dispatch) {
   return {
@@ -113,4 +115,6 @@ export default connect(function(state) {
     playerActions: bindActionCreators(PlayerActions, dispatch),
     trackActions: bindActionCreators(TrackActions, dispatch)
   };
+}, function(stateProps, dispatchProps, ownProps) {
+  return Object.assign(stateProps, dispatchProps, ownProps);
 })(Set);

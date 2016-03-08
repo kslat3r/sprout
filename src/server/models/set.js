@@ -15,7 +15,6 @@ var setSchema = mongoose.Schema({
 
 setSchema.statics.defaultMeta = {
   name: 'Untitled',
-  hasLoaded: false,
 
   startPosition: null,
   endPosition: null,

@@ -52,7 +52,6 @@ class SetTrack extends Component {
 
   render() {
     var track = this.props.track,
-      meta = this.props.meta,
       imageSrc = '/images/thumbnail-placeholder.png',
       sampleName,
       pan,
@@ -68,7 +67,7 @@ class SetTrack extends Component {
     if (!this.state.showEditName) {
       sampleName = (
         <h3>
-          {meta.get('name')}
+          {this.props.meta.get('name')}
           <span className="edit" onClick={this.showEditName}>
             <i className="fa fa-pencil" />
           </span>
@@ -85,12 +84,12 @@ class SetTrack extends Component {
       );
     }
 
-    if (meta.get('hasLoaded')) {
-      pan = <SetTrackEffectsPan track={track} meta={meta} />;
-      volume = <SetTrackEffectsVolume track={track} meta={meta} />;
-      eq = <SetTrackEffectsEQ track={track} meta={meta} />;
-      compressor = <SetTrackEffectsCompressor track={track} meta={meta} />;
-      delay = <SetTrackEffectsDelay track={track} meta={meta} />;
+    if (this.props.meta.get('hasLoaded')) {
+      pan = <SetTrackEffectsPan track={track} meta={this.props.meta} />;
+      volume = <SetTrackEffectsVolume track={track} meta={this.props.meta} />;
+      eq = <SetTrackEffectsEQ track={track} meta={this.props.meta} />;
+      compressor = <SetTrackEffectsCompressor track={track} meta={this.props.meta} />;
+      delay = <SetTrackEffectsDelay track={track} meta={this.props.meta} />;
     }
 
     return (
@@ -117,7 +116,7 @@ class SetTrack extends Component {
         </div>
         <div className="row ">
           <div className="col-xs-12">
-            <SetTrackWaveform track={track} meta={meta} />
+            <SetTrackWaveform track={track} meta={this.props.meta} />
             <div className="effects">
               {compressor}
               {delay}
