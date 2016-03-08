@@ -34,7 +34,10 @@ var opts = {
       __dirname + '/src/client/vendor/jquery/dist/jquery.min.js',
       __dirname + '/src/client/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js',
       __dirname + '/src/client/vendor/wavesurfer.js/dist/wavesurfer.min.js',
-      __dirname + '/src/client/vendor/wavesurfer.js/dist/plugin/wavesurfer.regions.min.js'
+      __dirname + '/src/client/vendor/wavesurfer.js/dist/plugin/wavesurfer.regions.min.js',
+      __dirname + '/src/client/vendor/timbre.js/timbre.dev.js',
+      __dirname + '/src/client/vendor/timbre.js/src/extras/jsmad.js',
+      __dirname + '/src/client/vendor/timbre.js/src/extras/mp3_decode.js'
     ],
     buildDir: __dirname + '/build/js',
     buildFile: 'vendor.js'

@@ -1,4 +1,4 @@
-$maxSequencerHeight: 500px;
+$maxSequencerHeight: 600px;
 $numCells: 32;
 $cellSize: 40px;
 $nameSize: 80px;
@@ -11,6 +11,12 @@ $spacedCellMarginVertical: 10px;
   max-height: $maxSequencerHeight;
   height: $maxSequencerHeight;
   overflow-y: auto;
+  position: relative;
+
+  .loading {
+    position: absolute;
+    margin-left: -50px;
+  }
 
   .row {
     margin-left: 0;

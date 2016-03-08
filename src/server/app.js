@@ -57,10 +57,11 @@ app.set('port', nconf.get('PORT') || 5000);
 //middleware
 
 app.use(cors({
-  origin: function(origin, callback){
+  origin: function(origin, callback) {
     callback(null, nconf.get('clientUrls').indexOf(origin) !== -1);
   },
-  credentials: true
+  credentials: true,
+  preflightContinue: true
 }));
 
 app.use(expressWinston.logger({

@@ -1,80 +1,65 @@
-//https://shop.propellerheads.se/media/product/com.joshlevy.TickTick/pictures/p182ttre116ql13co1fbfte117mo3.jpg
-
 import _ from 'lodash';
-import Immutable from 'immutable';
+import Promise from 'bluebird';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as TrackActions from '../../../actions/track';
-import * as commonSequencerModel from '../../../../../common/models/sequencer';
+import SetSequencerGrid from './grid';
 
 class SetSequencer extends Component {
-  toggleStep(trackId, stepNum) {
-    this.props.set.sequencer[trackId][stepNum] = !this.props.set.sequencer[trackId][stepNum];
+  constructor(props) {
+    super(props);
 
-    this.props.trackActions.setSequence(trackId, Immutable.fromJS(this.props.set.sequencer[trackId]));
-    this.props.trackActions.updateSequencer(trackId, this.props.set.sequencer[trackId]);
+    this.state = {
+      loading: true,
+      samples: {}
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.set.result.tracks.length) {
+      this.loadSamples()
+        .then(() => {
+          this.setState({
+            loading: false
+          });
+        });
+    }
+  }
+
+  loadSamples() {
+    return new Promise((resolve, reject) => {
+      var trackIds = Object.keys(this.props.set.meta);
+
+      trackIds.forEach((trackId) => {
+        var meta = this.props.set.meta[trackId];
+
+        T('audio').loadthis(this.props.config.apiUrl + '/tracks/' + trackId + '.mp3', () => {
+          this.state.samples[trackId] = this;
+
+          if (trackId === trackIds[trackIds.length - 1]) {
+            resolve();
+          }
+        }, (err) => {
+          reject(err);
+        });
+      });
+    });
   }
 
   render() {
-    var tracks = this.props.set.result.tracks;
-    var meta = this.props.set.meta;
-
-    if (tracks && tracks.length && meta && Object.keys(meta).length) {
-      var titles = _.range(1, commonSequencerModel.defaultBits + 1).map((i) => {
-        return (
-          <div className="item" key={i}>{i}</div>
-        );
-      });
-
-      var names = _.keys(this.props.set.meta).map((trackId, i) => {
-        var meta = this.props.set.meta[trackId];
-
-        return (
-          <div className="row" key={i}>
-            <div>
-              <span>{meta.name}</span>
-            </div>
-          </div>
-        );
-      });
-
+    if (this.state.loading) {
       return (
         <div className="sequencer">
-          <div className="names">
-            {names}
-          </div>
-          <div className="editor">
-            <div className="header">
-              <div className="row">
-                {titles}
-              </div>
-            </div>
-            <div className="content">
-              {_.keys(this.props.set.meta).map((trackId, i) => {
-                var meta = this.props.set.meta[trackId];
-
-                return (
-                  <div className="row" key={i}>
-                    {_.range(0, commonSequencerModel.defaultBits).map((stepNum) => {
-                      var className = 'item step';
-
-                      if (this.props.set.sequencer[trackId][stepNum]) {
-                        className += ' on';
-                      }
-
-                      return <div key={stepNum} className={className} onClick={this.toggleStep.bind(this, trackId, stepNum)}></div>
-                    })}
-                  </div>
-                );
-              })}
-            </div>
+          <div className="loading">
+            <i className="fa fa-spinner fa-spin"></i>
           </div>
         </div>
       );
     }
-
-    return false;
+    else {
+      return (
+        <SetSequencerGrid set={this.props.set} />
+      );
+    }
   }
 };
 
@@ -83,9 +68,7 @@ SetSequencer.propTypes = {
 };
 
 export default connect(function(state) {
-  return {};
-}, function(dispatch) {
   return {
-    trackActions: bindActionCreators(TrackActions, dispatch)
+    config: state.get('config')
   };
 })(SetSequencer);
