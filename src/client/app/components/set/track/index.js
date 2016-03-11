@@ -142,6 +142,4 @@ export default connect(function(state) {
   return {
     trackActions: bindActionCreators(TrackActions, dispatch)
   };
-}, function(stateProps, dispatchProps, ownProps) {
-  return Object.assign(stateProps, dispatchProps, ownProps);
 })(SetTrack);

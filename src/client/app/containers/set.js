@@ -10,6 +10,7 @@ import AuthorisationRequired from '../components/auth/authorisationRequired';
 import SetTrack from '../components/set/track';
 import SetSlider from '../components/set/slider';
 import SetSequencer from '../components/set/sequencer';
+import SetTrackWaveform from '../components/set/track/waveform';
 
 class Set extends Component {
   componentDidMount() {
