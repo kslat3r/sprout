@@ -7,8 +7,10 @@ import SetLink from '../components/link/set';
 import AuthorisationRequired from '../components/auth/authorisationRequired';
 
 class Sets extends Component {
-  componentWillMount() {
-    this.props.setsActions.request();
+  componentDidMount() {
+    if (!this.props.sets.results.length && !this.props.sets.requesting) {
+      this.props.setsActions.request();
+    }
   }
 
   requesting() {
@@ -45,7 +47,7 @@ class Sets extends Component {
         <div>
           {sets.map((set, i) => {
             return (
-              <div key={i}>
+              <div key={i} className="sets-set">
                 <SetLink set={set}>
                   <h2>{set.name}</h2>
                 </SetLink>
@@ -64,7 +66,7 @@ class Sets extends Component {
 
   render() {
     return (
-      <div>
+      <div className="sets">
         {this.requesting()}
         {this.errored()}
         {this.sets()}

@@ -43,7 +43,7 @@ export const initialState = Immutable.Map({
 export default function(state = initialState, action) {
   switch (action.type) {
     case SearchActionCreators.SEARCH_RESET:
-      return state.merge(initialState);
+      return state.merge(module.exports.initialState);
 
     case SearchActionCreators.SEARCH_UPDATE:
       return state.merge({

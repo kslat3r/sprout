@@ -11,6 +11,9 @@ export const initialState = Immutable.Map({
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case PlayerActionCreators.PLAYER_RESET:
+      return state.merge(module.exports.initialState);
+
     case PlayerActionCreators.PLAYER_PLAY:
       return state.merge({
         isPlaying: true,
@@ -33,9 +36,6 @@ export default function(state = initialState, action) {
         isPaused: false,
         isStopped: true
       });
-
-    case PlayerActionCreators.PLAYER_RESET:
-      return state.merge(initialState);
 
     default:
       return state;

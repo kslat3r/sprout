@@ -12,11 +12,9 @@ class Tracks extends Component {
   }
 
   componentDidMount() {
-    this.props.tracksActions.request();
-  }
-
-  componentWillUnmount() {
-    this.props.tracksActions.reset();
+    if (!this.props.tracks.result.tracks.items.length) {
+      this.props.tracksActions.request();
+    }
   }
 
   requesting() {
@@ -48,14 +46,12 @@ class Tracks extends Component {
   tracks() {
     var tracks = this.props.tracks.result.tracks;
 
-    if (!this.props.tracks.requesting && !this.props.tracks.errored) {
-      return (
-        <div className="row">
-          <TracksTable tracks={tracks.items} />
-          <Paging limit={tracks.limit} offset={tracks.offset} total={tracks.total} action={this.tracksPaging} type="tracks" length={tracks.items.length} />
-        </div>
-      );
-    }
+    return (
+      <div className="row">
+        <TracksTable tracks={tracks.items} />
+        <Paging limit={tracks.limit} offset={tracks.offset} total={tracks.total} action={this.tracksPaging} type="tracks" length={tracks.items.length} />
+      </div>
+    );
   }
 
   render() {

@@ -92,8 +92,7 @@ Search = AuthorisationRequired(Search);
 
 export default connect(function(state) {
   return {
-    search: state.get('search').toJS(),
-    routing: state.get('routing')
+    search: state.get('search').toJS()
   };
 }, function(dispatch) {
   return {

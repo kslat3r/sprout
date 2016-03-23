@@ -25,7 +25,7 @@ export const initialState = Immutable.Map({
 export default function(state = initialState, action) {
   switch (action.type) {
     case ArtistsActionCreators.ARTISTS_RESET:
-      return state.merge(initialState);
+      return state.merge(module.exports.initialState);
 
     case ArtistsActionCreators.ARTISTS_REQUEST:
       return state.merge({

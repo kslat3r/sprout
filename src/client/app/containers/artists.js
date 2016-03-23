@@ -12,11 +12,9 @@ class Artists extends Component {
   }
 
   componentDidMount() {
-    this.props.artistsActions.request();
-  }
-
-  componentWillUnmount() {
-    this.props.artistsActions.reset();
+    if (!this.props.artists.result.artists.items.length) {
+      this.props.artistsActions.request();
+    }
   }
 
   requesting() {
@@ -48,16 +46,14 @@ class Artists extends Component {
   artists() {
     var artists = this.props.artists.result.artists;
 
-    if (!this.props.artists.requesting && !this.props.artists.errored) {
-      return (
-        <div>
-          <div className="row">
-            <Grid type="artist" items={artists.items} masonry />
-            <Paging limit={artists.limit} cursor={artists.cursors.after} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
-          </div>
+    return (
+      <div>
+        <div className="row">
+          <Grid type="artist" items={artists.items} masonry />
+          <Paging limit={artists.limit} cursor={artists.cursors.after} total={artists.total} action={this.artistsPaging} type="artists" length={artists.items.length} />
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   render() {

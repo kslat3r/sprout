@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as TrackActions from '../../../actions/track';
 import * as commonSequencerModel from '../../../../../common/models/sequencer';
+import SetTrackLink from '../../link/setTrack';
 
 class SetSequencerGrid extends Component {
   toggleStep(trackId, stepNum) {
@@ -28,12 +29,15 @@ class SetSequencerGrid extends Component {
       });
 
       var names = _.keys(this.props.set.meta).map((trackId, i) => {
-        var meta = this.props.set.meta[trackId];
-
+        var thisMeta = meta[trackId];
+        var track = _.find(tracks, {id: trackId});
+        
         return (
           <div className="row" key={i}>
             <div>
-              <span>{meta.name}</span>
+              <SetTrackLink set={this.props.set} track={track}>
+                <span>{thisMeta.name}</span>
+              </SetTrackLink>
             </div>
           </div>
         );

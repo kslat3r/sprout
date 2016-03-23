@@ -12,11 +12,9 @@ class Playlists extends Component {
   }
 
   componentDidMount() {
-    this.props.playlistsActions.request();
-  }
-
-  componentWillUnmount() {
-    this.props.playlistsActions.reset();
+    if (!this.props.playlists.result.playlists.items.length) {
+      this.props.playlistsActions.request();
+    }
   }
 
   requesting() {
@@ -48,16 +46,14 @@ class Playlists extends Component {
   playlists() {
     var playlists = this.props.playlists.result.playlists;
 
-    if (!this.props.playlists.requesting && !this.props.playlists.errored) {
-      return (
-        <div>
-          <div className="row">
-            <Grid type="playlist" items={playlists.items} masonry />
-            <Paging limit={playlists.limit} offset={playlists.offset} total={playlists.total} action={this.playlistsPaging} type="playlists" length={playlists.items.length} />
-          </div>
+    return (
+      <div>
+        <div className="row">
+          <Grid type="playlist" items={playlists.items} masonry />
+          <Paging limit={playlists.limit} offset={playlists.offset} total={playlists.total} action={this.playlistsPaging} type="playlists" length={playlists.items.length} />
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   render() {

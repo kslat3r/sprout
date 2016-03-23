@@ -85,7 +85,7 @@ class Set extends Component {
       return (
         <div className="set">
           {elem}
-          <SetSlider set={this.props.set.toJS()} preview={false} link={true} />
+          <SetSlider set={this.props.set.toJS()} preview={false} link={true} hasToggle={true} closed={true} />
         </div>
       );
     }

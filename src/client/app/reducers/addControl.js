@@ -11,7 +11,7 @@ export const initialState = Immutable.Map({
 export default function(state = initialState, action) {
   switch (action.type) {
     case AddControlActionCreators.ADD_CONTROL_RESET:
-      return state.merge(initialState);
+      return state.merge(module.exports.initialState);
 
     case AddControlActionCreators.ADD_CONTROL_OPEN:
       return state.merge({

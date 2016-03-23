@@ -1,4 +1,4 @@
-$maxSequencerHeight: 600px;
+$maxSequencerHeight: 700px;
 $numCells: 32;
 $cellSize: 40px;
 $nameSize: 80px;
@@ -112,6 +112,10 @@ $spacedCellMarginVertical: 10px;
     .row {
       &:nth-child(4n) {
         margin-bottom: $spacedCellMarginVertical;
+      }
+
+      &:last-child {
+        margin-bottom: 10px;
       }
 
       .item {

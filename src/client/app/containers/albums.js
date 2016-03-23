@@ -12,11 +12,9 @@ class Albums extends Component {
   }
 
   componentDidMount() {
-    this.props.albumsActions.request();
-  }
-
-  componentWillUnmount() {
-    this.props.albumsActions.reset();
+    if (!this.props.albums.result.albums.items.length) {
+      this.props.albumsActions.request();
+    }
   }
 
   requesting() {
@@ -48,16 +46,14 @@ class Albums extends Component {
   albums() {
     var albums = this.props.albums.result.albums;
 
-    if (!this.props.albums.requesting && !this.props.albums.errored) {
-      return (
-        <div>
-          <div className="row">
-            <Grid type="album" items={albums.items} masonry />
-            <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="playlists" length={albums.items.length} />
-          </div>
+    return (
+      <div>
+        <div className="row">
+          <Grid type="album" items={albums.items} masonry />
+          <Paging limit={albums.limit} offset={albums.offset} total={albums.total} action={this.albumsPaging} type="playlists" length={albums.items.length} />
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   render() {
