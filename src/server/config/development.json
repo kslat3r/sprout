@@ -16,8 +16,8 @@
   },
 
   "spotify": {
-    "clientID": "74d65ccda4e245b69f1eebf7f7dcf1b0",
-    "clientSecret": "0751c91f081f4972bd177350c2694832",
+    "clientID": "",
+    "clientSecret": "",
     "callbackURL": "http://localhost:5000/api/auth/callback",
     "urls": {
       "successRedirect": "http://localhost:3000/sets",
